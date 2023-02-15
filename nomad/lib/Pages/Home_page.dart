@@ -10,8 +10,6 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-var obj = Image.asset("assets/images/img1.jpg");
-
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
                   image: DecorationImage(
-                    image: AssetImage("assets\\images\\img1.jpg"),
+                    image: AssetImage("assets/images/img1.jpg"),
                     fit: BoxFit.cover,
                   ),
                 ),
