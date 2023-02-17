@@ -10,6 +10,12 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+List<String> imgLinks = [
+  "assets/images/img1.jpg",
+  "assets/images/img2.jpg",
+  "assets/images/img3.jpg"
+];
+
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
@@ -18,13 +24,37 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           CarouselSlider(
             items: [
-              //1st Image of Slider
+              //Image 1
               Container(
                 margin: EdgeInsets.all(6.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
                   image: DecorationImage(
-                    image: AssetImage("assets/images/img1.jpg"),
+                    image: AssetImage(imgLinks[0]),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+
+              // Image 2
+              Container(
+                margin: EdgeInsets.all(6.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                    image: AssetImage(imgLinks[1]),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+
+              // Image 3
+              Container(
+                margin: EdgeInsets.all(6.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                    image: AssetImage(imgLinks[2]),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -43,6 +73,11 @@ class _MyHomePageState extends State<MyHomePage> {
               viewportFraction: 0.8,
             ),
           ),
+          Row(
+            children: [
+              Text("Hello", style: TextStyle(fontSize: 20)),
+            ],
+          )
         ],
       ),
     );
