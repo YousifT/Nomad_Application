@@ -10,6 +10,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+// Image links for the CarouselSlider.
+// Should be dynamically pulled from DB in the future.
 List<String> imgLinks = [
   "assets/images/img1.jpg",
   "assets/images/img2.jpg",
@@ -22,101 +24,173 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         body: Container(
       color: Colors.brown,
+      // maxFinite Height and Width to cover the whole screen
       height: double.maxFinite,
       width: double.maxFinite,
-      child: Column(children: [
-        Row(
-          children: [
-            Expanded(
-              child: CarouselSlider(
-                items: [
-                  //Image 1
-                  Container(
-                    margin: EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
-                        image: AssetImage(imgLinks[0]),
-                        fit: BoxFit.cover,
+      // Scrollable widget wrapping to hold the Column so it becomes scrollable
+      child: SingleChildScrollView(
+        child: Column(children: [
+          Row(
+            children: [
+              Expanded(
+                child: CarouselSlider(
+                  items: [
+                    //Image 1
+                    Container(
+                      margin: EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        image: DecorationImage(
+                          image: AssetImage(imgLinks[0]),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
 
-                  // Image 2
-                  Container(
-                    margin: EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
-                        image: AssetImage(imgLinks[1]),
-                        fit: BoxFit.cover,
+                    // Image 2
+                    Container(
+                      margin: EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        image: DecorationImage(
+                          image: AssetImage(imgLinks[1]),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
 
-                  // Image 3
-                  Container(
-                    margin: EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
-                        image: AssetImage(imgLinks[2]),
-                        fit: BoxFit.cover,
+                    // Image 3
+                    Container(
+                      margin: EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        image: DecorationImage(
+                          image: AssetImage(imgLinks[2]),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
 
-                //Slider Container properties
-                options: CarouselOptions(
-                  height: 180.0,
-                  enlargeCenterPage: true,
-                  autoPlay: true,
-                  aspectRatio: 16 / 9,
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enableInfiniteScroll: true,
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  viewportFraction: 0.8,
+                  //Slider Container properties
+                  options: CarouselOptions(
+                    height: 180.0,
+                    enlargeCenterPage: true,
+                    autoPlay: true,
+                    aspectRatio: 16 / 9,
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    enableInfiniteScroll: true,
+                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    viewportFraction: 0.8,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-        Text(
-          "Hello",
-          style: TextStyle(color: Colors.red, fontSize: 40),
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: Card(
-                color: Colors.red,
-                child: ListTile(title: Text("Title")),
+            ],
+          ),
+          Text(
+            "Hello",
+            style: TextStyle(color: Colors.red, fontSize: 40),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Card(
+                  color: Colors.red,
+                  child: ListTile(title: Text("Title")),
+                ),
               ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: Card(
-                color: Colors.red,
-                child: ListTile(title: Text("Title")),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Card(
+                  color: Colors.red,
+                  child: ListTile(title: Text("Title")),
+                ),
               ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: Card(
-                color: Colors.red,
-                child: ListTile(title: Text("Title")),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Card(
+                  color: Colors.red,
+                  child: ListTile(title: Text("Title")),
+                ),
               ),
-            ),
-          ],
-        )
-      ]),
+            ],
+          ),
+          Text(
+            "Hello",
+            style: TextStyle(color: Colors.red, fontSize: 40),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Card(
+                  color: Colors.red,
+                  child: ListTile(title: Text("Title")),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Card(
+                  color: Colors.red,
+                  child: ListTile(title: Text("Title")),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Card(
+                  color: Colors.red,
+                  child: ListTile(title: Text("Title")),
+                ),
+              ),
+            ],
+          ),
+          Text(
+            "Hello",
+            style: TextStyle(color: Colors.red, fontSize: 40),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Card(
+                  color: Colors.red,
+                  child: ListTile(title: Text("Title")),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Card(
+                  color: Colors.red,
+                  child: ListTile(title: Text("Title")),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Card(
+                  color: Colors.red,
+                  child: ListTile(title: Text("Title")),
+                ),
+              ),
+            ],
+          )
+        ]),
+      ),
     ));
   }
 }
