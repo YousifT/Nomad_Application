@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:nomad/Pages/Login%20page.dart';
+import 'package:nomad/main.dart';
+
+var _main = new HomePage();
 
 class Mysginuppage extends StatelessWidget {
   const Mysginuppage({Key? key}) : super(key: key);
@@ -127,7 +131,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
-                    //signup screen
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Myloginpage()));
                   },
                 )
               ],

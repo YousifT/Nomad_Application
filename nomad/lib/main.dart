@@ -30,21 +30,30 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+var pages = [
+  GuidePage(),
+  MyHomePage(),
+  ProfilePage(),
+  Mysginuppage(),
+  Myloginpage()
+];
+
+var testerPages = [
+  GuidePage(),
+  MyHomePage(),
+  Mysginuppage(),
+];
+
 class _HomePageState extends State<HomePage> {
-  int selectedPage = 0;
-  final pages = [
-    GuidePage(),
-    MyHomePage(),
-    ProfilePage(),
-    Mysginuppage(),
-    Myloginpage()
-  ];
+  int selectedPage = 1;
+  bool LoggedIn = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
         index: selectedPage,
-        children: pages,
+        children: testerPages,
       ),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: selectedPage,
@@ -57,9 +66,7 @@ class _HomePageState extends State<HomePage> {
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-            BottomNavigationBarItem(icon: Icon(Icons.face), label: "signup"),
-            BottomNavigationBarItem(icon: Icon(Icons.face), label: "login")
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
           ]),
     );
   }
