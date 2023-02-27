@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nomad/Pages/Explore_page.dart';
 import 'package:nomad/Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
+import 'package:nomad/Pages/Login%20page.dart';
+import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/profile_page.dart';
 
 void main() {
@@ -30,7 +32,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedPage = 0;
-  final pages = [GuidePage(), MyHomePage(), ProfilePage()];
+  final pages = [
+    GuidePage(),
+    MyHomePage(),
+    ProfilePage(),
+    Mysginuppage(),
+    Myloginpage()
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +57,9 @@ class _HomePageState extends State<HomePage> {
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+            BottomNavigationBarItem(icon: Icon(Icons.face), label: "signup"),
+            BottomNavigationBarItem(icon: Icon(Icons.face), label: "login")
           ]),
     );
   }
