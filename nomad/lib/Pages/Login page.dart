@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:nomad/Pages/Home_page.dart';
+import 'package:nomad/Pages/Sginup%20page.dart';
+import 'package:nomad/main.dart';
 
 class Myloginpage extends StatelessWidget {
   const Myloginpage({Key? key}) : super(key: key);
@@ -86,21 +89,29 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: ElevatedButton(
                   child: const Text('Login'),
+                  //Log in Press
                   onPressed: () {
+                    var _Main = new HomePage();
+                    _Main.updateBottomNavBar(true, context);
                     print(nameController.text);
                     print(passwordController.text);
                   },
                 )),
             Row(
               children: <Widget>[
-                const Text('Does not have account?'),
+                const Text('Dont have account?'),
                 TextButton(
                   child: const Text(
-                    'Sign in',
+                    'Sign up',
                     style: TextStyle(fontSize: 20),
                   ),
+                  //signup button press
+                  // switches the screen to Mysignuppage()
                   onPressed: () {
-                    //signup screen
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Mysginuppage()));
                   },
                 )
               ],
