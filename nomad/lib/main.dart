@@ -27,41 +27,81 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  // When a user logs in - Update the LoggedIn variable, and reinsitate the BottomNavigationBar with a different profile page
+  // Should work the same way with Sign out button if you pass "false" (not added yet).
+
+  // Current bug: BottomNavBar icon highlight isnt updated with this route update.
+  updateBottomNavBar(bool value, context) {
+    LoggedIn = value;
+    createState();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const MyHomePage()));
+  }
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
+bool LoggedIn = false;
+var LoggedIn_Pages = [
+  GuidePage(),
+  MyHomePage(),
+  ProfilePage(),
+];
+
+var GuestUser_Pages = [
+  GuidePage(),
+  MyHomePage(),
+  Mysginuppage(),
+];
+
 class _HomePageState extends State<HomePage> {
-  int selectedPage = 0;
-  final pages = [
-    GuidePage(),
-    MyHomePage(),
-    ProfilePage(),
-    Mysginuppage(),
-    Myloginpage()
-  ];
+  int selectedPage = 1;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: selectedPage,
-        children: pages,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedPage,
-          onTap: (index) {
-            setState(() {
-              selectedPage = index;
-            });
-          },
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-            BottomNavigationBarItem(icon: Icon(Icons.face), label: "signup"),
-            BottomNavigationBarItem(icon: Icon(Icons.face), label: "login")
-          ]),
-    );
+    if (LoggedIn == false) {
+      return Scaffold(
+        body: IndexedStack(
+          index: selectedPage,
+          children: GuestUser_Pages,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: selectedPage,
+            onTap: (index) {
+              setState(() {
+                selectedPage = index;
+              });
+            },
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: "Profile")
+            ]),
+      );
+    } else {
+      return Scaffold(
+        body: IndexedStack(
+          index: selectedPage,
+          children: LoggedIn_Pages,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: selectedPage,
+            onTap: (index) {
+              setState(() {
+                selectedPage = index;
+              });
+            },
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: "Profile")
+            ]),
+      );
+    }
   }
 }

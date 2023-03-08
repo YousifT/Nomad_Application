@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:nomad/Pages/Login%20page.dart';
+import 'package:nomad/main.dart';
+
+var _main = new HomePage();
 
 class Mysginuppage extends StatelessWidget {
   const Mysginuppage({Key? key}) : super(key: key);
@@ -98,7 +102,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: TextField(
                 obscureText: true,
                 controller: passwordController2,
@@ -113,21 +117,24 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: ElevatedButton(
                   child: const Text('Sgin UP'),
-                  onPressed: () {
-                    print(nameController.text);
-                    print(passwordController.text);
-                  },
+                  // Signup Button Press
+                  onPressed: () {},
                 )),
             Row(
               children: <Widget>[
-                const Text('Do  have account?'),
+                const Text('Already have an account?'),
                 TextButton(
                   child: const Text(
-                    'lOGIN',
+                    'Login',
                     style: TextStyle(fontSize: 20),
                   ),
+                  // Login button press
+                  // Switches screens to MyloginPage()
                   onPressed: () {
-                    //signup screen
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Myloginpage()));
                   },
                 )
               ],
