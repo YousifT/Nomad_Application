@@ -3,6 +3,8 @@ import 'package:nomad/Pages/Explore_page.dart';
 import 'package:nomad/Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Login%20page.dart';
+import 'package:nomad/Pages/Proposals_page.dart';
+import 'package:nomad/Pages/Reports_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/profile_page.dart';
 
@@ -42,6 +44,8 @@ class HomePage extends StatefulWidget {
 }
 
 bool LoggedIn = false;
+bool isAdmin = false;
+
 var LoggedIn_Pages = [
   GuidePage(),
   MyHomePage(),
@@ -52,6 +56,14 @@ var GuestUser_Pages = [
   GuidePage(),
   MyHomePage(),
   Mysginuppage(),
+];
+
+var adminUser_Pages = [
+  GuidePage(),
+  MyHomePage(),
+  Mysginuppage(),
+  ReportsPage(),
+  ProposalPage()
 ];
 
 class _HomePageState extends State<HomePage> {
@@ -81,26 +93,55 @@ class _HomePageState extends State<HomePage> {
             ]),
       );
     } else {
-      return Scaffold(
-        body: IndexedStack(
-          index: selectedPage,
-          children: LoggedIn_Pages,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-            currentIndex: selectedPage,
-            onTap: (index) {
-              setState(() {
-                selectedPage = index;
-              });
-            },
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: "Profile")
-            ]),
-      );
+      if (isAdmin == false) {
+        return Scaffold(
+          body: IndexedStack(
+            index: selectedPage,
+            children: LoggedIn_Pages,
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+              currentIndex: selectedPage,
+              onTap: (index) {
+                setState(() {
+                  selectedPage = index;
+                });
+              },
+              type: BottomNavigationBarType.fixed,
+              items: [
+                BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person), label: "Profile")
+              ]),
+        );
+      }
+      // Logged in User is an admin
+      else {
+        return Scaffold(
+          body: IndexedStack(
+            index: selectedPage,
+            children: adminUser_Pages,
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+              currentIndex: selectedPage,
+              onTap: (index) {
+                setState(() {
+                  selectedPage = index;
+                });
+              },
+              type: BottomNavigationBarType.fixed,
+              items: [
+                BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person), label: "Profile"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.report), label: "Reports"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.report_off_rounded), label: "Proposals")
+              ]),
+        );
+      }
     }
   }
 }
