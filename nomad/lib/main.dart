@@ -5,6 +5,7 @@ import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Login%20page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/profile_page.dart';
+import 'flutterf';
 
 void main() {
   runApp(const MyApp());
