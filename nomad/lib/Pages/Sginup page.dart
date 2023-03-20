@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:nomad/Pages/Login%20page.dart';
 import 'package:nomad/main.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 var _main = new HomePage();
 
@@ -29,12 +31,35 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController nameController2 = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController passwordController2 = TextEditingController();
+  final Fname = TextEditingController();
+  final Lname = TextEditingController();
+  final email = TextEditingController();
+  final password = TextEditingController();
+  final cpassword = TextEditingController();
 
-  TextEditingController emailController = TextEditingController();
+  Future Signup() async {
+    if (passordconfirmed()) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email.text.trim(),
+        password: password.text.trim(),
+      );
+    }
+  }
+
+  bool passordconfirmed() {
+    if (password.text.trim() == cpassword.text.trim()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  void dispose() {
+    email.dispose();
+    password.dispose();
+    cpassword.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +87,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
-                controller: nameController,
+                controller: Fname,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'First Name',
@@ -72,7 +97,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
-                controller: nameController2,
+                controller: Lname,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Last Name',
@@ -83,7 +108,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: TextField(
                 obscureText: false,
-                controller: emailController,
+                controller: email,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'email',
@@ -94,7 +119,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: TextField(
                 obscureText: true,
-                controller: passwordController,
+                controller: password,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Password',
@@ -105,7 +130,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: TextField(
                 obscureText: true,
-                controller: passwordController2,
+                controller: cpassword,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: ' rewrite Password',
@@ -113,13 +138,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: ElevatedButton(
-                  child: const Text('Sgin UP'),
-                  // Signup Button Press
-                  onPressed: () {},
-                )),
+              height: 50,
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: GestureDetector(
+                onTap: Signup,
+                child: Container(
+                  height: 50,
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: ElevatedButton(
+                    child: const Text('Sgin Up'),
+                    onPressed: Signupr,
+                  ),
+                ),
+              ),
+            ),
             Row(
               children: <Widget>[
                 const Text('Already have an account?'),
