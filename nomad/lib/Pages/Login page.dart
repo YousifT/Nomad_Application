@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/main.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Myloginpage extends StatelessWidget {
   const Myloginpage({Key? key}) : super(key: key);
@@ -29,12 +31,19 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  Future signIn() async {
-    await   
-
+  Future SignIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
   }
+
+  void opensignupscreen() {
+    Navigator.of(context).pushReplacementNamed('signupscreen');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -61,7 +70,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
-                controller: nameController,
+                controller: emailController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'User Name',
@@ -88,17 +97,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             GestureDetector(
-              onTap: signIn,
+              onTap: SignIn,
               child: Container(
                   height: 50,
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: ElevatedButton(
                     child: const Text('Login'),
-                  //Log in Press
+                    //Log in Press
                     onPressed: () {
-                    var _Main = new HomePage();
-                    _Main.updateBottomNavBar(true, context);
-                      print(nameController.text);
+                      var _Main = new HomePage();
+                      _Main.updateBottomNavBar(true, context);
+                      print(emailController.text);
                       print(passwordController.text);
                     },
                   )),
@@ -106,19 +115,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Row(
               children: <Widget>[
                 const Text('Dont have account?'),
-                TextButton(
+                GestureDetector(
+                  onTap: opensignupscreen,
                   child: const Text(
                     'Sign up',
                     style: TextStyle(fontSize: 20),
                   ),
                   //signup button press
                   // switches the screen to Mysignuppage()
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Mysginuppage()));
-                  },
                 )
               ],
               mainAxisAlignment: MainAxisAlignment.center,

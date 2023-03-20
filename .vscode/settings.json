@@ -1,3 +1,4 @@
 {
-    "editor.rulers": []
+    "editor.rulers": [],
+    "cmake.sourceDirectory": "${workspaceFolder}/nomad/linux"
 }
