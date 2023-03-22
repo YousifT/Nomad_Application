@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:nomad/Pages/Guide_page.dart';
+import 'package:nomad/Pages/Sginup%20page.dart';
+import 'package:nomad/Pages/profile_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -18,6 +21,22 @@ List<String> imgLinks = [
   "assets/images/img2.jpg",
   "assets/images/img3.jpg"
 ];
+
+var HomePageChildren = [
+  Sublist("Events", topRatedThree('Events')),
+  Sublist("Restaurants", topRatedThree('Restaurants')),
+  Sublist("Cafe", topRatedThree('Cafe'))
+];
+
+// TopRatedThree should be replaced by a method that connects to the Database and gets the relevant data
+topRatedThree(String table) {
+  if (table == "Events")
+    return ["aaa", "bbb", "ccc"];
+  else if (table == "Restaurants")
+    return ["ddd", "eee", "fff"];
+  else
+    return ["ggg", "hhh", "iii"];
+}
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
@@ -36,39 +55,56 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: CarouselSlider(
                   items: [
                     //Image 1
-                    Container(
-                      margin: EdgeInsets.all(6.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        image: DecorationImage(
-                          image: AssetImage(imgLinks[0]),
-                          fit: BoxFit.cover,
-                        ),
+                    InkWell(
+                      child: Container(
+                        margin: EdgeInsets.all(6.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            image: DecorationImage(
+                              image: AssetImage(imgLinks[0]),
+                              fit: BoxFit.cover,
+                            )),
                       ),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ProfilePage())),
                     ),
 
                     // Image 2
-                    Container(
-                      margin: EdgeInsets.all(6.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        image: DecorationImage(
-                          image: AssetImage(imgLinks[1]),
-                          fit: BoxFit.cover,
+                    InkWell(
+                      child: Container(
+                        margin: EdgeInsets.all(6.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          image: DecorationImage(
+                            image: AssetImage(imgLinks[1]),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Mysginuppage())),
                     ),
 
                     // Image 3
-                    Container(
-                      margin: EdgeInsets.all(6.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        image: DecorationImage(
-                          image: AssetImage(imgLinks[2]),
-                          fit: BoxFit.cover,
+                    InkWell(
+                      child: Container(
+                        margin: EdgeInsets.all(6.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          image: DecorationImage(
+                            image: AssetImage(imgLinks[2]),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const GuidePage())),
                     ),
                   ],
 
@@ -87,22 +123,21 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          Sublist("Events", "listItem1", "listItem2", "listItem3"),
-          Sublist("Restaurants", "listItem1", "listItem2", "listItem3"),
-          Sublist("Cafe", "listItem1", "listItem2", "listItem3")
+          HomePageChildren[0],
+          HomePageChildren[1],
+          HomePageChildren[2]
         ]),
       ),
     ));
   }
 }
 
-Widget Sublist(
-    String title, String listItem1, String listItem2, String listItem3) {
+Widget Sublist(String title, var items) {
   return Container(
     padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
     //color: Colors.green,
     child: SizedBox(
-      height: 225,
+      height: 270,
       width: double.maxFinite,
       child: Column(children: [
         Row(
@@ -129,7 +164,7 @@ Widget Sublist(
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Text(
-                        "Card_1",
+                        items[0],
                         style: TextStyle(fontSize: 20),
                       ),
                     )
@@ -153,7 +188,7 @@ Widget Sublist(
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Text(
-                        "Card_2",
+                        items[1],
                         style: TextStyle(fontSize: 20),
                       ),
                     )
@@ -177,7 +212,7 @@ Widget Sublist(
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Text(
-                        "Card_3",
+                        items[2],
                         style: TextStyle(fontSize: 20),
                       ),
                     )
