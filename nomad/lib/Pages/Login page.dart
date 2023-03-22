@@ -34,6 +34,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   Future SignIn() async {
+    v:
     await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text.trim(),
       password: passwordController.text.trim(),
@@ -99,18 +100,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             GestureDetector(
               onTap: SignIn,
               child: Container(
-                  height: 50,
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: ElevatedButton(
-                    child: const Text('Login'),
-                    //Log in Press
-                    onPressed: () {
-                      var _Main = new HomePage();
-                      _Main.updateBottomNavBar(true, context);
-                      print(emailController.text);
-                      print(passwordController.text);
-                    },
-                  )),
+                height: 50,
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: ElevatedButton(
+                    child: const Text('Login'), onPressed: SignIn),
+              ),
             ),
             Row(
               children: <Widget>[
