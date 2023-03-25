@@ -1,17 +1,15 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class ReportsPage extends StatefulWidget {
+  const ReportsPage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<ReportsPage> createState() => _ReportsPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  bool showPassword = false;
+class _ReportsPageState extends State<ReportsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
