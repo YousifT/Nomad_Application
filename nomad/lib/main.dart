@@ -7,8 +7,14 @@ import 'package:nomad/Pages/Proposals_page.dart';
 import 'package:nomad/Pages/Reports_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/profile_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
