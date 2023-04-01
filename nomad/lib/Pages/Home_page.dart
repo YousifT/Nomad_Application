@@ -52,72 +52,75 @@ class _MyHomePageState extends State<MyHomePage> {
           Row(
             children: [
               Expanded(
-                child: CarouselSlider(
-                  items: [
-                    //Image 1
-                    InkWell(
-                      child: Container(
-                        margin: EdgeInsets.all(6.0),
-                        decoration: BoxDecoration(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: CarouselSlider(
+                    items: [
+                      //Image 1
+                      InkWell(
+                        child: Container(
+                          margin: EdgeInsets.all(6.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image: AssetImage(imgLinks[0]),
+                                fit: BoxFit.cover,
+                              )),
+                        ),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ProfilePage())),
+                      ),
+
+                      // Image 2
+                      InkWell(
+                        child: Container(
+                          margin: EdgeInsets.all(6.0),
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             image: DecorationImage(
-                              image: AssetImage(imgLinks[0]),
+                              image: AssetImage(imgLinks[1]),
                               fit: BoxFit.cover,
-                            )),
-                      ),
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ProfilePage())),
-                    ),
-
-                    // Image 2
-                    InkWell(
-                      child: Container(
-                        margin: EdgeInsets.all(6.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          image: DecorationImage(
-                            image: AssetImage(imgLinks[1]),
-                            fit: BoxFit.cover,
+                            ),
                           ),
                         ),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Mysginuppage())),
                       ),
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Mysginuppage())),
-                    ),
 
-                    // Image 3
-                    InkWell(
-                      child: Container(
-                        margin: EdgeInsets.all(6.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          image: DecorationImage(
-                            image: AssetImage(imgLinks[2]),
-                            fit: BoxFit.cover,
+                      // Image 3
+                      InkWell(
+                        child: Container(
+                          margin: EdgeInsets.all(6.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            image: DecorationImage(
+                              image: AssetImage(imgLinks[2]),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const GuidePage())),
                       ),
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const GuidePage())),
-                    ),
-                  ],
+                    ],
 
-                  //Slider Container properties
-                  options: CarouselOptions(
-                    height: 180.0,
-                    enlargeCenterPage: true,
-                    autoPlay: true,
-                    aspectRatio: 16 / 9,
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                    enableInfiniteScroll: true,
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    viewportFraction: 0.8,
+                    //Slider Container properties
+                    options: CarouselOptions(
+                      height: 180.0,
+                      enlargeCenterPage: true,
+                      autoPlay: true,
+                      aspectRatio: 16 / 9,
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enableInfiniteScroll: true,
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      viewportFraction: 0.8,
+                    ),
                   ),
                 ),
               ),

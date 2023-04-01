@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nomad/Pages/Explore_page.dart';
 import 'package:nomad/Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
+import 'package:nomad/Pages/Location.dart';
 import 'package:nomad/Pages/Login%20page.dart';
 import 'package:nomad/Pages/Proposals_page.dart';
 import 'package:nomad/Pages/Reports_page.dart';
@@ -9,12 +10,18 @@ import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/profile_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:nomad/globalvar.dart' as globals;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  LocationPermission _UserLocation = new LocationPermission();
+  await _UserLocation.getLocation();
+  print(_UserLocation.latitude);
+  print(_UserLocation.longitude);
+
   runApp(const MyApp());
 }
 

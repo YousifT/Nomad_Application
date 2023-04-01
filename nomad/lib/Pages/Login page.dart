@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Myloginpage extends StatelessWidget {
   const Myloginpage({Key? key}) : super(key: key);
