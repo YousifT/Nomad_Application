@@ -2,7 +2,7 @@
 import 'dart:io';
 
 import 'package:location/location.dart';
-import 'package:nomad/globalvar.dart' as globals;
+import 'package:nomad/Global_Var.dart' as globals;
 
 class LocationPermission {
   Location _location = new Location();
@@ -19,7 +19,6 @@ class LocationPermission {
     if (!_ServiceEnabled) {
       _ServiceEnabled = await _location.requestService();
     }
-    print(_ServiceEnabled);
 
     _PermissionGranted = await _location.hasPermission();
     if (_PermissionGranted != PermissionStatus.granted) {
@@ -27,12 +26,8 @@ class LocationPermission {
         _PermissionGranted = await _location.requestPermission();
       }
     }
-    print(_PermissionGranted);
     LocationData _LocationData = await _location.getLocation();
-    print("LocationData info:");
-    print(_LocationData.latitude);
-    print(_LocationData.longitude);
-    globals.globalLAT = _LocationData.longitude;
-    globals.globalLNG = _LocationData.latitude;
+    globals.global_Longitude = _LocationData.longitude;
+    globals.global_Latitude = _LocationData.latitude;
   }
 }

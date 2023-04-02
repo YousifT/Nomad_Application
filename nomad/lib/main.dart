@@ -10,7 +10,7 @@ import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/profile_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:nomad/globalvar.dart' as globals;
+import 'package:nomad/Global_Var.dart' as globals;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,9 +19,6 @@ void main() async {
   );
   LocationPermission _UserLocation = new LocationPermission();
   await _UserLocation.getLocation();
-  print(_UserLocation.latitude);
-  print(_UserLocation.longitude);
-
   runApp(const MyApp());
 }
 
@@ -46,9 +43,9 @@ class HomePage extends StatefulWidget {
 
   // Current bug: BottomNavBar icon highlight isnt updated with this route update.
   updateBottomNavBar(bool value, context) {
-    LoggedIn = value;
+    globals.global_LoggedIn = value;
     createState();
-    Navigator.push(
+    Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => const MyHomePage()));
   }
 
@@ -56,39 +53,16 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-bool LoggedIn = false;
-bool isAdmin = false;
-
-var LoggedIn_Pages = [
-  GuidePage(),
-  MyHomePage(),
-  ProfilePage(),
-];
-
-var GuestUser_Pages = [
-  GuidePage(),
-  MyHomePage(),
-  Mysginuppage(),
-];
-
-var adminUser_Pages = [
-  GuidePage(),
-  MyHomePage(),
-  Mysginuppage(),
-  ReportsPage(),
-  ProposalPage()
-];
-
 class _HomePageState extends State<HomePage> {
   int selectedPage = 1;
 
   @override
   Widget build(BuildContext context) {
-    if (LoggedIn == false) {
+    if (globals.global_LoggedIn == false) {
       return Scaffold(
         body: IndexedStack(
           index: selectedPage,
-          children: GuestUser_Pages,
+          children: globals.global_GuestUser_Pages,
         ),
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: selectedPage,
@@ -106,11 +80,11 @@ class _HomePageState extends State<HomePage> {
             ]),
       );
     } else {
-      if (isAdmin == false) {
+      if (globals.global_isAdmin == false) {
         return Scaffold(
           body: IndexedStack(
             index: selectedPage,
-            children: LoggedIn_Pages,
+            children: globals.global_LoggedIn_Pages,
           ),
           bottomNavigationBar: BottomNavigationBar(
               currentIndex: selectedPage,
@@ -133,7 +107,7 @@ class _HomePageState extends State<HomePage> {
         return Scaffold(
           body: IndexedStack(
             index: selectedPage,
-            children: adminUser_Pages,
+            children: globals.global_adminUser_Pages,
           ),
           bottomNavigationBar: BottomNavigationBar(
               currentIndex: selectedPage,
