@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "69338177227",
+    "project_id": "login-505d6",
+    "storage_bucket": "login-505d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69338177227:android:dcb55cb402859beb5e854e",
+        "android_client_info": {
+          "package_name": "com.example.nomad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69338177227-47d8nm7suvev1lfk1k2mjjkc1g0l33ek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRT87ktewxtGMIqYnMH3hooFVygVZfdA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69338177227-47d8nm7suvev1lfk1k2mjjkc1g0l33ek.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "69338177227-c5p99ihe41pagupmknfl2crqbtd4k9ah.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.nomad"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

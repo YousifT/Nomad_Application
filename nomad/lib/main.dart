@@ -1,10 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nomad/Pages/Explore_page.dart';
 import 'package:nomad/Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/profile_page.dart';
+import 'package:nomad/firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
