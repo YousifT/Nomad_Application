@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:nomad/Pages/Guide_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/UserProfile.dart';
+import 'package:nomad/Pages/Category_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -22,12 +23,6 @@ List<String> imgLinks = [
   "assets/images/img3.jpg"
 ];
 
-var HomePageChildren = [
-  Sublist("Events", topRatedThree('Events')),
-  Sublist("Restaurants", topRatedThree('Restaurants')),
-  Sublist("Cafe", topRatedThree('Cafe'))
-];
-
 // TopRatedThree should be replaced by a method that connects to the Database and gets the relevant data
 topRatedThree(String table) {
   if (table == "Events")
@@ -41,6 +36,11 @@ topRatedThree(String table) {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    var HomePageChildren = [
+      Sublist("Events", topRatedThree('Events'), context),
+      Sublist("Restaurants", topRatedThree('Restaurants'), context),
+      Sublist("Cafe", topRatedThree('Cafe'), context)
+    ];
     return Scaffold(
         body: Container(
       //maxFinite Height and Width to cover the whole screen
@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-Widget Sublist(String title, var items) {
+Widget Sublist(String title, var items, [var context]) {
   return Container(
     padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
     //color: Colors.green,
@@ -150,7 +150,18 @@ Widget Sublist(String title, var items) {
               title,
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-            Icon(Icons.arrow_forward)
+            IconButton(
+              icon: Icon(Icons.add_box),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CategoryPage(
+                            Category: title,
+                          )),
+                );
+              },
+            ),
           ],
         ),
         Expanded(
