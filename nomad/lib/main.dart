@@ -7,8 +7,8 @@ import 'package:nomad/Pages/Proposals_page.dart';
 import 'package:nomad/Pages/Reports_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/auth.dart';
-import 'package:nomad/Pages/profile_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:nomad/Pages/UserProfile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +57,7 @@ bool isAdmin = false;
 var LoggedIn_Pages = [
   GuidePage(),
   MyHomePage(),
-  ProfilePage(),
+  UserProfile(),
 ];
 
 var GuestUser_Pages = [
