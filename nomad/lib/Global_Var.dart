@@ -7,7 +7,7 @@ import 'package:nomad/Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Login%20page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
-import 'package:nomad/Pages/profile_page.dart';
+import 'package:nomad/Pages/UserProfile.dart';
 
 double? global_Latitude;
 double? global_Longitude;
@@ -17,7 +17,7 @@ bool global_isAdmin = true;
 var global_LoggedIn_Pages = [
   GuidePage(),
   MyHomePage(),
-  ProfilePage(),
+  UserProfile(),
 ];
 
 var global_GuestUser_Pages = [
@@ -29,6 +29,6 @@ var global_GuestUser_Pages = [
 var global_adminUser_Pages = [
   GuidePage(),
   MyHomePage(),
-  ProfilePage(),
+  UserProfile(),
   AdminPage()
 ];
