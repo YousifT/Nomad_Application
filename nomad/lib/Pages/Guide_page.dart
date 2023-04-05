@@ -1,85 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:location/location.dart';
+import 'package:nomad/Pages/Location.dart';
+import 'package:nomad/Global_Var.dart' as globals;
 
-import 'package:nomad/Pages/MyPlans_page.dart';
-import 'package:nomad/Pages/PackagePlans_Page.dart';
-import 'package:nomad/Pages/Recommender_page.dart';
-
-class GuidePage extends StatelessWidget {
+class GuidePage extends StatefulWidget {
   const GuidePage({super.key});
 
   @override
+  State<GuidePage> createState() => _GuidePageState();
+}
+
+class _GuidePageState extends State<GuidePage> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Guide'),
-        centerTitle: true,
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Recommender(),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                elevation: 5,
-                fixedSize: const Size.fromHeight(50),
-                textStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 25,
-                    fontStyle: FontStyle.italic),
-              ),
-              child: const Text('Recommender'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PackagePlans(),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                elevation: 5,
-                fixedSize: const Size.fromHeight(50),
-                textStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 25,
-                    fontStyle: FontStyle.italic),
-              ),
-              child: const Text('Package Plans'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MyPlans(),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                elevation: 5,
-                fixedSize: const Size.fromHeight(50),
-                textStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 25,
-                    fontStyle: FontStyle.italic),
-              ),
-              child: const Text('My Plans'),
-            ),
-          ],
-        ),
-      ),
+      body: Column(),
     );
   }
 }
