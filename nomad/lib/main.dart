@@ -7,7 +7,9 @@ import 'package:nomad/Pages/Login%20page.dart';
 import 'package:nomad/Pages/Admin_Pages/Proposals_page.dart';
 import 'package:nomad/Pages/Admin_Pages/Reports_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
-import 'package:nomad/Pages/profile_page.dart';
+import 'package:nomad/Pages/auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:nomad/Pages/UserProfile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:nomad/Global_Var.dart' as globals;
@@ -31,6 +33,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Nomad',
       home: const HomePage(),
+      routes: {
+        'signupscreen': (context) => const Mysginuppage(),
+        'loginscreen': (context) => const Myloginpage(),
+      },
     );
   }
 }
