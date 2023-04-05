@@ -4,8 +4,8 @@ import 'package:nomad/Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Location.dart';
 import 'package:nomad/Pages/Login%20page.dart';
-import 'package:nomad/Pages/Proposals_page.dart';
-import 'package:nomad/Pages/Reports_page.dart';
+import 'package:nomad/Pages/Admin_Pages/Proposals_page.dart';
+import 'package:nomad/Pages/Admin_Pages/Reports_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/profile_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -123,9 +123,7 @@ class _HomePageState extends State<HomePage> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person), label: "Profile"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.report), label: "Reports"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.report_off_rounded), label: "Proposals")
+                    icon: Icon(Icons.admin_panel_settings), label: "Admin")
               ]),
         );
       }
