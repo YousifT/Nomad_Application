@@ -33,6 +33,14 @@ class CategoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(Category.toString(),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 25,
+            )),
+        centerTitle: true,
+      ),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -41,13 +49,13 @@ class CategoryPage extends StatelessWidget {
             elevation: 0,
             title: Column(
               children: [
-                Text(
-                  Category.toString(),
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 25,
-                  ),
-                )
+                //Text(
+                //Category.toString(),
+                //style: TextStyle(
+                //color: Colors.black,
+                //fontSize: 25,
+                //),
+                //)
               ],
             ),
           ),

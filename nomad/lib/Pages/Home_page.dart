@@ -26,11 +26,11 @@ List<String> imgLinks = [
 // TopRatedThree should be replaced by a method that connects to the Database and gets the relevant data
 topRatedThree(String table) {
   if (table == "Events")
-    return ["aaa", "bbb", "ccc"];
+    return ["Event_1", "Event_2", "Event_3"];
   else if (table == "Restaurants")
-    return ["ddd", "eee", "fff"];
+    return ["Restaurant_1", "Restaurant_2", "Restaurant_3"];
   else
-    return ["ggg", "hhh", "iii"];
+    return ["Cafe_1", "Cafe_2", "Cafe_3"];
 }
 
 class _MyHomePageState extends State<MyHomePage> {

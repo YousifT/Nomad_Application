@@ -44,12 +44,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         password: passwordController.text.trim(),
       );
       global_LoggedIn = true;
-
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => MyHomePage()));
     } on FirebaseAuthException catch (e) {
       // TO-DO
-      // Replace these with pop up notifications for the user, when the user enters a wrong username or password
+      // Replace print statements with pop up notifications for the user, when the user enters a wrong username or password
 
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -60,7 +59,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   void opensignupscreen() {
-    Navigator.of(context).pushReplacementNamed('signupscreen');
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Mysginuppage()));
   }
 
   @override
