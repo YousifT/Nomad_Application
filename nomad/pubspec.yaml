@@ -36,7 +36,9 @@ dependencies:
  
   line_awesome_flutter: ^2.0.0
 
-  firebase_core: ^2.8.0
+  cupertino_icons: ^1.0.2
+  firebase_core: ^2.9.0
+  cloud_firestore: ^4.5.0
   firebase_auth: ^4.3.0
   location: ^4.4.0
   permission_handler: ^10.2.0

@@ -1,0 +1,3 @@
+class PackagePlan {
+  String? title;
+}
