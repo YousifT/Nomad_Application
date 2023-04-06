@@ -7,7 +7,7 @@ import 'package:nomad/Pages/Login%20page.dart';
 import 'package:nomad/Pages/Admin_Pages/Proposals_page.dart';
 import 'package:nomad/Pages/Admin_Pages/Reports_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
-import 'package:nomad/Pages/auth.dart';
+import 'package:nomad/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:nomad/Pages/UserProfile.dart';
 import 'package:firebase_core/firebase_core.dart';

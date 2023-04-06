@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:nomad/Global_Var.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
-import 'package:nomad/Pages/auth.dart';
+import 'package:nomad/services/auth.dart';
 import 'package:nomad/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
