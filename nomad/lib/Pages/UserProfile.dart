@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:nomad/Global_Var.dart' as globals;
+import 'package:nomad/Pages/Home_page.dart';
+import 'package:nomad/main.dart';
 
 class UserProfile extends StatefulWidget {
   @override
   _UserProfileState createState() => _UserProfileState();
   const UserProfile({Key? key}) : super(key: key);
+}
+
+Future SignOut(var context) async {
+  await FirebaseAuth.instance.signOut();
+  globals.global_LoggedIn = false;
+  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
 }
 
 class _UserProfileState extends State<UserProfile> {
@@ -67,6 +77,10 @@ class _UserProfileState extends State<UserProfile> {
                 ElevatedButton(
                   onPressed: () {},
                   child: Text('Save'),
+                ),
+                ElevatedButton(
+                  onPressed: () => SignOut(context),
+                  child: Text('Sign out'),
                 ),
                 ElevatedButton(
                   onPressed: () {},

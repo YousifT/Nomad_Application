@@ -10,38 +10,52 @@ class AdminPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Card(
-            color: Colors.blue,
-            child: TextButton(
-                child: const Text(
-                  'List of Proposals',
-                  style: TextStyle(fontSize: 20, color: Colors.black),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProposalPage()));
-                }),
-          ),
-          Card(
-            color: Colors.blue,
-            child: TextButton(
-                child: const Text(
-                  'List of Reports',
-                  style: TextStyle(fontSize: 20, color: Colors.black),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReportsPage()));
-                }),
-          )
-        ],
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProposalPage(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                elevation: 5,
+                fixedSize: const Size.fromHeight(50),
+                textStyle: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontStyle: FontStyle.italic),
+              ),
+              child: const Text('Proposals'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ReportsPage(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                elevation: 5,
+                fixedSize: const Size.fromHeight(50),
+                textStyle: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontStyle: FontStyle.italic),
+              ),
+              child: const Text('Reports'),
+            ),
+          ],
+        ),
       ),
     );
   }
