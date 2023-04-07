@@ -11,7 +11,7 @@ class Auth {
   }
 
   Future<void> createUserWithEmailAndPassword(String email, String fName,
-      String lName, String password, String username, DateTime createAt) async {
+      String lName, String password, DateTime createAt) async {
     UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
 
@@ -20,7 +20,6 @@ class Auth {
       'firstNamme': fName,
       'lastName': lName,
       'password': password,
-      'username': username,
       'createAt': createAt,
     };
 

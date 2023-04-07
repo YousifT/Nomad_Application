@@ -5,6 +5,8 @@ import 'package:nomad/Pages/Login%20page.dart';
 import 'package:nomad/main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:nomad/services/auth.dart';
+import 'package:nomad/services/database.dart';
 
 var _main = new HomePage();
 
@@ -36,13 +38,22 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final email = TextEditingController();
   final password = TextEditingController();
   final cpassword = TextEditingController();
+  final creatAT = DateTime.now();
 
   Future Signup() async {
     if (passordconfirmed()) {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email.text.trim(),
-        password: password.text.trim(),
-      );
+      print("1");
+      Auth().createUserWithEmailAndPassword(
+          email.text.trim(),
+          Fname.text.trim(),
+          Lname.text.trim(),
+          password.text,
+          DateTime.now().millisecondsSinceEpoch as DateTime);
+      print("2");
+      //   await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      //     email: email.text.trim(),
+      //     password: password.text.trim(),
+      //   );
     }
   }
 
