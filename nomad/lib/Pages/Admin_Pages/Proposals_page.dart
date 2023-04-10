@@ -139,3 +139,15 @@ Widget AdminPropsals(String title, var items) {
         ],
       ));
 }
+
+ProposalApprove(Proposal spot) {
+  // Sanitize the entries
+  // add to the DB the new spot
+}
+
+class Proposal {
+  final String name = "";
+  final String description = "";
+  final String location = "";
+  final Image_List = [];
+}
