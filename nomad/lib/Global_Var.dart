@@ -11,7 +11,7 @@ import 'package:nomad/Pages/UserProfile.dart';
 
 double? global_Latitude;
 double? global_Longitude;
-bool global_LoggedIn = false;
+bool global_LoggedIn = true;
 bool global_isAdmin = true;
 
 var global_LoggedIn_Pages = [

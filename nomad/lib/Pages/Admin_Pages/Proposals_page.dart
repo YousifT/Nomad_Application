@@ -8,16 +8,38 @@ class ProposalPage extends StatefulWidget {
   State<ProposalPage> createState() => _ProposalPageState();
 }
 
+var list_of_Proposals = [
+  AdminPropsals("Proposal_1", ["Proposal_1", "Submitted by:", "Details:"]),
+  AdminPropsals("Proposal_2", ["Proposal_2", "Submitted by:", "Details:"]),
+  AdminPropsals("Proposal_3", ["Proposal_3", "Submitted by:", "Details:"])
+];
+
+Future<void>? getProposals() {
+  // Connect to DB
+  // Get all Proposals from DB
+  // update list_of_Proposals
+  list_of_Proposals = [];
+  list_of_Proposals = [
+    AdminPropsals("Proposal_A", ["Proposal_A", "Submitted by:", "Details:"]),
+    AdminPropsals("Proposal_B", ["Proposal_B", "Submitted by:", "Details:"]),
+    AdminPropsals("Proposal_C", ["Proposal_C", "Submitted by:", "Details:"])
+  ];
+}
+
 class _ProposalPageState extends State<ProposalPage> {
   @override
   Widget build(BuildContext context) {
+    getProposals();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
-        child: Column(children: [
-          AdminPropsals(
-              "Proposal_1", ["Proposal_1", "Submitted by:", "Details:"])
-        ]),
+        child: Expanded(
+          child: SingleChildScrollView(
+            physics: ClampingScrollPhysics(),
+            child: Column(
+                children: [for (var proposal in list_of_Proposals) proposal]),
+          ),
+        ),
       ),
     );
   }
