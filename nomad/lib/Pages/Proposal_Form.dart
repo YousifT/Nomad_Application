@@ -116,6 +116,9 @@ class _ProposalFormState extends State<ProposalForm> {
                   ))
 
               // Upload Images *Optional
+
+              // Submit Form button
+              // Submitted By: User email info.
             ],
           ),
         ),

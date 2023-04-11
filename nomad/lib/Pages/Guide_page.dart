@@ -45,7 +45,7 @@ class GuidePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ProposalForm(),
+                    builder: (context) => const PackagePlans(),
                   ),
                 );
               },

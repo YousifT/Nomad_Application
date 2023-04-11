@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:nomad/Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
+import 'package:nomad/Pages/Proposal_Form.dart';
 
 class ProposalPage extends StatefulWidget {
   const ProposalPage({super.key});
@@ -9,33 +11,34 @@ class ProposalPage extends StatefulWidget {
 }
 
 var list_of_Proposals = [
-  AdminPropsals("Proposal_1", ["Proposal_1", "Submitted by:", "Details:"]),
-  AdminPropsals("Proposal_2", ["Proposal_2", "Submitted by:", "Details:"]),
-  AdminPropsals("Proposal_3", ["Proposal_3", "Submitted by:", "Details:"])
+  AdminPropsals(Proposal("Empty", "NULL", "NULL", "NULL")),
 ];
 
-Future<void>? getProposals() {
+Future<void>? getProposals(var context) {
   // Connect to DB
   // Get all Proposals from DB
   // update list_of_Proposals
   list_of_Proposals = [];
   list_of_Proposals = [
-    AdminPropsals("Proposal_A", ["Proposal_A", "Submitted by:", "Details:"]),
-    AdminPropsals("Proposal_B", ["Proposal_B", "Submitted by:", "Details:"]),
-    AdminPropsals("Proposal_C", ["Proposal_C", "Submitted by:", "Details:"])
+    AdminPropsals(
+        Proposal("Tester1", "Event", "_description", "_location"), context),
+    AdminPropsals(
+        Proposal("Tester2", "Cafe", "_description", "_location"), context),
+    AdminPropsals(
+        Proposal("Tester3", "Event", "_description", "_location"), context)
   ];
 }
 
 class _ProposalPageState extends State<ProposalPage> {
   @override
   Widget build(BuildContext context) {
-    getProposals();
+    getProposals(context);
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
-        child: Expanded(
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
           child: SingleChildScrollView(
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             child: Column(
                 children: [for (var proposal in list_of_Proposals) proposal]),
           ),
@@ -45,85 +48,85 @@ class _ProposalPageState extends State<ProposalPage> {
   }
 }
 
-Widget AdminPropsals(String title, var items) {
+Widget AdminPropsals(Proposal proposal, [var context]) {
+  bool isReadOnly = true;
+
   return Container(
       padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
       child: Column(
         children: [
           SizedBox(
-              height: 470,
+              height: 500,
               width: double.maxFinite,
               child: Column(children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
-                      )
-                    ]),
+                Text(
+                  proposal.name,
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
                 Expanded(
-                  child: SizedBox(
-                    height: 50,
-                    width: double.maxFinite,
-                    child: Card(
-                      color: Colors.blue,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 00, 5, 0),
-                        child: Column(
+                  child: Card(
+                    //color: Colors.blue,
+                    child: Column(
+                      children: [
+                        Row(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                  child: Text(
-                                    items[0],
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Type:",
                                     style: TextStyle(fontSize: 20),
                                   ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 25,
-                              width: double.maxFinite,
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                  child: Text(
-                                    items[1],
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 25,
-                              width: double.maxFinite,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                  child: Text(
-                                    items[2],
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ),
-                              ],
+                                  SizedBox(width: 100),
+                                  SizedBox(
+                                    width: 150,
+                                    child: TextFormField(
+                                      readOnly: proposal.readOnlyFlag,
+                                      initialValue: proposal.type,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         ),
-                      ),
+                        SizedBox(
+                          height: 25,
+                          width: double.maxFinite,
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                              child: Text(
+                                "Details: ",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 25,
+                          width: double.maxFinite,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                              child: Text(
+                                "items",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -131,9 +134,16 @@ Widget AdminPropsals(String title, var items) {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(onPressed: null, child: Text("Approve Proposal")),
-              ElevatedButton(onPressed: null, child: Text("Reject Proposal")),
-              ElevatedButton(onPressed: null, child: Text("Skip")),
+              ElevatedButton(
+                  onPressed: ProposalApprove(proposal),
+                  child: Text("Approve\nProposal")),
+              InkWell(
+                onTap: () => {EditProposal(proposal, context)},
+                child: Text("Edit\nProposal"),
+              ),
+              ElevatedButton(
+                  onPressed: ProposalReject(proposal),
+                  child: Text("Reject\nProposal")),
             ],
           )
         ],
@@ -145,9 +155,30 @@ ProposalApprove(Proposal spot) {
   // add to the DB the new spot
 }
 
+EditProposal(Proposal spot, [var context]) {
+  Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ProposalForm(),
+      ));
+}
+
+ProposalReject(Proposal spot) {
+  // Delete it from the DB list of Pending Proposal
+  //Optional: pop up a text box, write a reason, send it as an email respone to the user
+}
+
 class Proposal {
-  final String name = "";
-  final String description = "";
-  final String location = "";
-  final Image_List = [];
+  late String name;
+  late String type;
+  late String description;
+  late String location;
+  bool readOnlyFlag = true;
+
+  Proposal(String _name, String _type, String _description, String _location) {
+    this.name = _name;
+    this.type = _type;
+    this.description = _description;
+    this.location = _location;
+  }
 }
