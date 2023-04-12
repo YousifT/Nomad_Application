@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nomad/Pages/Admin_Pages/FormEdit_Page.dart';
 import 'package:nomad/Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Proposal_Form.dart';
@@ -49,8 +50,6 @@ class _ProposalPageState extends State<ProposalPage> {
 }
 
 Widget AdminPropsals(Proposal proposal, [var context]) {
-  bool isReadOnly = true;
-
   return Container(
       padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
       child: Column(
@@ -85,7 +84,7 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
                                     width: 150,
                                     child: TextFormField(
                                       readOnly: proposal.readOnlyFlag,
-                                      initialValue: proposal.type,
+                                      initialValue: proposal.category,
                                       style: TextStyle(fontSize: 20),
                                     ),
                                   )
@@ -156,10 +155,10 @@ ProposalApprove(Proposal spot) {
 }
 
 EditProposal(Proposal spot, [var context]) {
-  Navigator.pushReplacement(
+  Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ProposalForm(),
+        builder: (context) => EditingPage(proposal: spot),
       ));
 }
 
@@ -170,14 +169,15 @@ ProposalReject(Proposal spot) {
 
 class Proposal {
   late String name;
-  late String type;
+  late String category;
   late String description;
   late String location;
   bool readOnlyFlag = true;
 
-  Proposal(String _name, String _type, String _description, String _location) {
+  Proposal(
+      String _name, String _category, String _description, String _location) {
     this.name = _name;
-    this.type = _type;
+    this.category = _category;
     this.description = _description;
     this.location = _location;
   }
