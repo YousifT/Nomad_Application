@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nomad/Pages/Admin_Pages/FormEdit_Page.dart';
 import 'package:nomad/Pages/Guide_page.dart';
@@ -12,7 +13,7 @@ class ProposalPage extends StatefulWidget {
 }
 
 var list_of_Proposals = [
-  AdminPropsals(Proposal("Empty", "NULL", "NULL", "NULL")),
+  AdminPropsals(Proposal("Empty", "NULL", "NULL", "NULL", "NULL")),
 ];
 
 Future<void>? getProposals(var context) {
@@ -22,11 +23,14 @@ Future<void>? getProposals(var context) {
   list_of_Proposals = [];
   list_of_Proposals = [
     AdminPropsals(
-        Proposal("Tester1", "Event", "_description", "_location"), context),
+        Proposal("Tester1", "Event", "_description", "_location", "_ID"),
+        context),
     AdminPropsals(
-        Proposal("Tester2", "Cafe", "_description", "_location"), context),
+        Proposal("Tester2", "Cafe", "_description", "_location", "_ID"),
+        context),
     AdminPropsals(
-        Proposal("Tester3", "Event", "_description", "_location"), context)
+        Proposal("Tester3", "Event", "_description", "_location", "_ID"),
+        context)
   ];
 }
 
@@ -67,6 +71,39 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
                     //color: Colors.blue,
                     child: Column(
                       children: [
+                        SizedBox(
+                          height: 25,
+                          width: double.maxFinite,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Name",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  SizedBox(width: 100),
+                                  SizedBox(
+                                    width: 150,
+                                    child: TextFormField(
+                                      readOnly: true,
+                                      initialValue: proposal.name,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        // End of Name details
+
                         Row(
                           children: [
                             Padding(
@@ -83,7 +120,7 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
                                   SizedBox(
                                     width: 150,
                                     child: TextFormField(
-                                      readOnly: proposal.readOnlyFlag,
+                                      readOnly: true,
                                       initialValue: proposal.category,
                                       style: TextStyle(fontSize: 20),
                                     ),
@@ -93,6 +130,9 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
                             )
                           ],
                         ),
+
+                        // End of Type
+
                         SizedBox(
                           height: 25,
                           width: double.maxFinite,
@@ -101,13 +141,29 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
                           children: [
                             Padding(
                               padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                              child: Text(
-                                "Details: ",
-                                style: TextStyle(fontSize: 20),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Details: ",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  SizedBox(width: 100),
+                                  SizedBox(
+                                    width: 150,
+                                    child: TextFormField(
+                                      readOnly: true,
+                                      initialValue: proposal.description,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
                           ],
                         ),
+
+                        // End of details
+
                         SizedBox(
                           height: 25,
                           width: double.maxFinite,
@@ -118,13 +174,28 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
                           children: [
                             Padding(
                               padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                              child: Text(
-                                "items",
-                                style: TextStyle(fontSize: 20),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Location Details",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  SizedBox(width: 100),
+                                  SizedBox(
+                                    width: 150,
+                                    child: TextFormField(
+                                      readOnly: true,
+                                      initialValue: proposal.location,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
                           ],
                         )
+
+                        // End of location details
                       ],
                     ),
                   ),
@@ -134,14 +205,14 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                  onPressed: ProposalApprove(proposal),
+                  onPressed: () => ProposalApprove(proposal),
                   child: Text("Approve\nProposal")),
               InkWell(
                 onTap: () => {EditProposal(proposal, context)},
                 child: Text("Edit\nProposal"),
               ),
               ElevatedButton(
-                  onPressed: ProposalReject(proposal),
+                  onPressed: () => ClearProposal(proposal),
                   child: Text("Reject\nProposal")),
             ],
           )
@@ -149,9 +220,16 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
       ));
 }
 
-ProposalApprove(Proposal spot) {
-  // Sanitize the entries
-  // add to the DB the new spot
+Future<void> ProposalApprove(Proposal spot) {
+  CollectionReference database = FirebaseFirestore.instance.collection('spots');
+  return database.add({
+    'title': spot.name,
+    'category': spot.category,
+    'description': spot.description,
+    'location': spot.location,
+    // REPLACE THIS WITH Global_var.Username
+    'user': "Username"
+  });
 }
 
 EditProposal(Proposal spot, [var context]) {
@@ -162,8 +240,11 @@ EditProposal(Proposal spot, [var context]) {
       ));
 }
 
-ProposalReject(Proposal spot) {
-  // Delete it from the DB list of Pending Proposal
+ClearProposal(Proposal spot) {
+  CollectionReference database = FirebaseFirestore.instance.collection('spots');
+
+  database.get();
+
   //Optional: pop up a text box, write a reason, send it as an email respone to the user
 }
 
@@ -172,13 +253,13 @@ class Proposal {
   late String category;
   late String description;
   late String location;
-  bool readOnlyFlag = true;
-
-  Proposal(
-      String _name, String _category, String _description, String _location) {
+  late String id;
+  Proposal(String _name, String _category, String _description,
+      String _location, String _id) {
     this.name = _name;
     this.category = _category;
     this.description = _description;
     this.location = _location;
+    this.id = _id;
   }
 }

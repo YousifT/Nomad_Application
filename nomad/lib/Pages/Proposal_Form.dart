@@ -21,13 +21,15 @@ class _ProposalFormState extends State<ProposalForm> {
     Future<void> submit() {
       CollectionReference database =
           FirebaseFirestore.instance.collection('proposals');
-      return database.add({
+      var docID = database.doc();
+      return database.doc(docID.id).set({
         'title': nameController.text,
         'category': type_Value,
         'description': descriptionController.text,
         'location': locationController.text,
         // REPLACE THIS WITH Global_var.Username
-        'user': "Username"
+        'user': "Username",
+        'ID': docID.id
       }).then((value) => Navigator.pop(context));
     }
 
