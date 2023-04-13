@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 String? type_Value = "Event";
@@ -16,6 +17,20 @@ class _ProposalFormState extends State<ProposalForm> {
     TextEditingController nameController = TextEditingController();
     TextEditingController locationController = TextEditingController();
     TextEditingController descriptionController = TextEditingController();
+
+    Future<void> submit() {
+      CollectionReference database =
+          FirebaseFirestore.instance.collection('proposals');
+      return database.add({
+        'title': nameController.text,
+        'category': type_Value,
+        'description': descriptionController.text,
+        'location': locationController.text,
+        // REPLACE THIS WITH Global_var.Username
+        'user': "Username"
+      }).then((value) => Navigator.pop(context));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Submit a proposal form'),
@@ -25,35 +40,16 @@ class _ProposalFormState extends State<ProposalForm> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Name
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      'Name',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-              ),
               SizedBox(height: 10),
-              TextField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                    hintText: 'Enter the name of your Establishment or Event',
-                    border: OutlineInputBorder(),
-                  )),
               // Type (dropdown menu)
-              SizedBox(height: 20),
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      'Type Category',
+                    const Text(
+                      'Category',
                       style: TextStyle(fontSize: 18),
                     ),
                     DropdownButton(
@@ -65,6 +61,9 @@ class _ProposalFormState extends State<ProposalForm> {
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
+                          var nameHolder = nameController.text;
+                          var descHolder = descriptionController.text;
+                          var locHolder = locationController.text;
                           setState(() {
                             type_Value = newValue!;
                           });
@@ -72,13 +71,34 @@ class _ProposalFormState extends State<ProposalForm> {
                   ],
                 ),
               ),
+              // Name
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: const [
+                    Text(
+                      'Name',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
+              TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter the name of your Establishment or Event',
+                    border: OutlineInputBorder(),
+                  )),
+              SizedBox(height: 20),
 
               // Location URL
               SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
-                  children: [
+                  children: const [
                     Text(
                       'Location Details',
                       style: TextStyle(fontSize: 18),
@@ -95,11 +115,11 @@ class _ProposalFormState extends State<ProposalForm> {
                   )),
 
               // Description
-              SizedBox(height: 20),
+              SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
-                  children: [
+                  children: const [
                     Text(
                       'Description & Extra details',
                       style: TextStyle(fontSize: 18),
@@ -110,14 +130,16 @@ class _ProposalFormState extends State<ProposalForm> {
               SizedBox(height: 10),
               TextField(
                   controller: descriptionController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Describe the details of your Establishment.',
                     border: OutlineInputBorder(),
-                  ))
+                  )),
+              SizedBox(height: 30),
 
               // Upload Images *Optional
 
               // Submit Form button
+              ElevatedButton(onPressed: () => submit(), child: Text("submit"))
               // Submitted By: User email info.
             ],
           ),
