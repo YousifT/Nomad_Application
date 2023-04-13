@@ -12,44 +12,57 @@ class ProposalPage extends StatefulWidget {
   State<ProposalPage> createState() => _ProposalPageState();
 }
 
-var list_of_Proposals = [
-  AdminPropsals(Proposal("Empty", "NULL", "NULL", "NULL", "NULL")),
-];
+var list_of_Proposals = [];
 
-Future<void>? getProposals(var context) {
-  // Connect to DB
-  // Get all Proposals from DB
-  // update list_of_Proposals
-  list_of_Proposals = [];
-  list_of_Proposals = [
-    AdminPropsals(
-        Proposal("Tester1", "Event", "_description", "_location", "_ID"),
-        context),
-    AdminPropsals(
-        Proposal("Tester2", "Cafe", "_description", "_location", "_ID"),
-        context),
-    AdminPropsals(
-        Proposal("Tester3", "Event", "_description", "_location", "_ID"),
-        context)
-  ];
+Future<void>? getProposals(var context) async {
+  CollectionReference database =
+      FirebaseFirestore.instance.collection('proposals');
+  QuerySnapshot snapshot = await database.get();
+  List<dynamic> result = snapshot.docs.map((doc) => doc.data()).toList();
+
+  int i;
+
+  for (i = 0; i < result.length; i++) {
+    Proposal p = Proposal(
+        result[i]['title'],
+        result[i]['category'],
+        result[i]['description'],
+        result[i]['location'],
+        result[i]['ID'],
+        result[i]['user']);
+    list_of_Proposals.add(AdminPropsals(p, context));
+  }
+
+  /*if (list_of_Proposals.length > 0)
+    return 1;
+  else
+    return 0; */
 }
 
 class _ProposalPageState extends State<ProposalPage> {
   @override
   Widget build(BuildContext context) {
-    getProposals(context);
     return Scaffold(
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
-          child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: Column(
-                children: [for (var proposal in list_of_Proposals) proposal]),
-          ),
+        appBar: AppBar(
+          title: const Text('Review Pending Proposals'),
+          centerTitle: true,
         ),
-      ),
-    );
+        body: FutureBuilder<dynamic>(
+          future: getProposals(context),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            return Container(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
+                child: SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  child: Column(children: [
+                    for (var proposal in list_of_Proposals) proposal
+                  ]),
+                ),
+              ),
+            );
+          },
+        ));
   }
 }
 
@@ -75,60 +88,66 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
                           height: 25,
                           width: double.maxFinite,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Name",
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  SizedBox(width: 100),
-                                  SizedBox(
-                                    width: 150,
-                                    child: TextFormField(
-                                      readOnly: true,
-                                      initialValue: proposal.name,
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Name",
                                       style: TextStyle(fontSize: 20),
                                     ),
-                                  )
-                                ],
+                                    SizedBox(width: 100),
+                                    SizedBox(
+                                      width: 150,
+                                      child: TextFormField(
+                                        readOnly: true,
+                                        initialValue: proposal.name,
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
 
                         // End of Name details
 
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Type:",
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  SizedBox(width: 100),
-                                  SizedBox(
-                                    width: 150,
-                                    child: TextFormField(
-                                      readOnly: true,
-                                      initialValue: proposal.category,
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Type:",
                                       style: TextStyle(fontSize: 20),
                                     ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
+                                    SizedBox(width: 100),
+                                    SizedBox(
+                                      width: 150,
+                                      child: TextFormField(
+                                        readOnly: true,
+                                        initialValue: proposal.category,
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
 
                         // End of Type
@@ -137,29 +156,32 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
                           height: 25,
                           width: double.maxFinite,
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Details: ",
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  SizedBox(width: 100),
-                                  SizedBox(
-                                    width: 150,
-                                    child: TextFormField(
-                                      readOnly: true,
-                                      initialValue: proposal.description,
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Details: ",
                                       style: TextStyle(fontSize: 20),
                                     ),
-                                  )
-                                ],
+                                    SizedBox(width: 100),
+                                    SizedBox(
+                                      width: 150,
+                                      child: TextFormField(
+                                        readOnly: true,
+                                        initialValue: proposal.description,
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
 
                         // End of details
@@ -168,31 +190,34 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
                           height: 25,
                           width: double.maxFinite,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Location Details",
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  SizedBox(width: 100),
-                                  SizedBox(
-                                    width: 150,
-                                    child: TextFormField(
-                                      readOnly: true,
-                                      initialValue: proposal.location,
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Location Details",
                                       style: TextStyle(fontSize: 20),
                                     ),
-                                  )
-                                ],
+                                    SizedBox(width: 100),
+                                    SizedBox(
+                                      width: 150,
+                                      child: TextFormField(
+                                        readOnly: true,
+                                        initialValue: proposal.location,
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         )
 
                         // End of location details
@@ -205,14 +230,14 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                  onPressed: () => ProposalApprove(proposal),
+                  onPressed: () => ProposalApprove(proposal, context),
                   child: Text("Approve\nProposal")),
               InkWell(
                 onTap: () => {EditProposal(proposal, context)},
                 child: Text("Edit\nProposal"),
               ),
               ElevatedButton(
-                  onPressed: () => ClearProposal(proposal),
+                  onPressed: () => ClearProposal(proposal, context),
                   child: Text("Reject\nProposal")),
             ],
           )
@@ -220,16 +245,22 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
       ));
 }
 
-Future<void> ProposalApprove(Proposal spot) {
+Future<void> ProposalApprove(Proposal spot, [var context]) {
   CollectionReference database = FirebaseFirestore.instance.collection('spots');
-  return database.add({
-    'title': spot.name,
-    'category': spot.category,
-    'description': spot.description,
-    'location': spot.location,
-    // REPLACE THIS WITH Global_var.Username
-    'user': "Username"
-  });
+  return database
+      .add({
+        'title': spot.name,
+        'category': spot.category,
+        'description': spot.description,
+        'location': spot.location,
+        // REPLACE THIS WITH Global_var.Username
+      })
+      .then((value) => ClearProposal(spot))
+      .then((value) => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProposalPage(),
+          )));
 }
 
 EditProposal(Proposal spot, [var context]) {
@@ -240,12 +271,16 @@ EditProposal(Proposal spot, [var context]) {
       ));
 }
 
-ClearProposal(Proposal spot) {
-  CollectionReference database = FirebaseFirestore.instance.collection('spots');
+ClearProposal(Proposal spot, [var context]) {
+  CollectionReference database =
+      FirebaseFirestore.instance.collection('proposals');
 
-  database.get();
-
-  //Optional: pop up a text box, write a reason, send it as an email respone to the user
+  database.doc(spot.id).delete();
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProposalPage(),
+      ));
 }
 
 class Proposal {
@@ -254,12 +289,14 @@ class Proposal {
   late String description;
   late String location;
   late String id;
+  late String user;
   Proposal(String _name, String _category, String _description,
-      String _location, String _id) {
-    this.name = _name;
-    this.category = _category;
-    this.description = _description;
-    this.location = _location;
-    this.id = _id;
+      String _location, String _id, String _user) {
+    name = _name;
+    category = _category;
+    description = _description;
+    location = _location;
+    id = _id;
+    user = _user;
   }
 }
