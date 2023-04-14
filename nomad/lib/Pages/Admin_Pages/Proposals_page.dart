@@ -21,6 +21,7 @@ Future<void>? getProposals(var context) async {
   List<dynamic> result = snapshot.docs.map((doc) => doc.data()).toList();
 
   int i;
+  list_of_Proposals = [];
 
   for (i = 0; i < result.length; i++) {
     Proposal p = Proposal(

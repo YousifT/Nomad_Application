@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:nomad/Pages/Admin_Pages/Admin_Page.dart';
 import 'package:nomad/Pages/Admin_Pages/Proposals_page.dart';
 import 'package:flutter/material.dart';
 
@@ -16,17 +18,29 @@ class EditingPage extends StatefulWidget {
 class _EditingPageState extends State<EditingPage> {
   @override
   Widget build(BuildContext context) {
-    print("name, category, location, description");
-    print(widget.proposal.name);
+    TextEditingController nameController =
+        TextEditingController(text: widget.proposal.name);
+    TextEditingController locationController =
+        TextEditingController(text: widget.proposal.location);
+    TextEditingController descriptionController =
+        TextEditingController(text: widget.proposal.description);
 
-    print(widget.proposal.category);
-    print(widget.proposal.location);
+    submitEdit() {
+      var ID_holder = widget.proposal.id;
+      CollectionReference database =
+          FirebaseFirestore.instance.collection('proposals');
 
-    print(widget.proposal.description);
+      database.doc(ID_holder).update({
+        'title': nameController.text,
+        'category': widget.proposal.category,
+        'description': descriptionController.text,
+        'location': locationController.text,
+        'user': widget.proposal.user,
+        'ID': ID_holder
+      }).then((value) => Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const AdminPage())));
+    }
 
-    TextEditingController nameController = TextEditingController();
-    TextEditingController locationController = TextEditingController();
-    TextEditingController descriptionController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit the proposal'),
@@ -51,7 +65,7 @@ class _EditingPageState extends State<EditingPage> {
               ),
               SizedBox(height: 10),
               TextFormField(
-                  initialValue: widget.proposal.name,
+                  controller: nameController,
                   decoration: const InputDecoration(
                     hintText: 'Enter the name of your Establishment or Event',
                     border: OutlineInputBorder(),
@@ -99,7 +113,7 @@ class _EditingPageState extends State<EditingPage> {
               ),
               SizedBox(height: 10),
               TextFormField(
-                  initialValue: widget.proposal.location,
+                  controller: locationController,
                   decoration: InputDecoration(
                     hintText: 'Enter the Location URL',
                     border: OutlineInputBorder(),
@@ -120,16 +134,18 @@ class _EditingPageState extends State<EditingPage> {
               ),
               SizedBox(height: 10),
               TextFormField(
-                  initialValue: widget.proposal.description,
+                  controller: descriptionController,
                   decoration: InputDecoration(
                     hintText: 'Describe the details of your Establishment.',
                     border: OutlineInputBorder(),
-                  ))
+                  )),
+              SizedBox(height: 30),
+              ElevatedButton(
+                  onPressed: () => submitEdit(), child: Text("submit"))
 
               // Upload Images *Optional
 
               // Submit Form button
-              // Submitted By: User email info.
             ],
           ),
         ),
