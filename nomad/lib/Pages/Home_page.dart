@@ -31,6 +31,9 @@ List<String> imgLinks = [
 ];
 
 // DB TopThree 
+// Right now there is no "topSpots" collection in the DB so you need to create that
+// Or alt: add a grading criteria to "spots" 
+
 Future<void> FetchTopThree([var context]) {
 CollectionReference database =
       FirebaseFirestore.instance.collection('topSpots');
@@ -199,6 +202,11 @@ Widget Sublist(String title, var items, [var context]) {
           child: SizedBox(
             height: 50,
             width: double.maxFinite,
+
+            // Each card starts here, you can change the whole styling of it
+            // and add more information taken from the DB as explained in line 212.
+            // We still dont have any images added to the DB nor the to the UI design
+            // so thats one point that needs fixing.
             child: Card(
               color: Colors.blue,
               child: Padding(
