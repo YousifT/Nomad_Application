@@ -89,100 +89,65 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
                           height: 25,
                           width: double.maxFinite,
                         ),
-                        Expanded(
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Name",
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                    SizedBox(width: 100),
-                                    SizedBox(
-                                      width: 150,
-                                      child: TextFormField(
-                                        readOnly: true,
-                                        initialValue: proposal.name,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
+                              Text("Name", style: TextStyle(fontSize: 20)),
                             ],
                           ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                              readOnly: true,
+                              initialValue: proposal.name,
+                              style: TextStyle(fontSize: 20)),
                         ),
 
                         // End of Name details
-
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Type:",
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                    SizedBox(width: 100),
-                                    SizedBox(
-                                      width: 150,
-                                      child: TextFormField(
-                                        readOnly: true,
-                                        initialValue: proposal.category,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-
-                        // End of Type
 
                         SizedBox(
                           height: 25,
                           width: double.maxFinite,
                         ),
-                        Expanded(
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
                           child: Row(
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Details: ",
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                    SizedBox(width: 100),
-                                    SizedBox(
-                                      width: 150,
-                                      child: TextFormField(
-                                        readOnly: true,
-                                        initialValue: proposal.description,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
+                              Text("Category", style: TextStyle(fontSize: 20)),
                             ],
                           ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                              readOnly: true,
+                              initialValue: proposal.category,
+                              style: TextStyle(fontSize: 20)),
+                        ),
+
+                        // End of Category
+
+                        SizedBox(
+                          height: 25,
+                          width: double.maxFinite,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                          child: Row(
+                            children: [
+                              Text("Description Details",
+                                  style: TextStyle(fontSize: 20)),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                              readOnly: true,
+                              initialValue: proposal.description,
+                              style: TextStyle(fontSize: 20)),
                         ),
 
                         // End of details
@@ -191,34 +156,21 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
                           height: 25,
                           width: double.maxFinite,
                         ),
-                        Expanded(
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Location Details",
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                    SizedBox(width: 100),
-                                    SizedBox(
-                                      width: 150,
-                                      child: TextFormField(
-                                        readOnly: true,
-                                        initialValue: proposal.location,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
+                              Text("Location Details",
+                                  style: TextStyle(fontSize: 20)),
                             ],
                           ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                              readOnly: true,
+                              initialValue: proposal.location,
+                              style: TextStyle(fontSize: 20)),
                         )
 
                         // End of location details
@@ -259,7 +211,7 @@ Future<void> ProposalApprove(Proposal spot, [var context]) {
         // REPLACE THIS WITH Global_var.Username
       })
       .then((value) => ClearProposal(spot))
-      .then((value) => Navigator.push(
+      .then((value) => Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => ProposalPage(),

@@ -144,7 +144,6 @@ Future<void> FetchTopThree([var context]) async {
   var database = FirebaseFirestore.instance;
   await database.collection('spots').get().then(
     (querySnapshot) {
-      print("Successfully completed");
       for (var docSnapshot in querySnapshot.docs) {
         results.add(docSnapshot);
       }
@@ -152,7 +151,6 @@ Future<void> FetchTopThree([var context]) async {
     onError: (e) => print("Error completing: $e"),
   );
 
-  print(results.length);
   List<dynamic> topEvents = [];
   List<dynamic> topRestaurants = [];
   List<dynamic> topCafes = [];
@@ -167,7 +165,6 @@ Future<void> FetchTopThree([var context]) async {
       else if (value == "Cafe") topCafes.add(results[i]);
     }
   }
-  print("Loop end");
   globals.HomePageChildren = [];
   sublistItem e_item = sublistItem("Events", topEvents);
   globals.HomePageChildren.add(e_item);
@@ -175,6 +172,4 @@ Future<void> FetchTopThree([var context]) async {
   globals.HomePageChildren.add(e_item);
   sublistItem c_item = sublistItem("Cafes", topCafes);
   globals.HomePageChildren.add(e_item);
-
-  print("homepage updated");
 }

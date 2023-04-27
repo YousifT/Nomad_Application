@@ -26,27 +26,11 @@ List<String> imgLinks = [
   "assets/images/img3.jpg"
 ];
 
-// DB TopThree
-// Right now there is no "topSpots" collection in the DB so you need to create that
-// Or alt: add a grading criteria to "spots"
-
-// TopRatedThree should be replaced by a method that connects to the Database and gets the relevant data
-topRatedThree(String table) {
-  if (table == "Events")
-    return ["Event_1", "Event_2", "Event_3"];
-  else if (table == "Restaurants")
-    return ["Restaurant_1", "Restaurant_2", "Restaurant_3"];
-  else
-    return ["Cafe_1", "Cafe_2", "Cafe_3"];
-}
-
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    print("LEN: " + globals.HomePageChildren.length.toString());
-
     return Container(
-      //maxFinite Height and Width to cover the whole screen
+      // maxFinite Height and Width to cover the whole screen
       height: double.maxFinite,
       width: double.maxFinite,
       // Scrollable widget wrapping to hold the Column so it becomes scrollable
