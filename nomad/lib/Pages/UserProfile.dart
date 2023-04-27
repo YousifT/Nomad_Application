@@ -21,6 +21,8 @@ class _UserProfileState extends State<UserProfile> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  bool _isHidden = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,11 +65,21 @@ class _UserProfileState extends State<UserProfile> {
             ),
             SizedBox(height: 10),
             TextField(
+              obscureText: _isHidden,
               controller: passwordController,
-              obscureText: true,
               decoration: InputDecoration(
                 hintText: 'Enter your password',
                 border: OutlineInputBorder(),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isHidden = !_isHidden;
+                    });
+                  },
+                  child: Icon(
+                    _isHidden ? Icons.visibility : Icons.visibility_off,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 20),
@@ -77,10 +89,6 @@ class _UserProfileState extends State<UserProfile> {
                 ElevatedButton(
                   onPressed: () {},
                   child: Text('Save'),
-                ),
-                ElevatedButton(
-                  onPressed: () => SignOut(context),
-                  child: Text('Sign out'),
                 ),
                 ElevatedButton(
                   onPressed: () {},

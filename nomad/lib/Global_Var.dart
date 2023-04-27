@@ -8,6 +8,8 @@ import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Login%20page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/UserProfile.dart';
+import 'package:nomad/Pages/SettingsMenu.dart';
+import 'package:nomad/Pages/venue.dart';
 
 double? global_Latitude;
 double? global_Longitude;
@@ -23,7 +25,7 @@ var global_LoggedIn_Pages = [
 var global_GuestUser_Pages = [
   GuidePage(),
   MyHomePage(),
-  Mysginuppage(),
+  Venue(),
 ];
 
 var global_adminUser_Pages = [
