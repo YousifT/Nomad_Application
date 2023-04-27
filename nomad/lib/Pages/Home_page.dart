@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -6,13 +7,8 @@ import 'package:nomad/Pages/Guide_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/UserProfile.dart';
 import 'package:nomad/Pages/Category_page.dart';
-
-
-var HomePageChildren = [
-      Sublist("Events", topRatedThree('Events')),
-      Sublist("Restaurants", topRatedThree('Restaurants'),
-      Sublist("Cafe", topRatedThree('Cafe'))
-    ];
+import 'package:nomad/main.dart';
+import 'package:nomad/Global_Var.dart' as globals;
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -30,34 +26,9 @@ List<String> imgLinks = [
   "assets/images/img3.jpg"
 ];
 
-// DB TopThree 
+// DB TopThree
 // Right now there is no "topSpots" collection in the DB so you need to create that
-// Or alt: add a grading criteria to "spots" 
-
-Future<void> FetchTopThree([var context]) {
-CollectionReference database =
-      FirebaseFirestore.instance.collection('topSpots');
-  QuerySnapshot snapshot = await database.get();
-  List<dynamic> result = snapshot.docs.map((doc) => doc.data()).toList();
-
-  List<dynamic> topEvents = []
-  List<dynamic> topRestaurants = []
-  List<dynamic> topCafes = []
-  HomePageChildren = [];
-
-  for (var spot in result) {
-    String value = result['category'];
-      if (value == "Event") topEvents.add(spot);
-      else if (value == "Restaurant") topRestaurants.add(spot);
-      else topCafes.add(spot); 
-  }
-    HomePageChildren[0] =
-    Sublist("Events", topEvents, context);
-    HomePageChildren[1] =
-    Sublist("Restaurants", topRestaurants, context);
-    HomePageChildren[2] =
-    Sublist("Cafes", topCafes, context);
-}
+// Or alt: add a grading criteria to "spots"
 
 // TopRatedThree should be replaced by a method that connects to the Database and gets the relevant data
 topRatedThree(String table) {
@@ -72,10 +43,9 @@ topRatedThree(String table) {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    FetchTopThree(context);
+    print("LEN: " + globals.HomePageChildren.length.toString());
 
-    return Scaffold(
-        body: Container(
+    return Container(
       //maxFinite Height and Width to cover the whole screen
       height: double.maxFinite,
       width: double.maxFinite,
@@ -159,18 +129,29 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          HomePageChildren[0],
+          Sublist(globals.HomePageChildren[0]),
           SizedBox(height: 20),
-          HomePageChildren[1],
+          Sublist(globals.HomePageChildren[1]),
           SizedBox(height: 20),
-          HomePageChildren[2]
+          Sublist(globals.HomePageChildren[2])
         ]),
       ),
-    ));
+    );
   }
 }
 
-Widget Sublist(String title, var items, [var context]) {
+class sublistItem {
+  late String title;
+  late var items;
+  late var context;
+  sublistItem(String t, var item, [var c]) {
+    title = t;
+    items = item;
+    context = c;
+  }
+}
+
+Widget Sublist(sublistItem subListitem) {
   return Container(
     padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
     child: SizedBox(
@@ -181,17 +162,17 @@ Widget Sublist(String title, var items, [var context]) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              title,
+              subListitem.title,
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             IconButton(
               icon: Icon(Icons.add_box),
               onPressed: () {
                 Navigator.push(
-                  context,
+                  subListitem.context,
                   MaterialPageRoute(
                       builder: (context) => CategoryPage(
-                            Category: title,
+                            Category: subListitem.title,
                           )),
                 );
               },
@@ -213,13 +194,11 @@ Widget Sublist(String title, var items, [var context]) {
                 padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
                 child: Row(
                   children: [
-                    
                     Icon(Icons.food_bank),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Text(
-                        
-                        // Item 0 is the first spot entry, should be able to access 
+                        // Item 0 is the first spot entry, should be able to access
                         // item[0]['Title'] values and similar information
 
                         // Update all other items the same way within the sublist widget
@@ -229,9 +208,7 @@ Widget Sublist(String title, var items, [var context]) {
                         // Just calculate the difference
                         // between global_Var longtitude and latitude and spot long/lat
 
-                        
-
-                        items[0],
+                        subListitem.items[0]['title'],
                         style: TextStyle(fontSize: 20),
                       ),
                     )
@@ -255,7 +232,7 @@ Widget Sublist(String title, var items, [var context]) {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Text(
-                        items[1],
+                        subListitem.items[1]['title'],
                         style: TextStyle(fontSize: 20),
                       ),
                     )
@@ -279,7 +256,7 @@ Widget Sublist(String title, var items, [var context]) {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Text(
-                        items[2],
+                        subListitem.items[2]['title'],
                         style: TextStyle(fontSize: 20),
                       ),
                     )

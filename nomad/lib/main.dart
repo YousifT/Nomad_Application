@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nomad/Pages/Explore_page.dart';
 import 'package:nomad/Pages/Guide_page.dart';
@@ -21,6 +22,7 @@ void main() async {
   );
   LocationPermission _UserLocation = new LocationPermission();
   await _UserLocation.getLocation();
+  await FetchTopThree();
   runApp(const MyApp());
 }
 
@@ -135,4 +137,44 @@ class _HomePageState extends State<HomePage> {
       }
     }
   }
+}
+
+Future<void> FetchTopThree([var context]) async {
+  var results = [];
+  var database = FirebaseFirestore.instance;
+  await database.collection('spots').get().then(
+    (querySnapshot) {
+      print("Successfully completed");
+      for (var docSnapshot in querySnapshot.docs) {
+        results.add(docSnapshot);
+      }
+    },
+    onError: (e) => print("Error completing: $e"),
+  );
+
+  print(results.length);
+  List<dynamic> topEvents = [];
+  List<dynamic> topRestaurants = [];
+  List<dynamic> topCafes = [];
+
+  for (int i = 0; i < results.length; i++) {
+    if (results[i]['topSpot'] == "True") {
+      String value = results[i]["category"];
+      if (value == "Event")
+        topEvents.add(results[i]);
+      else if (value == "Restaurant")
+        topRestaurants.add(results[i]);
+      else if (value == "Cafe") topCafes.add(results[i]);
+    }
+  }
+  print("Loop end");
+  globals.HomePageChildren = [];
+  sublistItem e_item = sublistItem("Events", topEvents);
+  globals.HomePageChildren.add(e_item);
+  sublistItem r_item = sublistItem("Restaurants", topRestaurants);
+  globals.HomePageChildren.add(e_item);
+  sublistItem c_item = sublistItem("Cafes", topCafes);
+  globals.HomePageChildren.add(e_item);
+
+  print("homepage updated");
 }

@@ -32,3 +32,5 @@ var global_adminUser_Pages = [
   UserProfile(),
   AdminPage()
 ];
+
+var HomePageChildren = [];

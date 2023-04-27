@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 String? type_Value = "Event";
-var type_choices = ["Event", "Resturant", "Cafe"];
+var type_choices = ["Event", "Restaurant", "Cafe"];
 
 class ProposalForm extends StatefulWidget {
   const ProposalForm({super.key});
@@ -29,7 +29,8 @@ class _ProposalFormState extends State<ProposalForm> {
         'location': locationController.text,
         // REPLACE THIS WITH Global_var.Username
         'user': "Username",
-        'ID': docID.id
+        'ID': docID.id,
+        'topSpot': "False",
       }).then((value) => Navigator.pop(context));
     }
 

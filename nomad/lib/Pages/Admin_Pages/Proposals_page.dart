@@ -254,6 +254,8 @@ Future<void> ProposalApprove(Proposal spot, [var context]) {
         'category': spot.category,
         'description': spot.description,
         'location': spot.location,
+        'topSpot': "False",
+        'User': 'user'
         // REPLACE THIS WITH Global_var.Username
       })
       .then((value) => ClearProposal(spot))
