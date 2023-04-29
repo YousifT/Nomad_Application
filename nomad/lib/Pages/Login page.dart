@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:nomad/Global_Var.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
+import 'package:nomad/Pages/UserProfile.dart';
 import 'package:nomad/Pages/auth.dart';
 import 'package:nomad/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,24 +38,21 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  Future SignIn() async {
+  Future<void> login(String email, String password) async {
     try {
-      var res = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+      // Log in the user with the provided email and password
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
       );
-      global_LoggedIn = true;
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => MyHomePage()));
     } on FirebaseAuthException catch (e) {
-      // TO-DO
-      // Replace print statements with pop up notifications for the user, when the user enters a wrong username or password
-
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
+      print("Error: $e");
+      // Handle login errors, such as invalid email or password, etc.
+      throw Exception(e.message);
+    } catch (e) {
+      print("Error: $e");
+      // Handle any other errors that might occur
+      throw Exception("An error occurred while logging in");
     }
   }
 
@@ -116,13 +114,32 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             GestureDetector(
-              onTap: SignIn,
+              onTap: () {
+                login(
+                  emailController.text,
+                  passwordController.text,
+                );
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const UserProfile()));
+              },
               child: Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: ElevatedButton(
-                    child: const Text('Login'), onPressed: SignIn),
-              ),
+                  height: 50,
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: ElevatedButton(
+                    child: const Text('Login'),
+                    onPressed: () {
+                      login(
+                        emailController.text,
+                        passwordController.text,
+                      );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UserProfile()));
+                    },
+                  )),
             ),
             Row(
               children: <Widget>[
