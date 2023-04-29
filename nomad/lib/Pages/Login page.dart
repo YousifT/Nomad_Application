@@ -43,9 +43,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      global_LoggedIn = true;
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => MyHomePage()));
     } on FirebaseAuthException catch (e) {
       // TO-DO
       // Replace print statements with pop up notifications for the user, when the user enters a wrong username or password
