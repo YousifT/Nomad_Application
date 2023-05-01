@@ -13,7 +13,7 @@ import 'package:nomad/Pages/venue.dart';
 
 double? global_Latitude;
 double? global_Longitude;
-bool global_LoggedIn = false;
+bool global_LoggedIn = true;
 bool global_isAdmin = true;
 
 var global_LoggedIn_Pages = [
@@ -34,3 +34,5 @@ var global_adminUser_Pages = [
   UserProfile(),
   AdminPage()
 ];
+
+var HomePageChildren = [];

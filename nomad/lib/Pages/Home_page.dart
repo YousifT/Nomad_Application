@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -6,6 +7,8 @@ import 'package:nomad/Pages/Guide_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/UserProfile.dart';
 import 'package:nomad/Pages/Category_page.dart';
+import 'package:nomad/main.dart';
+import 'package:nomad/Global_Var.dart' as globals;
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -23,27 +26,11 @@ List<String> imgLinks = [
   "assets/images/img3.jpg"
 ];
 
-// TopRatedThree should be replaced by a method that connects to the Database and gets the relevant data
-topRatedThree(String table) {
-  if (table == "Events")
-    return ["Event_1", "Event_2", "Event_3"];
-  else if (table == "Restaurants")
-    return ["Restaurant_1", "Restaurant_2", "Restaurant_3"];
-  else
-    return ["Cafe_1", "Cafe_2", "Cafe_3"];
-}
-
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    var HomePageChildren = [
-      Sublist("Events", topRatedThree('Events'), context),
-      Sublist("Restaurants", topRatedThree('Restaurants'), context),
-      Sublist("Cafe", topRatedThree('Cafe'), context)
-    ];
-    return Scaffold(
-        body: Container(
-      //maxFinite Height and Width to cover the whole screen
+    return Container(
+      // maxFinite Height and Width to cover the whole screen
       height: double.maxFinite,
       width: double.maxFinite,
       // Scrollable widget wrapping to hold the Column so it becomes scrollable
@@ -126,19 +113,31 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          HomePageChildren[0],
-          HomePageChildren[1],
-          HomePageChildren[2]
+          Sublist(globals.HomePageChildren[0]),
+          SizedBox(height: 20),
+          Sublist(globals.HomePageChildren[1]),
+          SizedBox(height: 20),
+          Sublist(globals.HomePageChildren[2])
         ]),
       ),
-    ));
+    );
   }
 }
 
-Widget Sublist(String title, var items, [var context]) {
+class sublistItem {
+  late String title;
+  late var items;
+  late var context;
+  sublistItem(String t, var item, [var c]) {
+    title = t;
+    items = item;
+    context = c;
+  }
+}
+
+Widget Sublist(sublistItem subListitem) {
   return Container(
     padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
-    //color: Colors.green,
     child: SizedBox(
       height: 270,
       width: double.maxFinite,
@@ -147,17 +146,17 @@ Widget Sublist(String title, var items, [var context]) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              title,
+              subListitem.title,
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             IconButton(
               icon: Icon(Icons.add_box),
               onPressed: () {
                 Navigator.push(
-                  context,
+                  subListitem.context,
                   MaterialPageRoute(
                       builder: (context) => CategoryPage(
-                            Category: title,
+                            Category: subListitem.title,
                           )),
                 );
               },
@@ -168,6 +167,11 @@ Widget Sublist(String title, var items, [var context]) {
           child: SizedBox(
             height: 50,
             width: double.maxFinite,
+
+            // Each card starts here, you can change the whole styling of it
+            // and add more information taken from the DB as explained in line 212.
+            // We still dont have any images added to the DB nor the to the UI design
+            // so thats one point that needs fixing.
             child: Card(
               color: Colors.blue,
               child: Padding(
@@ -178,7 +182,17 @@ Widget Sublist(String title, var items, [var context]) {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Text(
-                        items[0],
+                        // Item 0 is the first spot entry, should be able to access
+                        // item[0]['Title'] values and similar information
+
+                        // Update all other items the same way within the sublist widget
+
+                        // if we add longtitude and latitude of each spot, in the DB, we can also add
+                        // more information to the homepage sublit, such as distance.
+                        // Just calculate the difference
+                        // between global_Var longtitude and latitude and spot long/lat
+
+                        subListitem.items[0]['title'],
                         style: TextStyle(fontSize: 20),
                       ),
                     )
@@ -202,7 +216,7 @@ Widget Sublist(String title, var items, [var context]) {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Text(
-                        items[1],
+                        subListitem.items[1]['title'],
                         style: TextStyle(fontSize: 20),
                       ),
                     )
@@ -226,7 +240,7 @@ Widget Sublist(String title, var items, [var context]) {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Text(
-                        items[2],
+                        subListitem.items[2]['title'],
                         style: TextStyle(fontSize: 20),
                       ),
                     )
