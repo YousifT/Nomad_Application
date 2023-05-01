@@ -26,6 +26,7 @@ class _Venue extends State<Venue> {
 
     // Add more gallery photos as needed
   ];
+
   final String description = 'description of my Venue.';
   final String googleMapUrl =
       'https://www.google.com/maps/place/%D9%86%D8%B3%D8%AA%D9%88+%D9%87%D8%A7%D9%8A%D8%A8%D8%B1+%D9%85%D8%A7%D8%B1%D9%83%D8%AA+%D8%AD%D9%8A+%D8%A7%D9%84%D8%B6%D8%A8%D8%A7%D8%A8%E2%80%AD/@26.4340963,50.0474831,3a,75y,90t/data=!3m8!1e2!3m6!1sAF1QipOZ_n4G6YHSC-WItEt_nLKfw85W-_F39Kgw0gJC!2e10!3e12!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipOZ_n4G6YHSC-WItEt_nLKfw85W-_F39Kgw0gJC%3Dw114-h86-k-no!7i4000!8i3000!4m7!3m6!1s0x3e49fd163f14902b:0xcad1946dbce33eac!8m2!3d26.4340963!4d50.0474831!10e5!16s%2Fg%2F11r7xv9rwd';

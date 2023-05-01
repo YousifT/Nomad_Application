@@ -94,7 +94,7 @@ class _UserProfileState extends State<UserProfile> {
             ),
             SizedBox(height: 20),
             Text(
-              'Password',
+              passwordController.text,
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 10),
