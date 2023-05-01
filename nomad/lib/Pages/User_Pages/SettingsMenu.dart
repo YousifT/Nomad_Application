@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nomad/Global_Var.dart' as globals;
 import 'package:nomad/Pages/Home_page.dart';
-import 'package:nomad/Pages/UserProfile.dart';
+import 'package:nomad/Pages/User_Pages/UserProfile.dart';
 import 'package:nomad/main.dart';
 
 Future SignOut(var context) async {

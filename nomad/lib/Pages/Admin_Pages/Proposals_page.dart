@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nomad/Pages/Admin_Pages/FormEdit_Page.dart';
-import 'package:nomad/Pages/Guide_page.dart';
+import 'package:nomad/Pages/Guide_Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
-import 'package:nomad/Pages/Proposal_Form.dart';
+import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
 
 class ProposalPage extends StatefulWidget {
   const ProposalPage({super.key});
