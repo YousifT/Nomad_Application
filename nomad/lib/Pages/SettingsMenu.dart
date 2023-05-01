@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nomad/Global_Var.dart' as globals;
+import 'package:nomad/Pages/HelpCenterPage%20.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/UserProfile.dart';
 import 'package:nomad/main.dart';
@@ -55,7 +56,10 @@ class SettingsMenu extends StatelessWidget {
             height: 75, //height of button
             width: 350, //width of button
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HelpCenterPage()));
+              },
               child: Text("Help Center"),
             )),
         SizedBox(

@@ -120,7 +120,6 @@ class _UserProfileState extends State<UserProfile> {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          // Update email and password values in Cloud Firestore
                           FirebaseFirestore.instance
                               .collection('users')
                               .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -143,7 +142,7 @@ class _UserProfileState extends State<UserProfile> {
                       child: Text('Cancel'),
                     ),
                   ],
-                ), // Add closing bracket for the Row widget
+                ),
               ],
             ),
           ),

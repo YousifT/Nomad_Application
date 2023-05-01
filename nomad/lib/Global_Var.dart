@@ -19,7 +19,7 @@ bool global_isAdmin = false;
 var global_LoggedIn_Pages = [
   GuidePage(),
   MyHomePage(),
-  UserProfile(),
+  SettingsMenu(),
 ];
 
 var global_GuestUser_Pages = [
