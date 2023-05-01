@@ -25,7 +25,7 @@ var global_LoggedIn_Pages = [
 var global_GuestUser_Pages = [
   GuidePage(),
   MyHomePage(),
-  Mysginuppage(),
+  ProposalPage(),
 ];
 
 var global_adminUser_Pages = [

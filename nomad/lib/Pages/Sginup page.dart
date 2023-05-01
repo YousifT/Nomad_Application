@@ -40,6 +40,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final email = TextEditingController();
   final password = TextEditingController();
   final cpassword = TextEditingController();
+  final adminC = TextEditingController().text;
   Future<void> signUp(String fname, String lname, String email, String password,
       String cpassword) async {
     // Check if passwords match
@@ -69,6 +70,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         'email': email,
         'password': password,
         'uid': uid,
+        'Admin': "False",
       });
     } on FirebaseAuthException catch (e) {
       print("Error: $e");
