@@ -45,8 +45,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         email: email,
         password: password,
       );
+      global_LoggedIn = true;
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const MyHomePage()));
     } on FirebaseAuthException catch (e) {
       print("Error: $e");
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const Myloginpage()));
       // Handle login errors, such as invalid email or password, etc.
       throw Exception(e.message);
     } catch (e) {
@@ -119,10 +124,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   emailController.text,
                   passwordController.text,
                 );
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const UserProfile()));
               },
               child: Container(
                   height: 50,
@@ -134,10 +135,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         emailController.text,
                         passwordController.text,
                       );
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const UserProfile()));
                     },
                   )),
             ),

@@ -72,6 +72,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         'uid': uid,
         'Admin': "False",
       });
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const Myloginpage()));
     } on FirebaseAuthException catch (e) {
       print("Error: $e");
       // Handle sign-up errors, such as email already in use, etc.

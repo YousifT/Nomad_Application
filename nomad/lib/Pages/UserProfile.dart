@@ -23,7 +23,8 @@ class _UserProfileState extends State<UserProfile> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  bool _isHidden = false;
+  bool _isHidden = true;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -45,6 +46,16 @@ class _UserProfileState extends State<UserProfile> {
     });
   }
 
+  String? _validateEmail(String? value) {
+    Pattern pattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
+    RegExp regex = RegExp(pattern.toString());
+    if (!regex.hasMatch(value!)) {
+      return 'Enter a valid email';
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,94 +63,90 @@ class _UserProfileState extends State<UserProfile> {
         title: Text('User Profile'),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            Text(
-              fnameController.text,
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              controller: fnameController,
-              decoration: InputDecoration(
-                hintText: 'Enter your fname',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              lnameController.text,
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Enter your lname',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              emailController.text,
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(
-                hintText: 'Enter your email',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              passwordController.text,
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              obscureText: _isHidden,
-              controller: passwordController,
-              decoration: InputDecoration(
-                hintText: 'Enter your password',
-                border: OutlineInputBorder(),
-                suffixIcon: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isHidden = !_isHidden;
-                    });
-                  },
-                  child: Icon(
-                    _isHidden ? Icons.visibility : Icons.visibility_off,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: fnameController,
+                  decoration: InputDecoration(
+                    labelText: 'First Name',
+                    border: OutlineInputBorder(),
                   ),
                 ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Update email and password values in Cloud Firestore
-                    FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
-                        .update({
-                      'email': emailController.text,
-                      'password': passwordController.text,
-                    });
-                  },
-                  child: Text('Save'),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: lnameController,
+                  decoration: InputDecoration(
+                    labelText: 'Last Name',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('Cancel'),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: _validateEmail,
                 ),
+                SizedBox(height: 20),
+                TextFormField(
+                  obscureText: _isHidden,
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isHidden = !_isHidden;
+                        });
+                      },
+                      child: Icon(
+                        _isHidden ? Icons.visibility : Icons.visibility_off,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          // Update email and password values in Cloud Firestore
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .update({
+                            'first_name': fnameController.text,
+                            'last_name': lnameController.text,
+                            'email': emailController.text,
+                            'password': passwordController.text,
+                          });
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UserProfile()));
+                        }
+                      },
+                      child: Text('Save'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Cancel'),
+                    ),
+                  ],
+                ), // Add closing bracket for the Row widget
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
