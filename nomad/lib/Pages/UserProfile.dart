@@ -31,7 +31,7 @@ class _UserProfileState extends State<UserProfile> {
     // Retrieve email and password values from Cloud Firestore
     FirebaseFirestore.instance
         .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(FirebaseAuth.instance.currentUser?.uid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {

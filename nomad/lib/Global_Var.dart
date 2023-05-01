@@ -15,11 +15,12 @@ double? global_Latitude;
 double? global_Longitude;
 bool global_LoggedIn = true;
 bool global_isAdmin = true;
+String global_UserEmail = "";
 
 var global_LoggedIn_Pages = [
   GuidePage(),
   MyHomePage(),
-  UserProfile(),
+  SettingsMenu(),
 ];
 
 var global_GuestUser_Pages = [
@@ -31,7 +32,7 @@ var global_GuestUser_Pages = [
 var global_adminUser_Pages = [
   GuidePage(),
   MyHomePage(),
-  UserProfile(),
+  SettingsMenu(),
   AdminPage()
 ];
 

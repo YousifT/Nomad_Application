@@ -149,7 +149,7 @@ Future<void> FetchTopThree([var context]) async {
       }
     },
     onError: (e) => print("Error completing: $e"),
-  );
+  ).then((value) => print("Completed Fetching"));
 
   List<dynamic> topEvents = [];
   List<dynamic> topRestaurants = [];
@@ -169,7 +169,7 @@ Future<void> FetchTopThree([var context]) async {
   sublistItem e_item = sublistItem("Events", topEvents);
   globals.HomePageChildren.add(e_item);
   sublistItem r_item = sublistItem("Restaurants", topRestaurants);
-  globals.HomePageChildren.add(e_item);
+  globals.HomePageChildren.add(r_item);
   sublistItem c_item = sublistItem("Cafes", topCafes);
-  globals.HomePageChildren.add(e_item);
+  globals.HomePageChildren.add(c_item);
 }

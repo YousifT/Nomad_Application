@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:nomad/Global_Var.dart';
+import 'package:nomad/Global_Var.dart' as globals;
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/UserProfile.dart';
@@ -41,10 +41,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Future<void> login(String email, String password) async {
     try {
       // Log in the user with the provided email and password
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: email,
+            password: password,
+          )
+          .then((value) => updateLoggedIn());
     } on FirebaseAuthException catch (e) {
       print("Error: $e");
       // Handle login errors, such as invalid email or password, etc.
@@ -54,6 +56,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       // Handle any other errors that might occur
       throw Exception("An error occurred while logging in");
     }
+  }
+
+  void updateLoggedIn() {
+    globals.global_LoggedIn == true;
+    // check if admin
+    // update global_isAdmin
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MyHomePage()));
   }
 
   void opensignupscreen() {
@@ -119,10 +129,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   emailController.text,
                   passwordController.text,
                 );
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const UserProfile()));
               },
               child: Container(
                   height: 50,

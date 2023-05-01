@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                   child: CarouselSlider(
                     items: [
-                      //Image 1
+                      // Image 1
                       InkWell(
                         child: Container(
                           margin: EdgeInsets.all(6.0),
@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
 
-                    //Slider Container properties
+                    // Slider Container properties
                     options: CarouselOptions(
                       height: 180.0,
                       enlargeCenterPage: true,
@@ -167,11 +167,6 @@ Widget Sublist(sublistItem subListitem) {
           child: SizedBox(
             height: 50,
             width: double.maxFinite,
-
-            // Each card starts here, you can change the whole styling of it
-            // and add more information taken from the DB as explained in line 212.
-            // We still dont have any images added to the DB nor the to the UI design
-            // so thats one point that needs fixing.
             child: Card(
               color: Colors.blue,
               child: Padding(
@@ -182,16 +177,6 @@ Widget Sublist(sublistItem subListitem) {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Text(
-                        // Item 0 is the first spot entry, should be able to access
-                        // item[0]['Title'] values and similar information
-
-                        // Update all other items the same way within the sublist widget
-
-                        // if we add longtitude and latitude of each spot, in the DB, we can also add
-                        // more information to the homepage sublit, such as distance.
-                        // Just calculate the difference
-                        // between global_Var longtitude and latitude and spot long/lat
-
                         subListitem.items[0]['title'],
                         style: TextStyle(fontSize: 20),
                       ),
