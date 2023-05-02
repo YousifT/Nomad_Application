@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:nomad/Pages/Guide_Pages/Guide_page.dart';
 import 'package:nomad/Pages/Spot_Page.dart';
 import 'package:nomad/Pages/User_Pages/Sginup%20page.dart';
@@ -194,7 +195,9 @@ Widget Sublist(sublistItem subListitem) {
                           subListitem.items[0]['title'],
                           style: TextStyle(fontSize: 20),
                         ),
-                      )
+                      ),
+                      Spacer(),
+                      Text('-${calcDistance(subListitem.items[0]).round()}km')
                     ],
                   ),
                 ),
@@ -225,7 +228,9 @@ Widget Sublist(sublistItem subListitem) {
                             subListitem.items[1]['title'],
                             style: TextStyle(fontSize: 20),
                           ),
-                        )
+                        ),
+                        Spacer(),
+                        Text('-${calcDistance(subListitem.items[1]).round()}km')
                       ],
                     ),
                   ),
@@ -255,7 +260,9 @@ Widget Sublist(sublistItem subListitem) {
                             subListitem.items[2]['title'],
                             style: TextStyle(fontSize: 20),
                           ),
-                        )
+                        ),
+                        Spacer(),
+                        Text('-${calcDistance(subListitem.items[2]).round()}km')
                       ],
                     ),
                   ),
@@ -270,4 +277,34 @@ Widget Sublist(sublistItem subListitem) {
       ]),
     ),
   );
+}
+
+double calcDistance(var item) {
+  var Lat;
+  var Long;
+
+  try {
+    Lat = item['Latitude'];
+  } catch (e) {
+    Lat = 26.34615;
+  }
+
+  try {
+    Long = item['longitude '];
+  } catch (e) {
+    Long = 50.145467;
+  }
+
+  print(globals.global_Latitude);
+  print(globals.global_Longitude);
+
+  Distance distance = new Distance();
+  if (globals.global_Latitude != null && globals.global_Longitude != null) {
+    return distance.as(
+        LengthUnit.Kilometer,
+        LatLng(globals.global_Latitude!, globals.global_Longitude!),
+        LatLng(Lat, Long));
+  } else {
+    return 0.0;
+  }
 }

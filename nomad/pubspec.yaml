@@ -45,6 +45,8 @@ dependencies:
   url_launcher: ^6.1.10
   flutter_rating_bar: ^4.0.1
   comment_box: ^0.0.18
+  firebase_storage: ^11.1.1
+  latlong2: ^0.8.1
 
 dev_dependencies:
   flutter_test:
