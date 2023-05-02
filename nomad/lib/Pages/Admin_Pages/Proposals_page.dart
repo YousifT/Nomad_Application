@@ -200,15 +200,18 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
 
 Future<void> ProposalApprove(Proposal spot, [var context]) {
   CollectionReference database = FirebaseFirestore.instance.collection('spots');
+  var docID = database.doc();
   return database
-      .add({
+      .doc(docID.id)
+      .set({
         'title': spot.name,
         'category': spot.category,
         'description': spot.description,
         'location': spot.location,
         'topSpot': "False",
-        'User': 'user'
         // REPLACE THIS WITH Global_var.Username
+        'User': 'user',
+        'ID': docID.id
       })
       .then((value) => ClearProposal(spot))
       .then((value) => Navigator.pushReplacement(
