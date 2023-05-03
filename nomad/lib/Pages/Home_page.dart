@@ -140,7 +140,7 @@ Widget Sublist(String title, var items, [var context]) {
     padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
     //color: Colors.green,
     child: SizedBox(
-      height: 270,
+      height: 400,
       width: double.maxFinite,
       child: Column(children: [
         Row(
@@ -151,7 +151,7 @@ Widget Sublist(String title, var items, [var context]) {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             IconButton(
-              icon: Icon(Icons.add_box),
+              icon: Icon(Icons.arrow_forward),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -163,78 +163,64 @@ Widget Sublist(String title, var items, [var context]) {
               },
             ),
           ],
-        ),
-        Expanded(
-          child: SizedBox(
-            height: 50,
-            width: double.maxFinite,
-            child: Card(
-              color: Colors.blue,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                child: Row(
-                  children: [
-                    Icon(Icons.food_bank),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child: Text(
-                        items[0],
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: SizedBox(
-            height: 50,
-            width: double.maxFinite,
-            child: Card(
-              color: Colors.blue,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                child: Row(
-                  children: [
-                    Icon(Icons.food_bank),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child: Text(
-                        items[1],
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: SizedBox(
-            height: 50,
-            width: double.maxFinite,
-            child: Card(
-              color: Colors.blue,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                child: Row(
-                  children: [
-                    Icon(Icons.food_bank),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child: Text(
-                        items[2],
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
+        ),Divider(thickness: 3,color: Colors.black38,),
+        Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: 8),
+              color: Colors.white30,
+              child : Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(13),
+                    child: Image(image: AssetImage("assets/images/img1.jpg"), width: 130 , height: 80, fit: BoxFit.cover,),
+                    
+                  ),
+                  const SizedBox(width:50),
+                   Text(
+                    "Element 1",
+                    style: TextStyle(fontSize: 18 , color: Colors.black) ,
+                  ),
+                ],
+              )
+            ),Divider(thickness: 2),
+             Container(
+              padding: EdgeInsets.only(top: 8),
+              color: Colors.white30,
+              child : Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(13),
+                    child: Image(image: AssetImage("assets/images/img1.jpg"), width: 130 , height: 80, fit: BoxFit.cover,),
+                    
+                  ),
+                  const SizedBox(width:50),
+                   Text(
+                    "Element 2",
+                    style: TextStyle(fontSize: 18 , color: Colors.black) ,
+                  ),
+                ],
+              )
+            ),Divider(thickness: 2),
+             Container(
+              padding: EdgeInsets.only(top: 8),
+              color: Colors.white30,
+              child : Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(13),
+                    child: Image(image: AssetImage("assets/images/img1.jpg"), width: 130 , height: 80, fit: BoxFit.cover,),
+                    
+                  ),
+                const SizedBox(width:50),
+                   Text(
+                    "Element 3",
+                    style: TextStyle(fontSize: 18 , color: Colors.black) ,
+                  ),
+                ],
+              )
+            ),Divider(thickness: 2),
+          ],
         )
       ]),
     ),
