@@ -33,6 +33,7 @@ var global_adminUser_Pages = [
   GuidePage(),
   MyHomePage(),
   SettingsMenu(),
+  SettingsMenu(),
   AdminPage()
 ];
 
