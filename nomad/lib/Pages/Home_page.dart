@@ -12,6 +12,8 @@ import 'package:nomad/Pages/Category_page.dart';
 import 'package:nomad/main.dart';
 import 'package:nomad/Global_Var.dart' as globals;
 
+import 'Category_Page_DB.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -163,7 +165,7 @@ Widget Sublist(sublistItem subListitem) {
                       subListitem.context,
                       MaterialPageRoute(
                           builder: (context) => CategoryPage(
-                                Category: subListitem.title,
+                                categoryType: subListitem.title,
                               )),
                     );
                   },
@@ -174,7 +176,7 @@ Widget Sublist(sublistItem subListitem) {
                   subListitem.context,
                   MaterialPageRoute(
                       builder: (context) => CategoryPage(
-                            Category: subListitem.title,
+                            categoryType: subListitem.title,
                           )),
                 )),
         Expanded(

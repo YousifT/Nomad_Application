@@ -26,8 +26,8 @@ List<Map<String, dynamic>> dummInfo = [
   }
 ];
 
-class CategoryPage extends StatelessWidget {
-  const CategoryPage({super.key, this.Category});
+class CategoryPageA extends StatelessWidget {
+  const CategoryPageA({super.key, this.Category});
   final String? Category;
 
   @override
