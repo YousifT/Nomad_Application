@@ -132,6 +132,7 @@ class _ProposalFormState extends State<ProposalForm> {
               ),
               SizedBox(height: 10),
               TextField(
+                  maxLines: null,
                   controller: descriptionController,
                   decoration: const InputDecoration(
                     hintText: 'Describe the details of your Establishment.',
