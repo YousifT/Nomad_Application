@@ -284,19 +284,16 @@ double calcDistance(var item) {
   var Long;
 
   try {
-    Lat = item['Latitude'];
+    Lat = item['latitude'];
   } catch (e) {
     Lat = 26.34615;
   }
 
   try {
-    Long = item['longitude '];
+    Long = item['longitude'];
   } catch (e) {
     Long = 50.145467;
   }
-
-  print(globals.global_Latitude);
-  print(globals.global_Longitude);
 
   Distance distance = new Distance();
   if (globals.global_Latitude != null && globals.global_Longitude != null) {
