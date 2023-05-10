@@ -172,3 +172,4 @@ Future<void> FetchTopThree([var context]) async {
   sublistItem c_item = sublistItem("Cafes", topCafes);
   globals.HomePageChildren.add(c_item);
 }
+
