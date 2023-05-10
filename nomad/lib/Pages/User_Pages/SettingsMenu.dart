@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nomad/Global_Var.dart' as globals;
 import 'package:nomad/Pages/HelpCenterPage%20.dart';
 import 'package:nomad/Pages/Home_page.dart';
+import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
 import 'package:nomad/Pages/User_Pages/UserProfile.dart';
 import 'package:nomad/main.dart';
 import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
