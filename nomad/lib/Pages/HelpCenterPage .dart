@@ -14,6 +14,7 @@ class _HelpCenterPage extends State<HelpCenterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text('Help Center'),
       ),

@@ -42,6 +42,7 @@ class _EditingPageState extends State<EditingPage> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text('Edit the proposal'),
         centerTitle: true,

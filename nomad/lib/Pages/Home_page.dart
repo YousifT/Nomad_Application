@@ -125,11 +125,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          Sublist(globals.HomePageChildren[0]),
-          SizedBox(height: 20),
           Sublist(globals.HomePageChildren[1]),
-          SizedBox(height: 20),
-          Sublist(globals.HomePageChildren[2])
+          SizedBox(height: 10),
+          Sublist(globals.HomePageChildren[1]),
+          SizedBox(height: 10),
+          Sublist(globals.HomePageChildren[1])
         ]),
       ),
     );
@@ -148,12 +148,14 @@ class sublistItem {
 }
 
 Widget Sublist(sublistItem subListitem) {
+  print(subListitem.items[0]['title']);
   return Container(
     padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
     child: SizedBox(
-      height: 270,
+      height: 380,
       width: double.maxFinite,
       child: Column(children: [
+        /*
         InkWell(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -278,85 +280,132 @@ Widget Sublist(sublistItem subListitem) {
                           builder: (context) =>
                               SpotPage(spotObject: subListitem.items[2])))),
             ),
+          ), */
+
+        InkWell(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                subListitem.title,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                icon: Icon(Icons.arrow_forward),
+                onPressed: () {
+                  Navigator.push(
+                    subListitem.context,
+                    MaterialPageRoute(
+                        builder: (context) => SpotPage(
+                              spotObject: subListitem.items,
+                            )),
+                  );
+                },
+              ),
+            ],
           ),
-          
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-            IconButton(
-              icon: Icon(Icons.arrow_forward),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CategoryPage(
-                            Category: title,
-                          )),
-                );
-              },
-            ),
-          ],
-        ),Divider(thickness: 3,color: Colors.black38,),
+          onTap: () {
+            Navigator.push(
+                subListitem.context,
+                MaterialPageRoute(
+                    builder: (context) => SpotPage(
+                          spotObject: subListitem.items,
+                        )));
+          },
+        ),
+        Divider(
+          thickness: 3,
+          color: Colors.black38,
+        ),
+
+        // Elements part start
+
         Column(
           children: [
             Container(
-              padding: EdgeInsets.only(top: 8),
-              color: Colors.white30,
-              child : Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(13),
-                    child: Image(image: AssetImage("assets/images/img1.jpg"), width: 130 , height: 80, fit: BoxFit.cover,),
-                    
-                  ),
-                  const SizedBox(width:50),
-                   Text(
-                    "Element 1",
-                    style: TextStyle(fontSize: 18 , color: Colors.black) ,
-                  ),
-                ],
-              )
-            ),Divider(thickness: 2),
-             Container(
-              padding: EdgeInsets.only(top: 8),
-              color: Colors.white30,
-              child : Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(13),
-                    child: Image(image: AssetImage("assets/images/img1.jpg"), width: 130 , height: 80, fit: BoxFit.cover,),
-                    
-                  ),
-                  const SizedBox(width:50),
-                   Text(
-                    "Element 2",
-                    style: TextStyle(fontSize: 18 , color: Colors.black) ,
-                  ),
-                ],
-              )
-            ),Divider(thickness: 2),
-             Container(
-              padding: EdgeInsets.only(top: 8),
-              color: Colors.white30,
-              child : Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(13),
-                    child: Image(image: AssetImage("assets/images/img1.jpg"), width: 130 , height: 80, fit: BoxFit.cover,),
-                    
-                  ),
-                const SizedBox(width:50),
-                   Text(
-                    "Element 3",
-                    style: TextStyle(fontSize: 18 , color: Colors.black) ,
-                  ),
-                ],
-              )
-            ),Divider(thickness: 2),
+                padding: EdgeInsets.only(top: 8),
+                color: Colors.white30,
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(13),
+                      child: Image(
+                        image: AssetImage(
+                            "assets/images/${subListitem.items[0]['ID']}/${subListitem.items[0]['image']}"),
+                        width: 130,
+                        height: 80,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    const SizedBox(width: 50),
+                    Text(
+                      subListitem.items[0]['title'],
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                    Spacer(),
+                    Text(
+                      "${calcDistance(subListitem.items[0])}KM",
+                      style: TextStyle(fontSize: 14, color: Colors.black),
+                    )
+                  ],
+                )),
+            Divider(thickness: 2),
+            Container(
+                padding: EdgeInsets.only(top: 8),
+                color: Colors.white30,
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(13),
+                      child: Image(
+                        image: AssetImage(
+                            "assets/images/${subListitem.items[1]['ID']}/${subListitem.items[1]['image']}"),
+                        width: 130,
+                        height: 80,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    const SizedBox(width: 50),
+                    Text(
+                      subListitem.items[1]['title'],
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                    Spacer(),
+                    Text(
+                      "${calcDistance(subListitem.items[1])}KM",
+                      style: TextStyle(fontSize: 14, color: Colors.black),
+                    )
+                  ],
+                )),
+            Divider(thickness: 2),
+            Container(
+                padding: EdgeInsets.only(top: 8),
+                color: Colors.white30,
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(13),
+                      child: Image(
+                        image: AssetImage(
+                            "assets/images/${subListitem.items[2]['ID']}/${subListitem.items[2]['image']}"),
+                        width: 130,
+                        height: 80,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    const SizedBox(width: 50),
+                    Text(
+                      subListitem.items[2]['title'],
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                    Spacer(),
+                    Text(
+                      "${calcDistance(subListitem.items[2])}KM",
+                      style: TextStyle(fontSize: 14, color: Colors.black),
+                    )
+                  ],
+                )),
+            Divider(thickness: 2),
           ],
         )
       ]),

@@ -112,6 +112,7 @@ class _HomePageState extends State<HomePage> {
       // Logged in User is an admin
       else {
         return Scaffold(
+          resizeToAvoidBottomInset: true,
           body: IndexedStack(
             index: selectedPage,
             children: globals.global_adminUser_Pages,

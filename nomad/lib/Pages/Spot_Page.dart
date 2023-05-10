@@ -19,6 +19,7 @@ class _SpotPageState extends State<SpotPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Container(
         color: Colors.white30,
         width: double.infinity,
