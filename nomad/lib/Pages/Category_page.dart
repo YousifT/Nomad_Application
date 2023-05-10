@@ -36,7 +36,7 @@ class CategoryPageA extends StatelessWidget {
       appBar: AppBar(
         title: Text(Category.toString(),
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 25,
             )),
         centerTitle: true,
