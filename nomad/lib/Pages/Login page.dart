@@ -38,6 +38,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  void showSnackBar(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   Future<void> login(String email, String password) async {
     try {
@@ -49,15 +53,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const MyHomePage()));
     } on FirebaseAuthException catch (e) {
-      print("Error: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? 'Error logging in')),
-      );
+      showSnackBar("An error occurred while Sgin Up");
     } catch (e) {
-      print("Error: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('An error occurred while logging in')),
-      );
+      showSnackBar("An error occurred while Sgin Up");
     }
   }
 
