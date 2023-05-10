@@ -57,6 +57,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           FirebaseFirestore.instance.collection('users');
       QuerySnapshot snapshot =
           await database.where("email", isEqualTo: email).get();
+      global_FullName =
+          "${snapshot.docs[0]['first_name']} ${snapshot.docs[0]['last_name']}";
+
       if (snapshot.docs[0]['Admin'] == "True") {
         global_isAdmin = true;
       }
