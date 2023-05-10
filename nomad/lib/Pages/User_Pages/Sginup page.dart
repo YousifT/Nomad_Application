@@ -42,11 +42,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final password = TextEditingController();
   final cpassword = TextEditingController();
   final adminC = TextEditingController().text;
+  void showSnackBar(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   Future<void> signUp(String fname, String lname, String email, String password,
       String cpassword) async {
     // Check if passwords match
     if (password != cpassword) {
-      throw Exception("Passwords do not match");
+      showSnackBar("An error occurred while logging in");
+      return;
     }
 
     try {
@@ -76,13 +82,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const Myloginpage()));
     } on FirebaseAuthException catch (e) {
-      print("Error: $e");
       // Handle sign-up errors, such as email already in use, etc.
-      throw Exception(e.message);
+      showSnackBar("An error occurred while signing up");
     } catch (e) {
-      print("Error: $e");
       // Handle any other errors that might occur
-      throw Exception("An error occurred while signing up");
+      showSnackBar("An error occurred while signing up");
     }
   }
 
