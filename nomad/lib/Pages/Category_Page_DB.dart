@@ -5,6 +5,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Spot_Page.dart';
 
+var counter = [];
+
 class CategoryPage extends StatefulWidget {
   final categoryType;
   const CategoryPage({super.key, required this.categoryType});
@@ -50,44 +52,51 @@ class _CategoryPageState extends State<CategoryPage> {
                   SliverPadding(
                       padding: EdgeInsets.symmetric(horizontal: 17),
                       sliver: SliverToBoxAdapter(
-                        child: AspectRatio(
-                          aspectRatio: 1.81,
-                          child: PageView.builder(
-                            itemCount:
-                                snapshot.data[0].length, // Bannerpaths item
-                            itemBuilder: (context, itemCount) => ClipRRect(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12)),
-                              child: Material(
-                                color: Colors.yellow,
-                                child: InkWell(
-                                    //toDo "change url based on the clicked image"
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => SpotPage(
-                                                spotObject: snapshot.data[1][
-                                                    itemCount])), // snapshot.data[1][0] first item in the second list of snapshot, i.e: mappedItems
-                                        // maybe it should be snapshot.data[0][itemCount]
-                                      );
-                                    },
-                                    child: Image.asset(
-                                      "assets/images/" +
-                                          snapshot.data[0][itemCount],
-                                      fit: BoxFit.cover,
-                                    )),
+                        child: Column(
+                          children: [
+                            Text(
+                                "Check out the top ${widget.categoryType.toString()}!\n",
+                                style: Theme.of(context).textTheme.titleLarge),
+                            AspectRatio(
+                              aspectRatio: 1.81,
+                              child: PageView.builder(
+                                itemCount:
+                                    snapshot.data[0].length, // Bannerpaths item
+                                itemBuilder: (context, itemCount) => ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
+                                  child: Material(
+                                    color: Colors.yellow,
+                                    child: InkWell(
+                                        //toDo "change url based on the clicked image"
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => SpotPage(
+                                                    spotObject: snapshot.data[1]
+                                                        [
+                                                        itemCount])), // snapshot.data[1][0] first item in the second list of snapshot, i.e: mappedItems
+                                            // maybe it should be snapshot.data[0][itemCount]
+                                          );
+                                        },
+                                        child: Image.asset(
+                                          "assets/images/" +
+                                              snapshot.data[0][itemCount],
+                                          fit: BoxFit.fill,
+                                        )),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
                       )),
                   SliverToBoxAdapter(
                     child: Row(children: [
                       Padding(
                         padding: EdgeInsets.all(15),
-                        child: Text(
-                            "Check out other interseting ${widget.categoryType.toString()} too!",
+                        child: Text("All ${widget.categoryType.toString()}",
                             style: Theme.of(context).textTheme.titleLarge),
                       ),
                     ]),
@@ -99,47 +108,15 @@ class _CategoryPageState extends State<CategoryPage> {
                         children: List.generate(
                           snapshot.data[2].length,
                           (index) => Padding(
-                            padding: const EdgeInsets.only(right: 8.0, left: 4),
-                            child: snapshot.data[2][index],
-                            /*MediumCards(
-                                    name: snapshot.data[2][index]['name'],
-                                    image: dummInfo[index]['image'],
-                                    location: dummInfo[index]['Location'],
-                                    press: () {}, */
-                          ),
+                              padding:
+                                  const EdgeInsets.only(right: 8.0, left: 4),
+                              child: Row(children: [
+                                snapshot.data[2][index],
+                              ])),
                         ),
                       ),
                     ),
                   ),
-
-                  /*SliverToBoxAdapter(
-                    child: Row(children: [
-                      Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Text("category 1",
-                            style: Theme.of(context).textTheme.titleLarge),
-                      ),
-                    ]),
-                  ),
-                  SliverToBoxAdapter(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(
-                            dummInfo.length,
-                            (index) => Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 8.0, left: 4),
-                                  child: MediumCards(
-                                    name: dummInfo[index]['name'],
-                                    image: dummInfo[index]['image'],
-                                    location: dummInfo[index]['Location'],
-                                    press: () {},
-                                  ),
-                                )),
-                      ),
-                    ),
-                  ), */
                 ],
               );
             } else {
@@ -151,24 +128,21 @@ class _CategoryPageState extends State<CategoryPage> {
 
   Future<dynamic> Fetchinfo() async {
     var listOfDocs = await fetchAllDocs();
-    print("finished await, list of docs lenght = ${listOfDocs.length}");
     var bannerPaths = [];
     var mappedItems = [];
     var MediumIcons = [];
     for (var item in listOfDocs) {
       if (item['topSpot'] == "True") {
-        bannerPaths.add(item['ID'] + "/" + item['Banner']);
+        bannerPaths.add(item['ID'] + "/" + item['image']);
         mappedItems.add(item);
-      } else {
-        var mCard = MediumCards(
-            name: item['title'],
-            location: (calcDistance(item).toString() + "Km"),
-            image: item['ID'] + "/" + item['image'],
-            item: item);
-        MediumIcons.add(mCard);
       }
+      var mCard = MediumCards(
+          name: item['title'],
+          location: (calcDistance(item).toString() + "Km"),
+          image: "assets/images/" + item['ID'] + "/" + item['image'],
+          item: item);
+      MediumIcons.add(mCard);
     }
-    print("finished for loop");
     var listHolder = [bannerPaths, mappedItems, MediumIcons];
     return listHolder;
   }
@@ -178,8 +152,13 @@ class _CategoryPageState extends State<CategoryPage> {
         FirebaseFirestore.instance.collection('spots');
 
     QuerySnapshot snapshot = await database
-        .where("tester", isEqualTo: "a")
-        .get(); // ("category", isEqualTo: widget.categoryType).get();
+        .where("category",
+            isEqualTo: widget.categoryType
+                .toString()
+                .substring(0, widget.categoryType.toString().length - 1))
+        .get();
+    //("tester", isEqualTo: "a")
+    // ("category", isEqualTo: widget.categoryType).get();
 
     return snapshot.docs;
   }
@@ -202,7 +181,7 @@ class MediumCards extends StatelessWidget {
       onTap: () => Navigator.push(context,
           MaterialPageRoute(builder: (context) => SpotPage(spotObject: item))),
       child: SizedBox(
-        width: 200,
+        width: 180,
         child: Column(
           children: [
             AspectRatio(
@@ -211,7 +190,7 @@ class MediumCards extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(6)),
                 child: Image.asset(
                   image,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),

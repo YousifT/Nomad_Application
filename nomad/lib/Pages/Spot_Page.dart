@@ -323,7 +323,6 @@ class _SpotPageState extends State<SpotPage> {
         
       );
   }
-  
 
   Future<dynamic> loadReviews() async {
     CollectionReference database =

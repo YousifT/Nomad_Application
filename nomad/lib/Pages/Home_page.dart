@@ -21,20 +21,21 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-// Image links for the CarouselSlider.
-// Should be dynamically pulled from DB in the future.
+var ImageOne = globals.HomePageChildren[1].items[0];
+var ImageTwo = globals.HomePageChildren[1].items[1];
+var ImageThree = globals.HomePageChildren[1].items[2];
 
 List<String> imgLinks = [
-  "assets/images/img1.jpg",
-  "assets/images/img2.jpg",
-  "assets/images/img3.jpg"
+  "assets/images/" + ImageOne['ID'] + "/" + ImageOne['image'],
+  "assets/images/" + ImageTwo['ID'] + "/" + ImageTwo['image'],
+  "assets/images/" + ImageThree['ID'] + "/" + ImageThree['image'],
 ];
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    for (sublistItem i in globals.HomePageChildren) {
-      i.context = context;
+    for (sublistItem obj in globals.HomePageChildren) {
+      obj.context = context;
     }
 
     return Container(
@@ -59,13 +60,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               borderRadius: BorderRadius.circular(8.0),
                               image: DecorationImage(
                                 image: AssetImage(imgLinks[0]),
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               )),
                         ),
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const UserProfile())),
+                                builder: (context) =>
+                                    SpotPage(spotObject: ImageOne))),
                       ),
 
                       // Image 2
@@ -76,14 +78,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             borderRadius: BorderRadius.circular(8.0),
                             image: DecorationImage(
                               image: AssetImage(imgLinks[1]),
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             ),
                           ),
                         ),
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Mysginuppage())),
+                                builder: (context) =>
+                                    SpotPage(spotObject: ImageTwo))),
                       ),
 
                       // Image 3
@@ -94,14 +97,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             borderRadius: BorderRadius.circular(8.0),
                             image: DecorationImage(
                               image: AssetImage(imgLinks[2]),
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             ),
                           ),
                         ),
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const GuidePage())),
+                                builder: (context) =>
+                                    SpotPage(spotObject: ImageThree))),
                       ),
                     ],
 
