@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nomad/Pages/Admin_Pages/FormEdit_Page.dart';
-import 'package:nomad/Pages/Guide_page.dart';
+import 'package:nomad/Pages/Guide_Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
-import 'package:nomad/Pages/Proposal_Form.dart';
+import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
 
 class ProposalPage extends StatefulWidget {
   const ProposalPage({super.key});
@@ -200,15 +200,18 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
 
 Future<void> ProposalApprove(Proposal spot, [var context]) {
   CollectionReference database = FirebaseFirestore.instance.collection('spots');
+  var docID = database.doc();
   return database
-      .add({
+      .doc(docID.id)
+      .set({
         'title': spot.name,
         'category': spot.category,
         'description': spot.description,
         'location': spot.location,
         'topSpot': "False",
-        'User': 'user'
         // REPLACE THIS WITH Global_var.Username
+        'User': spot.user,
+        'ID': docID.id
       })
       .then((value) => ClearProposal(spot))
       .then((value) => Navigator.pushReplacement(

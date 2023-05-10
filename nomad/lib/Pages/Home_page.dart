@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:nomad/Pages/Guide_page.dart';
-import 'package:nomad/Pages/Sginup%20page.dart';
-import 'package:nomad/Pages/UserProfile.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:nomad/Pages/Guide_Pages/Guide_page.dart';
+import 'package:nomad/Pages/Spot_Page.dart';
+import 'package:nomad/Pages/User_Pages/Sginup%20page.dart';
+import 'package:nomad/Pages/User_Pages/UserProfile.dart';
 import 'package:nomad/Pages/Category_page.dart';
 import 'package:nomad/main.dart';
 import 'package:nomad/Global_Var.dart' as globals;
+
+import 'Category_Page_DB.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -17,18 +21,23 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-// Image links for the CarouselSlider.
-// Should be dynamically pulled from DB in the future.
+var ImageOne = globals.HomePageChildren[1].items[0];
+var ImageTwo = globals.HomePageChildren[1].items[1];
+var ImageThree = globals.HomePageChildren[1].items[2];
 
 List<String> imgLinks = [
-  "assets/images/img1.jpg",
-  "assets/images/img2.jpg",
-  "assets/images/img3.jpg"
+  "assets/images/" + ImageOne['ID'] + "/" + ImageOne['image'],
+  "assets/images/" + ImageTwo['ID'] + "/" + ImageTwo['image'],
+  "assets/images/" + ImageThree['ID'] + "/" + ImageThree['image'],
 ];
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    for (sublistItem obj in globals.HomePageChildren) {
+      obj.context = context;
+    }
+
     return Container(
       // maxFinite Height and Width to cover the whole screen
       height: double.maxFinite,
@@ -43,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                   child: CarouselSlider(
                     items: [
-                      //Image 1
+                      // Image 1
                       InkWell(
                         child: Container(
                           margin: EdgeInsets.all(6.0),
@@ -51,13 +60,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               borderRadius: BorderRadius.circular(8.0),
                               image: DecorationImage(
                                 image: AssetImage(imgLinks[0]),
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               )),
                         ),
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const UserProfile())),
+                                builder: (context) =>
+                                    SpotPage(spotObject: ImageOne))),
                       ),
 
                       // Image 2
@@ -68,14 +78,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             borderRadius: BorderRadius.circular(8.0),
                             image: DecorationImage(
                               image: AssetImage(imgLinks[1]),
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             ),
                           ),
                         ),
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Mysginuppage())),
+                                builder: (context) =>
+                                    SpotPage(spotObject: ImageTwo))),
                       ),
 
                       // Image 3
@@ -86,18 +97,19 @@ class _MyHomePageState extends State<MyHomePage> {
                             borderRadius: BorderRadius.circular(8.0),
                             image: DecorationImage(
                               image: AssetImage(imgLinks[2]),
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             ),
                           ),
                         ),
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const GuidePage())),
+                                builder: (context) =>
+                                    SpotPage(spotObject: ImageThree))),
                       ),
                     ],
 
-                    //Slider Container properties
+                    // Slider Container properties
                     options: CarouselOptions(
                       height: 180.0,
                       enlargeCenterPage: true,
@@ -142,62 +154,64 @@ Widget Sublist(sublistItem subListitem) {
       height: 270,
       width: double.maxFinite,
       child: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              subListitem.title,
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        InkWell(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  subListitem.title,
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    Navigator.push(
+                      subListitem.context,
+                      MaterialPageRoute(
+                          builder: (context) => CategoryPage(
+                                categoryType: subListitem.title,
+                              )),
+                    );
+                  },
+                ),
+              ],
             ),
-            IconButton(
-              icon: Icon(Icons.add_box),
-              onPressed: () {
-                Navigator.push(
+            onTap: () => Navigator.push(
                   subListitem.context,
                   MaterialPageRoute(
                       builder: (context) => CategoryPage(
-                            Category: subListitem.title,
+                            categoryType: subListitem.title,
                           )),
-                );
-              },
-            ),
-          ],
-        ),
+                )),
         Expanded(
           child: SizedBox(
             height: 50,
             width: double.maxFinite,
-
-            // Each card starts here, you can change the whole styling of it
-            // and add more information taken from the DB as explained in line 212.
-            // We still dont have any images added to the DB nor the to the UI design
-            // so thats one point that needs fixing.
             child: Card(
               color: Colors.blue,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                child: Row(
-                  children: [
-                    Icon(Icons.food_bank),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child: Text(
-                        // Item 0 is the first spot entry, should be able to access
-                        // item[0]['Title'] values and similar information
-
-                        // Update all other items the same way within the sublist widget
-
-                        // if we add longtitude and latitude of each spot, in the DB, we can also add
-                        // more information to the homepage sublit, such as distance.
-                        // Just calculate the difference
-                        // between global_Var longtitude and latitude and spot long/lat
-
-                        subListitem.items[0]['title'],
-                        style: TextStyle(fontSize: 20),
+              child: InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
+                  child: Row(
+                    children: [
+                      Icon(Icons.food_bank),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        child: Text(
+                          subListitem.items[0]['title'],
+                          style: TextStyle(fontSize: 20),
+                        ),
                       ),
-                    )
-                  ],
+                      Spacer(),
+                      Text('-${calcDistance(subListitem.items[0]).round()}km')
+                    ],
+                  ),
                 ),
+                onTap: () => Navigator.push(
+                    subListitem.context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SpotPage(spotObject: subListitem.items[0]))),
               ),
             ),
           ),
@@ -208,21 +222,29 @@ Widget Sublist(sublistItem subListitem) {
             width: double.maxFinite,
             child: Card(
               color: Colors.blue,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                child: Row(
-                  children: [
-                    Icon(Icons.food_bank),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child: Text(
-                        subListitem.items[1]['title'],
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              child: InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
+                    child: Row(
+                      children: [
+                        Icon(Icons.food_bank),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                          child: Text(
+                            subListitem.items[1]['title'],
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                        Spacer(),
+                        Text('-${calcDistance(subListitem.items[1]).round()}km')
+                      ],
+                    ),
+                  ),
+                  onTap: () => Navigator.push(
+                      subListitem.context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              SpotPage(spotObject: subListitem.items[1])))),
             ),
           ),
         ),
@@ -232,25 +254,60 @@ Widget Sublist(sublistItem subListitem) {
             width: double.maxFinite,
             child: Card(
               color: Colors.blue,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                child: Row(
-                  children: [
-                    Icon(Icons.food_bank),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child: Text(
-                        subListitem.items[2]['title'],
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              child: InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
+                    child: Row(
+                      children: [
+                        Icon(Icons.food_bank),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                          child: Text(
+                            subListitem.items[2]['title'],
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                        Spacer(),
+                        Text('-${calcDistance(subListitem.items[2]).round()}km')
+                      ],
+                    ),
+                  ),
+                  onTap: () => Navigator.push(
+                      subListitem.context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              SpotPage(spotObject: subListitem.items[2])))),
             ),
           ),
         )
       ]),
     ),
   );
+}
+
+double calcDistance(var item) {
+  var Lat;
+  var Long;
+
+  try {
+    Lat = item['latitude'];
+  } catch (e) {
+    Lat = 26.34615;
+  }
+
+  try {
+    Long = item['longitude'];
+  } catch (e) {
+    Long = 50.145467;
+  }
+
+  Distance distance = new Distance();
+  if (globals.global_Latitude != null && globals.global_Longitude != null) {
+    return distance.as(
+        LengthUnit.Kilometer,
+        LatLng(globals.global_Latitude!, globals.global_Longitude!),
+        LatLng(Lat, Long));
+  } else {
+    return 0.0;
+  }
 }

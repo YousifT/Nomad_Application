@@ -6,8 +6,8 @@ import 'package:nomad/Global_Var.dart' as globals;
 
 class LocationPermission {
   Location _location = new Location();
-  double? longitude = 40;
-  double? latitude = 40;
+  double? longitude = 0;
+  double? latitude = 0;
 
   Future<void> getLocation() async {
     // Check location status
@@ -27,7 +27,15 @@ class LocationPermission {
       }
     }
     LocationData _LocationData = await _location.getLocation();
-    globals.global_Longitude = _LocationData.longitude;
-    globals.global_Latitude = _LocationData.latitude;
+    print(
+        "Setting location info: ${_LocationData.latitude} & ${_LocationData.longitude}");
+
+    if (_LocationData.latitude! < 0 || _LocationData.longitude! < 0) {
+      globals.global_Latitude = 26.3145;
+      globals.global_Longitude = 50.1447;
+    } else {
+      globals.global_Latitude = _LocationData.latitude;
+      globals.global_Longitude = _LocationData.longitude;
+    }
   }
 }
