@@ -5,6 +5,7 @@ import 'package:nomad/Pages/HelpCenterPage%20.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/User_Pages/UserProfile.dart';
 import 'package:nomad/main.dart';
+import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
 
 Future SignOut(var context) async {
   await FirebaseAuth.instance.signOut();
@@ -49,7 +50,10 @@ class SettingsMenu extends StatelessWidget {
             height: 75, //height of button
             width: 350, //width of button
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProposalForm()));
+              },
               child: Text("Settings"),
             )),
         SizedBox(

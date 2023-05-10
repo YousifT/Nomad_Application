@@ -22,8 +22,8 @@ class _ReportsPageState extends State<ReportsPage> {
   Future<void> _banUser() async {
     await _firestore
         .collection('banned_users')
-        .doc(emailController.text)
-        .set({'email': emailController.text});
+        .doc(globals.global_UserEmail)
+        .set({'email': globals.global_UserEmail});
     setState(() {
       _isBanned = true;
     });
