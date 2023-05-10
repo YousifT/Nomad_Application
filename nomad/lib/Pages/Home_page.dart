@@ -148,140 +148,12 @@ class sublistItem {
 }
 
 Widget Sublist(sublistItem subListitem) {
-  print(subListitem.items[0]['title']);
   return Container(
     padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
     child: SizedBox(
       height: 380,
       width: double.maxFinite,
       child: Column(children: [
-        /*
-        InkWell(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  subListitem.title,
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    Navigator.push(
-                      subListitem.context,
-                      MaterialPageRoute(
-                          builder: (context) => CategoryPage(
-                                categoryType: subListitem.title,
-                              )),
-                    );
-                  },
-                ),
-              ],
-            ),
-            onTap: () => Navigator.push(
-                  subListitem.context,
-                  MaterialPageRoute(
-                      builder: (context) => CategoryPage(
-                            categoryType: subListitem.title,
-                          )),
-                )),
-        Expanded(
-          child: SizedBox(
-            height: 50,
-            width: double.maxFinite,
-            child: Card(
-              color: Colors.blue,
-              child: InkWell(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                  child: Row(
-                    children: [
-                      Icon(Icons.food_bank),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        child: Text(
-                          subListitem.items[0]['title'],
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                      Spacer(),
-                      Text('-${calcDistance(subListitem.items[0]).round()}km')
-                    ],
-                  ),
-                ),
-                onTap: () => Navigator.push(
-                    subListitem.context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            SpotPage(spotObject: subListitem.items[0]))),
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: SizedBox(
-            height: 50,
-            width: double.maxFinite,
-            child: Card(
-              color: Colors.blue,
-              child: InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                    child: Row(
-                      children: [
-                        Icon(Icons.food_bank),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          child: Text(
-                            subListitem.items[1]['title'],
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                        Spacer(),
-                        Text('-${calcDistance(subListitem.items[1]).round()}km')
-                      ],
-                    ),
-                  ),
-                  onTap: () => Navigator.push(
-                      subListitem.context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              SpotPage(spotObject: subListitem.items[1])))),
-            ),
-          ),
-        ),
-        Expanded(
-          child: SizedBox(
-            height: 50,
-            width: double.maxFinite,
-            child: Card(
-              color: Colors.blue,
-              child: InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                    child: Row(
-                      children: [
-                        Icon(Icons.food_bank),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          child: Text(
-                            subListitem.items[2]['title'],
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                        Spacer(),
-                        Text('-${calcDistance(subListitem.items[2]).round()}km')
-                      ],
-                    ),
-                  ),
-                  onTap: () => Navigator.push(
-                      subListitem.context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              SpotPage(spotObject: subListitem.items[2])))),
-            ),
-          ), */
-
         InkWell(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -318,7 +190,7 @@ Widget Sublist(sublistItem subListitem) {
           color: Colors.black38,
         ),
 
-        // Elements part start
+        // Per Elements part start
 
         Column(
           children: [
