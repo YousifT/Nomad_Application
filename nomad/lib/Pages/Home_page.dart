@@ -21,9 +21,9 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-var ImageOne = globals.HomePageChildren[1].items[0];
+var ImageOne = globals.HomePageChildren[0].items[0];
 var ImageTwo = globals.HomePageChildren[1].items[1];
-var ImageThree = globals.HomePageChildren[1].items[2];
+var ImageThree = globals.HomePageChildren[2].items[2];
 
 List<String> imgLinks = [
   "assets/images/" + ImageOne['ID'] + "/" + ImageOne['image'],
