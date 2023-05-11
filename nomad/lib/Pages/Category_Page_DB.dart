@@ -120,7 +120,15 @@ class _CategoryPageState extends State<CategoryPage> {
                 ],
               );
             } else {
-              return CircularProgressIndicator();
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [CircularProgressIndicator()],
+                  ),
+                ],
+              );
             }
           },
         ));

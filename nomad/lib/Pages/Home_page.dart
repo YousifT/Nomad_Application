@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          Sublist(globals.HomePageChildren[1]),
+          Sublist(globals.HomePageChildren[0]),
           SizedBox(height: 10),
           Sublist(globals.HomePageChildren[1]),
           SizedBox(height: 10),
@@ -168,8 +168,8 @@ Widget Sublist(sublistItem subListitem) {
                   Navigator.push(
                     subListitem.context,
                     MaterialPageRoute(
-                        builder: (context) => SpotPage(
-                              spotObject: subListitem.items,
+                        builder: (context) => CategoryPage(
+                              categoryType: subListitem.title,
                             )),
                   );
                 },
@@ -180,8 +180,8 @@ Widget Sublist(sublistItem subListitem) {
             Navigator.push(
                 subListitem.context,
                 MaterialPageRoute(
-                    builder: (context) => SpotPage(
-                          spotObject: subListitem.items,
+                    builder: (context) => CategoryPage(
+                          categoryType: subListitem.title,
                         )));
           },
         ),
