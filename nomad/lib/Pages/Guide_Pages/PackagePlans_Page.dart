@@ -19,7 +19,9 @@ class PackagePlans extends StatelessWidget {
         height: double.maxFinite,
         width: double.infinity,
         child: Column(
-          children: [],
+          children: [
+            Container(),
+          ],
         ),
       ),
     );

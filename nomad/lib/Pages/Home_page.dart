@@ -151,7 +151,7 @@ Widget Sublist(sublistItem subListitem) {
   return Container(
     padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
     child: SizedBox(
-      height: 270,
+      height: 400,
       width: double.maxFinite,
       child: Column(children: [
         InkWell(
@@ -176,12 +176,21 @@ Widget Sublist(sublistItem subListitem) {
                 ),
               ],
             ),
+<<<<<<< HEAD
             onTap: () => Navigator.push(
                   subListitem.context,
+=======
+            IconButton(
+              icon: Icon(Icons.arrow_forward),
+              onPressed: () {
+                Navigator.push(
+                  context,
+>>>>>>> 283fbfa8a856291502ecb2e0781cbcd42a9282bc
                   MaterialPageRoute(
                       builder: (context) => CategoryPage(
                             categoryType: subListitem.title,
                           )),
+<<<<<<< HEAD
                 )),
         Expanded(
           child: SizedBox(
@@ -279,6 +288,70 @@ Widget Sublist(sublistItem subListitem) {
                               SpotPage(spotObject: subListitem.items[2])))),
             ),
           ),
+=======
+                );
+              },
+            ),
+          ],
+        ),Divider(thickness: 3,color: Colors.black38,),
+        Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: 8),
+              color: Colors.white30,
+              child : Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(13),
+                    child: Image(image: AssetImage("assets/images/img1.jpg"), width: 130 , height: 80, fit: BoxFit.cover,),
+                    
+                  ),
+                  const SizedBox(width:50),
+                   Text(
+                    "Element 1",
+                    style: TextStyle(fontSize: 18 , color: Colors.black) ,
+                  ),
+                ],
+              )
+            ),Divider(thickness: 2),
+             Container(
+              padding: EdgeInsets.only(top: 8),
+              color: Colors.white30,
+              child : Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(13),
+                    child: Image(image: AssetImage("assets/images/img1.jpg"), width: 130 , height: 80, fit: BoxFit.cover,),
+                    
+                  ),
+                  const SizedBox(width:50),
+                   Text(
+                    "Element 2",
+                    style: TextStyle(fontSize: 18 , color: Colors.black) ,
+                  ),
+                ],
+              )
+            ),Divider(thickness: 2),
+             Container(
+              padding: EdgeInsets.only(top: 8),
+              color: Colors.white30,
+              child : Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(13),
+                    child: Image(image: AssetImage("assets/images/img1.jpg"), width: 130 , height: 80, fit: BoxFit.cover,),
+                    
+                  ),
+                const SizedBox(width:50),
+                   Text(
+                    "Element 3",
+                    style: TextStyle(fontSize: 18 , color: Colors.black) ,
+                  ),
+                ],
+              )
+            ),Divider(thickness: 2),
+          ],
+>>>>>>> 283fbfa8a856291502ecb2e0781cbcd42a9282bc
         )
       ]),
     ),
