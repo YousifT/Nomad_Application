@@ -44,11 +44,18 @@ class SettingsMenu extends StatelessWidget {
             height: 75, //height of button
             width: 350, //width of button
             child: ElevatedButton(
+              onPressed: () {},
+              child: Text("Notifications"),
+            )),
+        SizedBox(
+            height: 75, //height of button
+            width: 350, //width of button
+            child: ElevatedButton(
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ProposalForm()));
               },
-              child: Text("Submit a Proposal"),
+              child: Text("Settings"),
             )),
         SizedBox(
             height: 75, //height of button

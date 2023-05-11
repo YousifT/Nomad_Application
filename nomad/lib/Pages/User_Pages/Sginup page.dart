@@ -21,7 +21,6 @@ class Mysginuppage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        resizeToAvoidBottomInset: true,
         body: const MyStatefulWidget(),
       ),
     );

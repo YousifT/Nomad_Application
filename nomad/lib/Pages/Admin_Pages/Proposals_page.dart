@@ -44,7 +44,6 @@ class _ProposalPageState extends State<ProposalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text('Review Pending Proposals'),
           centerTitle: true,

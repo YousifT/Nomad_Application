@@ -125,6 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
+          SizedBox(height: 10),
           Sublist(globals.HomePageChildren[0]),
           SizedBox(height: 10),
           Sublist(globals.HomePageChildren[1]),

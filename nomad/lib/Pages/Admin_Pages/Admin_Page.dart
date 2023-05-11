@@ -10,7 +10,6 @@ class AdminPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       body: Container(
         padding: const EdgeInsets.all(20),
         child: Column(

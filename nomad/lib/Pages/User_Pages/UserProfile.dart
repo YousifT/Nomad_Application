@@ -18,13 +18,18 @@ Future SignOut(var context) async {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  TextEditingController fnameController = TextEditingController();
-  TextEditingController lnameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
-  bool _isHidden = true;
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController fnameController = TextEditingController();
+  final TextEditingController lnameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  bool _isHidden = true;
+  void showSnackBar(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   @override
   void initState() {
@@ -46,6 +51,27 @@ class _UserProfileState extends State<UserProfile> {
     });
   }
 
+  void _saveChanges() {
+    if (_formKey.currentState!.validate()) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({
+        'first_name': fnameController.text,
+        'last_name': lnameController.text,
+        'email': emailController.text,
+        'password': passwordController.text,
+      }).then((_) {
+        setState(() {
+          // Refresh the widget after the changes are saved
+        });
+        showSnackBar('Changes saved successfully');
+      }).catchError((error) {
+        showSnackBar('Error occurred while saving changes');
+      });
+    }
+  }
+
   String? _validateEmail(String? value) {
     Pattern pattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
     RegExp regex = RegExp(pattern.toString());
@@ -56,10 +82,16 @@ class _UserProfileState extends State<UserProfile> {
     }
   }
 
+  String? _validatePassword(String? value) {
+    if (passwordController.text != confirmPasswordController.text) {
+      return 'Not a valid Password';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text('User Profile'),
       ),
@@ -115,27 +147,31 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                 ),
                 SizedBox(height: 20),
+                TextFormField(
+                  obscureText: _isHidden,
+                  controller: confirmPasswordController,
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    border: OutlineInputBorder(),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isHidden = !_isHidden;
+                        });
+                      },
+                      child: Icon(
+                        _isHidden ? Icons.visibility : Icons.visibility_off,
+                      ),
+                    ),
+                  ),
+                  validator: _validatePassword,
+                ),
+                SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(FirebaseAuth.instance.currentUser!.uid)
-                              .update({
-                            'first_name': fnameController.text,
-                            'last_name': lnameController.text,
-                            'email': emailController.text,
-                            'password': passwordController.text,
-                          });
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const UserProfile()));
-                        }
-                      },
+                      onPressed: _saveChanges,
                       child: Text('Save'),
                     ),
                     ElevatedButton(

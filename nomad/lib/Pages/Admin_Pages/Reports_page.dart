@@ -69,7 +69,6 @@ class _ReportsPageState extends State<ReportsPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text('Admin Ban Banner'),
       ),

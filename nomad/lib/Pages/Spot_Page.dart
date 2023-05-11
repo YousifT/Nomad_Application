@@ -337,6 +337,7 @@ class _SpotPageState extends State<SpotPage> {
     QuerySnapshot snapshot = await database
         .where("Parent_Spot", isEqualTo: "aaa") //widget.spotObject['id']
         .get();
+    print(snapshot.docs.length);
 
     return snapshot.docs;
   }
