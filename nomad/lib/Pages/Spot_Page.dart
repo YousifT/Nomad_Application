@@ -5,155 +5,199 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:nomad/Global_Var.dart' as globals;
+import 'package:nomad/Pages/Home_page.dart';
+import 'package:nomad/Pages/Review_card.dart';
+import 'package:nomad/main.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:comment_box/comment/comment.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/src/rendering/box.dart';
+
 import 'User_Pages/app_colors.dart';
+Color myColor = Color(0xff00bfa5);
+double? _rating;
+  IconData? _selectedIcon;
+
+  class Review {
+  final String name;
+  final String comment;
+  double rating;
+ Review(this.name, this.comment, this.rating);
+}
+
+final List<Review> reviews = [
+    Review('John Doe', 'Great product, highly recommended!', 4.5),
+    Review('Alice Smith', 'Very satisfied with my purchase.', 5),
+    Review('Bob Johnson', 'Excellent customer service.', 3.5),
+  ];
 
 class SpotPage extends StatefulWidget {
+   
   final spotObject;
-  const SpotPage({super.key, required this.spotObject});
+   SpotPage({super.key, required this.spotObject});
 
   @override
   State<SpotPage> createState() => _SpotPageState();
 }
 
+
 class _SpotPageState extends State<SpotPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white30,
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //image container
-            Container(
+      resizeToAvoidBottomInset : false,
+      body:Container(
+          color: Colors.white30,
+          width:  double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start, 
+            children: [
+              
+              //image container 
+               Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height*0.3,
+                    decoration: BoxDecoration(
+                    
+                   image: DecorationImage(
+                  image: AssetImage("assets/images/img1.jpg"),
+                 fit: BoxFit.cover,
+          ),
+                
+              ))
+              ,
+              //location card
+              Container(
+                
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(60),
+                          bottomRight: Radius.circular(60),
+                        ),
+                        color: Colors.white
+                        ,boxShadow: [
+                            BoxShadow(color: Colors.black38, blurRadius: 8)
+                          ]),
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.3,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/img1.jpg"),
-                    fit: BoxFit.cover,
-                  ),
-                )),
-            //location card
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(60),
-                    bottomRight: Radius.circular(60),
-                  ),
-                  color: Colors.white,
-                  boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 8)]),
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: Colors.black,
-                          size: 35,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      SizedBox(
-                        width: 40,
-                      ),
-                      Text(
-                        "Title",
-                        style: GoogleFonts.poppins(
-                            color: AppColors.darkTextColor,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w800),
-                      ),
-                    ],
-                  ),
-
-                  ///Container for data
-                  Container(
-                    margin:
-                        const EdgeInsets.only(right: 40, left: 15, bottom: 5),
-                    padding: EdgeInsets.only(left: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: AppColors.lightGreenColor,
-                              size: 22,
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            Text(
-                              "4.0",
-                              style: GoogleFonts.poppins(
-                                color: AppColors.darkTextColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
+                child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                         
+                          Row(
+                            
+                            children: [
+                              IconButton(
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: Colors.black,
+                            size: 35,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),SizedBox(width: 40,),
+                              Text(
+                                "Title",
+                                style: GoogleFonts.poppins(
+                                    color: AppColors.darkTextColor,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w800),
+                                    
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.location_on,
-                              color: AppColors.lightTextColor,
-                              size: 22,
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            Text(
-                              "125 Km",
-                              style: GoogleFonts.poppins(
-                                color: AppColors.veryLightTextColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            // Favorate icon
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black12, blurRadius: 8)
-                                  ]),
-                              child: Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                                size: 30,
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
+                            ],
+                          ),
+                            
+                          
+                            
+                          ///Container for data
+                          Container(
+                            
+                            margin: const EdgeInsets.only(right:40,left: 15,bottom: 5),
+                            padding: EdgeInsets.only(left :40),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    
+                                    Icon(
+                                      Icons.star,
+                                      color: AppColors.lightGreenColor,
+                                      size: 22,
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      "4.0",
+                                      style: GoogleFonts.poppins(
+                                        color: AppColors.darkTextColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                
+                                Row(
+                                  children: [
+                                    
+                                    Icon(
+                                      Icons.location_on,
+                                      color: AppColors.lightTextColor,
+                                      size: 22,
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      "125 Km",
+                                      style: GoogleFonts.poppins(
+                                        color: AppColors.veryLightTextColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                                ,Row(
+                                  children: [// google map icon 
+                        InkWell(
+                          child: Container(
+                                              padding: const EdgeInsets.all(3),
+                                              decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                            shape: BoxShape.rectangle,
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black45, blurRadius: 6)
+                            ]),
+                                              child: Row(
+                                                children: [
+                                                  Container(child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.asset("assets/images/Google_Maps_icon.png", width: 40,height: 40,),
+                                ), 
+                                            ),
+                                                Text("Location",style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.darkTextColor),)],
+                                              )),
+                        onTap: () {
 
-            ///Back button
-            Row(
-              children: [],
-            ),
-
-            ///Spacing
+                          //TODO Redirect to location
+                        },)
+                        ],
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+              ), 
+               ///Spacing
             SizedBox(
               height: 24,
             ),
@@ -185,26 +229,99 @@ class _SpotPageState extends State<SpotPage> {
                     fontWeight: FontWeight.w500),
               ),
             ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Add Location here!
-          },
-          backgroundColor: Colors.black26,
-          shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(6)),
-          child: Container(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                "assets/images/Google_Maps_icon.png",
-                width: 54,
-                height: 54,
+           SizedBox(
+              height: 16,
+            ),
+             Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Text(
+                "Reviews",
+                style: GoogleFonts.poppins(
+                    color: AppColors.lightGreenColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600),
+                    
               ),
             ),
-          )),
-    );
+            SizedBox(
+              height: 16,
+            ),
+            //reviews holder
+           
+              
+
+
+            
+                Expanded(
+                   child: ListView.builder(
+        itemCount: reviews.length,
+        itemBuilder: (context, index) {
+          final review = reviews[index];
+          return Card(
+            color: Color.fromARGB(255, 231, 227, 227),
+            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(review.name),
+                  RatingBar.builder(
+                    initialRating: review.rating,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemSize: 20,
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: AppColors.lightGreenColor,
+                    ),
+                    onRatingUpdate: (rating) {
+                      setState(() {
+                        review.rating = rating;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 12),
+                  Text(review.comment),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+                 ),
+              
+           
+            
+            
+            
+              
+            ],
+          ),
+          
+    ),
+      floatingActionButton: FloatingActionButton.extended(
+
+        onPressed: () {
+         openAlertBox();
+         
+        },
+        backgroundColor: AppColors.lightGreenColor,
+        
+        
+        label: Text("Add Review"),
+        icon: Icon(Icons.add),
+        
+        ),
+       
+        
+      );
   }
 
   Future<dynamic> loadReviews() async {
@@ -218,4 +335,95 @@ class _SpotPageState extends State<SpotPage> {
 
     return snapshot.docs;
   }
+    
+
+   openAlertBox() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            contentPadding: EdgeInsets.only(top: 10.0),
+            content: Container(
+              width: 300.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        "Rate",
+                        style: TextStyle(fontSize: 24.0),
+                      ),
+
+                      //star row 
+                      Row(mainAxisSize: MainAxisSize.min, children: [
+              RatingBar.builder(
+                initialRating: _rating ?? 0.0,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: false,
+                itemCount: 5,
+                itemSize: 28,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 2),
+                itemBuilder: (context, _) => Icon(
+                  _selectedIcon ?? Icons.star,
+                  color: Colors.amber[700],
+                ),
+                onRatingUpdate: (rating) {
+                  _rating = rating;
+                  setState(() {});
+                },
+              )
+            ]),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Divider(
+                    color: Colors.grey,
+                    height: 4.0,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 30.0, right: 30.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: "Add Review",
+                        border: InputBorder.none,
+                      ),
+                      maxLines: 8,
+                    ),
+                  ),
+                  InkWell(
+                    child: Container(
+                      padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                      decoration: BoxDecoration(
+                        color: AppColors.lightGreenColor,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(32.0),
+                            bottomRight: Radius.circular(32.0)),
+                      ),
+                      child: Text(
+                        "Submit Review",
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    onTap: (){
+                      //submit to database
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
 }
+

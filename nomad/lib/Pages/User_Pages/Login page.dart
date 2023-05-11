@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:nomad/Global_Var.dart';
 import 'package:nomad/Pages/Home_page.dart';
+import 'package:nomad/Pages/User_Pages/SettingsMenu.dart';
 import 'package:nomad/Pages/User_Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/User_Pages/UserProfile.dart';
 import 'package:nomad/Pages/User_Pages/auth.dart';
@@ -50,13 +52,26 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         password: password,
       );
       global_LoggedIn = true;
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const MyHomePage()));
+      global_UserEmail = email;
+      CollectionReference database =
+          FirebaseFirestore.instance.collection('users');
+      QuerySnapshot snapshot =
+          await database.where("email", isEqualTo: email).get();
+      if (snapshot.docs[0]['Admin'] == "True") {
+        global_isAdmin = true;
+      }
+
+      goToHomePage();
     } on FirebaseAuthException catch (e) {
       showSnackBar("An error occurred while Sgin Up");
     } catch (e) {
       showSnackBar("An error occurred while Sgin Up");
     }
+  }
+
+  void goToHomePage() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const MyHomePage()));
   }
 
   void opensignupscreen() {
@@ -67,6 +82,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       key: _scaffoldKey,
       body: Padding(
         padding: const EdgeInsets.all(3),

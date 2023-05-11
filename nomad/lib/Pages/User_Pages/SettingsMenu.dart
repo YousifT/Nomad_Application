@@ -6,6 +6,7 @@ import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
 import 'package:nomad/Pages/User_Pages/UserProfile.dart';
 import 'package:nomad/main.dart';
+import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
 
 Future SignOut(var context) async {
   await FirebaseAuth.instance.signOut();

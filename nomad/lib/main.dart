@@ -62,12 +62,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedPage = 1;
+  int selectedPage = 0;
 
   @override
   Widget build(BuildContext context) {
     if (globals.global_LoggedIn == false) {
       return Scaffold(
+        resizeToAvoidBottomInset: true,
         body: IndexedStack(
           index: selectedPage,
           children: globals.global_GuestUser_Pages,
@@ -81,7 +82,6 @@ class _HomePageState extends State<HomePage> {
             },
             type: BottomNavigationBarType.fixed,
             items: [
-              BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
               BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person), label: "Profile")
@@ -103,7 +103,6 @@ class _HomePageState extends State<HomePage> {
               },
               type: BottomNavigationBarType.fixed,
               items: [
-                BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person), label: "Profile")
@@ -126,7 +125,6 @@ class _HomePageState extends State<HomePage> {
               },
               type: BottomNavigationBarType.fixed,
               items: [
-                BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person), label: "Profile"),
@@ -173,3 +171,4 @@ Future<void> FetchTopThree([var context]) async {
   sublistItem c_item = sublistItem("Cafes", topCafes);
   globals.HomePageChildren.add(c_item);
 }
+

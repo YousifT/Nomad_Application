@@ -5,6 +5,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Spot_Page.dart';
 
+var counter = [];
+
 class CategoryPage extends StatefulWidget {
   final categoryType;
   const CategoryPage({super.key, required this.categoryType});
@@ -106,47 +108,15 @@ class _CategoryPageState extends State<CategoryPage> {
                         children: List.generate(
                           snapshot.data[2].length,
                           (index) => Padding(
-                            padding: const EdgeInsets.only(right: 8.0, left: 4),
-                            child: snapshot.data[2][index],
-                            /*MediumCards(
-                                    name: snapshot.data[2][index]['name'],
-                                    image: dummInfo[index]['image'],
-                                    location: dummInfo[index]['Location'],
-                                    press: () {}, */
-                          ),
+                              padding:
+                                  const EdgeInsets.only(right: 8.0, left: 4),
+                              child: Row(children: [
+                                snapshot.data[2][index],
+                              ])),
                         ),
                       ),
                     ),
                   ),
-
-                  /*SliverToBoxAdapter(
-                    child: Row(children: [
-                      Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Text("category 1",
-                            style: Theme.of(context).textTheme.titleLarge),
-                      ),
-                    ]),
-                  ),
-                  SliverToBoxAdapter(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(
-                            dummInfo.length,
-                            (index) => Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 8.0, left: 4),
-                                  child: MediumCards(
-                                    name: dummInfo[index]['name'],
-                                    image: dummInfo[index]['image'],
-                                    location: dummInfo[index]['Location'],
-                                    press: () {},
-                                  ),
-                                )),
-                      ),
-                    ),
-                  ), */
                 ],
               );
             } else {
@@ -171,7 +141,6 @@ class _CategoryPageState extends State<CategoryPage> {
           location: (calcDistance(item).toString() + "Km"),
           image: "assets/images/" + item['ID'] + "/" + item['image'],
           item: item);
-      print("assets/images/" + item['ID'] + "/" + item['image']);
       MediumIcons.add(mCard);
     }
     var listHolder = [bannerPaths, mappedItems, MediumIcons];

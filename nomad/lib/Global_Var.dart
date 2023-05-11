@@ -13,27 +13,20 @@ import 'package:nomad/Pages/venue.dart';
 
 double? global_Latitude;
 double? global_Longitude;
-bool global_LoggedIn = true;
-bool global_isAdmin = true;
+bool global_LoggedIn = false;
+bool global_isAdmin = false;
 String global_UserEmail = "";
 
 var global_LoggedIn_Pages = [
-  GuidePage(),
   MyHomePage(),
   SettingsMenu(),
 ];
 
 var global_GuestUser_Pages = [
-  GuidePage(),
   MyHomePage(),
   Mysginuppage(),
 ];
 
-var global_adminUser_Pages = [
-  GuidePage(),
-  MyHomePage(),
-  SettingsMenu(),
-  AdminPage()
-];
+var global_adminUser_Pages = [MyHomePage(), SettingsMenu(), AdminPage()];
 
 var HomePageChildren = [];
