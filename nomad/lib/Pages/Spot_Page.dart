@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nomad/Global_Var.dart' as globals;
 import 'package:nomad/Pages/Home_page.dart';
-import 'package:nomad/Pages/Review_card.dart';
 import 'package:nomad/main.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:comment_box/comment/comment.dart';

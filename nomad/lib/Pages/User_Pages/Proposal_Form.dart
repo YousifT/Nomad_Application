@@ -35,6 +35,7 @@ class _ProposalFormState extends State<ProposalForm> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text('Submit a proposal form'),
         centerTitle: true,
