@@ -37,6 +37,14 @@ final List<Review> reviews = [
   Review('Bob Johnson', 'Excellent customer service.', 3.5),
 ];
 
+Future<void> _launchMapURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
 class SpotPage extends StatefulWidget {
   final spotObject;
   SpotPage({super.key, required this.spotObject});
@@ -200,9 +208,8 @@ class _SpotPageState extends State<SpotPage> {
                                                 )
                                               ],
                                             )),
-                                        onTap: () {
-                                          //TODO Redirect to location
-                                        },
+                                        onTap: () => _launchMapURL(
+                                            widget.spotObject['location']),
                                       )
                                     ],
                                   )
