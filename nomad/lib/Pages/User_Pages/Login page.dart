@@ -60,6 +60,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       if (snapshot.docs[0]['Admin'] == "True") {
         global_isAdmin = true;
       }
+      global_FullName =
+          "${snapshot.docs[0]['first_name']} ${snapshot.docs[0]['last_name']}";
 
       goToHomePage();
     } on FirebaseAuthException catch (e) {

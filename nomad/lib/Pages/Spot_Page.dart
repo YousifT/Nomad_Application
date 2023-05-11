@@ -21,7 +21,8 @@ import 'User_Pages/app_colors.dart';
 Color myColor = Color(0xff00bfa5);
 double? _rating;
 IconData? _selectedIcon;
-String ratings = "0.0";
+TextEditingController reviewFormController = TextEditingController();
+String totalRatings = "0.0";
 
 class Review {
   final String name;
@@ -130,7 +131,7 @@ class _SpotPageState extends State<SpotPage> {
                                         width: 4,
                                       ),
                                       Text(
-                                        ratings,
+                                        totalRatings,
                                         style: GoogleFonts.poppins(
                                           color: AppColors.darkTextColor,
                                           fontSize: 14,
@@ -264,9 +265,9 @@ class _SpotPageState extends State<SpotPage> {
 
                       Expanded(
                         child: ListView.builder(
-                          itemCount: reviews.length,
+                          itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
-                            final review = reviews[index];
+                            final review = snapshot.data[index];
                             return Card(
                               color: Color.fromARGB(255, 231, 227, 227),
                               margin: EdgeInsets.symmetric(
@@ -276,9 +277,10 @@ class _SpotPageState extends State<SpotPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(review.name),
+                                    Text(snapshot.data[index]['user']),
                                     RatingBar.builder(
-                                      initialRating: review.rating,
+                                      initialRating: snapshot.data[index]
+                                          ['Stars'],
                                       minRating: 1,
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
@@ -300,7 +302,7 @@ class _SpotPageState extends State<SpotPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(height: 12),
-                                    Text(review.comment),
+                                    Text(snapshot.data[index]['Review']),
                                   ],
                                 ),
                               ),
@@ -334,10 +336,24 @@ class _SpotPageState extends State<SpotPage> {
     CollectionReference database =
         FirebaseFirestore.instance.collection('reviews');
 
+    var empty = [
+      Review('Empty', 'No Reviews for this spot exist', 0),
+    ];
+
     QuerySnapshot snapshot = await database
-        .where("Parent_Spot", isEqualTo: "aaa") //widget.spotObject['id']
+        .where("Parent_Spot", isEqualTo: widget.spotObject['ID'])
         .get();
-    print(snapshot.docs.length);
+
+    num sumOfStars = 0;
+    for (var item in snapshot.docs) {
+      sumOfStars = sumOfStars + item['Stars'];
+    }
+    if (sumOfStars == 0) {
+      totalRatings = "0.0";
+    } else {
+      double res = sumOfStars / snapshot.docs.length;
+      totalRatings = res.toString();
+    }
 
     return snapshot.docs;
   }
@@ -399,6 +415,7 @@ class _SpotPageState extends State<SpotPage> {
                   Padding(
                     padding: EdgeInsets.only(left: 30.0, right: 30.0),
                     child: TextField(
+                      controller: reviewFormController,
                       decoration: InputDecoration(
                         hintText: "Add Review",
                         border: InputBorder.none,
@@ -422,7 +439,7 @@ class _SpotPageState extends State<SpotPage> {
                       ),
                     ),
                     onTap: () {
-                      //submit to database
+                      submitReview();
                     },
                   ),
                 ],
@@ -430,5 +447,18 @@ class _SpotPageState extends State<SpotPage> {
             ),
           );
         });
+  }
+
+  Future<void> submitReview() {
+    CollectionReference database =
+        FirebaseFirestore.instance.collection('reviews');
+    var docID = database.doc();
+    return database.doc(docID.id).set({
+      'Parent_Spot': widget.spotObject['ID'],
+      'Review': reviewFormController.text,
+      'Stars': _rating,
+      'user': globals.global_FullName,
+      'Review_ID': docID.id,
+    }).then((value) => print("added to DB"));
   }
 }
