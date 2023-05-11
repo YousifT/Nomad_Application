@@ -16,6 +16,7 @@ double? global_Longitude;
 bool global_LoggedIn = true;
 bool global_isAdmin = false;
 String global_UserEmail = "";
+String global_FullName = "";
 
 var global_LoggedIn_Pages = [
   MyHomePage(),
