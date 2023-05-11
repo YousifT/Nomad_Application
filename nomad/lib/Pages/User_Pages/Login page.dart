@@ -63,7 +63,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
       goToHomePage();
     } on FirebaseAuthException catch (e) {
-      showSnackBar("An error occurred while Sgin Up");
+      showSnackBar("An error occurred while Sgin in");
     } catch (e) {
       showSnackBar("An error occurred while Sgin Up");
     }
