@@ -9,7 +9,6 @@ import 'package:nomad/Pages/User_Pages/Login%20page.dart';
 import 'package:nomad/Pages/User_Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/User_Pages/UserProfile.dart';
 import 'package:nomad/Pages/User_Pages/SettingsMenu.dart';
-import 'package:nomad/Pages/venue.dart';
 
 double? global_Latitude;
 double? global_Longitude;
