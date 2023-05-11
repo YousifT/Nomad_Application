@@ -165,8 +165,6 @@ class _CategoryPageState extends State<CategoryPage> {
                 .toString()
                 .substring(0, widget.categoryType.toString().length - 1))
         .get();
-    //("tester", isEqualTo: "a")
-    // ("category", isEqualTo: widget.categoryType).get();
 
     return snapshot.docs;
   }

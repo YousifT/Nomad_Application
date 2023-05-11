@@ -316,28 +316,32 @@ class _SpotPageState extends State<SpotPage> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(),
+                      ],
+                    ),
                   ],
                 );
               }
             }),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            openAlertBox();
-          },
-          backgroundColor: AppColors.lightGreenColor,
-          label: Text("Add Review"),
-          icon: Icon(Icons.add),
+        floatingActionButton: Visibility(
+          visible: true,
+          child: FloatingActionButton.extended(
+            onPressed: () {
+              openAlertBox();
+            },
+            backgroundColor: AppColors.lightGreenColor,
+            label: Text("Add Review"),
+            icon: Icon(Icons.add),
+          ),
         ));
   }
 
   Future<dynamic> loadReviews() async {
     CollectionReference database =
         FirebaseFirestore.instance.collection('reviews');
-
-    var empty = [
-      Review('Empty', 'No Reviews for this spot exist', 0),
-    ];
 
     QuerySnapshot snapshot = await database
         .where("Parent_Spot", isEqualTo: widget.spotObject['ID'])
@@ -458,6 +462,6 @@ class _SpotPageState extends State<SpotPage> {
       'Stars': _rating,
       'user': globals.global_FullName,
       'Review_ID': docID.id,
-    }).then((value) => print("added to DB"));
+    }).then((value) => Navigator.pop(context));
   }
 }

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:nomad/Pages/Explore_page.dart';
+import 'package:nomad/Pages/Extra_Pages/Explore_page.dart';
 import 'package:nomad/Pages/Guide_Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Location.dart';
@@ -12,7 +12,7 @@ import 'package:nomad/Pages/User_Pages/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:nomad/Pages/User_Pages/UserProfile.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'services/firebase_options.dart';
 import 'package:nomad/Global_Var.dart' as globals;
 
 void main() async {
