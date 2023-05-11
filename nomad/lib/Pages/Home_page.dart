@@ -125,10 +125,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
+          SizedBox(height: 10),
           Sublist(globals.HomePageChildren[0]),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           Sublist(globals.HomePageChildren[1]),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           Sublist(globals.HomePageChildren[2])
         ]),
       ),
@@ -151,207 +152,165 @@ Widget Sublist(sublistItem subListitem) {
   return Container(
     padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
     child: SizedBox(
-      height: 400,
+      height: 380,
       width: double.maxFinite,
       child: Column(children: [
         InkWell(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  subListitem.title,
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    Navigator.push(
-                      subListitem.context,
-                      MaterialPageRoute(
-                          builder: (context) => CategoryPage(
-                                categoryType: subListitem.title,
-                              )),
-                    );
-                  },
-                ),
-              ],
-            ),
-<<<<<<< HEAD
-            onTap: () => Navigator.push(
-                  subListitem.context,
-=======
-            IconButton(
-              icon: Icon(Icons.arrow_forward),
-              onPressed: () {
-                Navigator.push(
-                  context,
->>>>>>> 283fbfa8a856291502ecb2e0781cbcd42a9282bc
-                  MaterialPageRoute(
-                      builder: (context) => CategoryPage(
-                            categoryType: subListitem.title,
-                          )),
-<<<<<<< HEAD
-                )),
-        Expanded(
-          child: SizedBox(
-            height: 50,
-            width: double.maxFinite,
-            child: Card(
-              color: Colors.blue,
-              child: InkWell(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                  child: Row(
-                    children: [
-                      Icon(Icons.food_bank),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        child: Text(
-                          subListitem.items[0]['title'],
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                      Spacer(),
-                      Text('-${calcDistance(subListitem.items[0]).round()}km')
-                    ],
-                  ),
-                ),
-                onTap: () => Navigator.push(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                subListitem.title,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                icon: Icon(Icons.arrow_forward),
+                onPressed: () {
+                  Navigator.push(
                     subListitem.context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            SpotPage(spotObject: subListitem.items[0]))),
+                        builder: (context) => SpotPage(
+                              spotObject: subListitem.items,
+                            )),
+                  );
+                },
               ),
-            ),
+            ],
           ),
+          onTap: () {
+            Navigator.push(
+                subListitem.context,
+                MaterialPageRoute(
+                    builder: (context) => SpotPage(
+                          spotObject: subListitem.items,
+                        )));
+          },
         ),
-        Expanded(
-          child: SizedBox(
-            height: 50,
-            width: double.maxFinite,
-            child: Card(
-              color: Colors.blue,
-              child: InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                    child: Row(
-                      children: [
-                        Icon(Icons.food_bank),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          child: Text(
-                            subListitem.items[1]['title'],
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                        Spacer(),
-                        Text('-${calcDistance(subListitem.items[1]).round()}km')
-                      ],
-                    ),
-                  ),
-                  onTap: () => Navigator.push(
-                      subListitem.context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              SpotPage(spotObject: subListitem.items[1])))),
-            ),
-          ),
+        Divider(
+          thickness: 3,
+          color: Colors.black38,
         ),
-        Expanded(
-          child: SizedBox(
-            height: 50,
-            width: double.maxFinite,
-            child: Card(
-              color: Colors.blue,
-              child: InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
-                    child: Row(
-                      children: [
-                        Icon(Icons.food_bank),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          child: Text(
-                            subListitem.items[2]['title'],
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                        Spacer(),
-                        Text('-${calcDistance(subListitem.items[2]).round()}km')
-                      ],
-                    ),
-                  ),
-                  onTap: () => Navigator.push(
-                      subListitem.context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              SpotPage(spotObject: subListitem.items[2])))),
-            ),
-          ),
-=======
-                );
-              },
-            ),
-          ],
-        ),Divider(thickness: 3,color: Colors.black38,),
+
+        // Per Elements part start
+
         Column(
           children: [
             Container(
-              padding: EdgeInsets.only(top: 8),
-              color: Colors.white30,
-              child : Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(13),
-                    child: Image(image: AssetImage("assets/images/img1.jpg"), width: 130 , height: 80, fit: BoxFit.cover,),
-                    
+                padding: EdgeInsets.only(top: 8),
+                color: Colors.white30,
+                child: InkWell(
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(13),
+                          child: Image(
+                            image: AssetImage(
+                                "assets/images/${subListitem.items[0]['ID']}/${subListitem.items[0]['image']}"),
+                            width: 130,
+                            height: 80,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        const SizedBox(width: 50),
+                        Text(
+                          subListitem.items[0]['title'],
+                          style: TextStyle(fontSize: 18, color: Colors.black),
+                        ),
+                        Spacer(),
+                        Text(
+                          "${calcDistance(subListitem.items[0])}KM",
+                          style: TextStyle(fontSize: 14, color: Colors.black),
+                        )
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        subListitem.context,
+                        MaterialPageRoute(
+                            builder: (context) => SpotPage(
+                                  spotObject: subListitem.items[0],
+                                )),
+                      );
+                    })),
+            Divider(thickness: 2),
+            Container(
+                padding: EdgeInsets.only(top: 8),
+                color: Colors.white30,
+                child: InkWell(
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(13),
+                        child: Image(
+                          image: AssetImage(
+                              "assets/images/${subListitem.items[1]['ID']}/${subListitem.items[1]['image']}"),
+                          width: 130,
+                          height: 80,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      const SizedBox(width: 50),
+                      Text(
+                        subListitem.items[1]['title'],
+                        style: TextStyle(fontSize: 18, color: Colors.black),
+                      ),
+                      Spacer(),
+                      Text(
+                        "${calcDistance(subListitem.items[1])}KM",
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      )
+                    ],
                   ),
-                  const SizedBox(width:50),
-                   Text(
-                    "Element 1",
-                    style: TextStyle(fontSize: 18 , color: Colors.black) ,
-                  ),
-                ],
-              )
-            ),Divider(thickness: 2),
-             Container(
-              padding: EdgeInsets.only(top: 8),
-              color: Colors.white30,
-              child : Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(13),
-                    child: Image(image: AssetImage("assets/images/img1.jpg"), width: 130 , height: 80, fit: BoxFit.cover,),
-                    
-                  ),
-                  const SizedBox(width:50),
-                   Text(
-                    "Element 2",
-                    style: TextStyle(fontSize: 18 , color: Colors.black) ,
-                  ),
-                ],
-              )
-            ),Divider(thickness: 2),
-             Container(
-              padding: EdgeInsets.only(top: 8),
-              color: Colors.white30,
-              child : Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(13),
-                    child: Image(image: AssetImage("assets/images/img1.jpg"), width: 130 , height: 80, fit: BoxFit.cover,),
-                    
-                  ),
-                const SizedBox(width:50),
-                   Text(
-                    "Element 3",
-                    style: TextStyle(fontSize: 18 , color: Colors.black) ,
-                  ),
-                ],
-              )
-            ),Divider(thickness: 2),
+                  onTap: () {
+                    Navigator.push(
+                      subListitem.context,
+                      MaterialPageRoute(
+                          builder: (context) => SpotPage(
+                                spotObject: subListitem.items[1],
+                              )),
+                    );
+                  },
+                )),
+            Divider(thickness: 2),
+            Container(
+                padding: EdgeInsets.only(top: 8),
+                color: Colors.white30,
+                child: InkWell(
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(13),
+                          child: Image(
+                            image: AssetImage(
+                                "assets/images/${subListitem.items[2]['ID']}/${subListitem.items[2]['image']}"),
+                            width: 130,
+                            height: 80,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        const SizedBox(width: 50),
+                        Text(
+                          subListitem.items[2]['title'],
+                          style: TextStyle(fontSize: 18, color: Colors.black),
+                        ),
+                        Spacer(),
+                        Text(
+                          "${calcDistance(subListitem.items[2])}KM",
+                          style: TextStyle(fontSize: 14, color: Colors.black),
+                        )
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        subListitem.context,
+                        MaterialPageRoute(
+                            builder: (context) => SpotPage(
+                                  spotObject: subListitem.items[2],
+                                )),
+                      );
+                    })),
+            Divider(thickness: 2),
           ],
->>>>>>> 283fbfa8a856291502ecb2e0781cbcd42a9282bc
         )
       ]),
     ),
