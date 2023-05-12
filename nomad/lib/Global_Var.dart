@@ -13,6 +13,7 @@ import 'package:nomad/Pages/User_Pages/SettingsMenu.dart';
 double? global_Latitude;
 double? global_Longitude;
 bool global_LoggedIn = false;
+bool global_isBanned = false;
 bool global_isAdmin = false;
 String global_UserEmail = "";
 String global_FullName = "";
