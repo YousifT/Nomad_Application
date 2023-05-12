@@ -1,14 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:nomad/Pages/Explore_page.dart';
-import 'package:nomad/Pages/Guide_page.dart';
+import 'package:nomad/Pages/Extra_Pages/Explore_page.dart';
+import 'package:nomad/Pages/Guide_Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
-import 'package:nomad/Pages/Login%20page.dart';
-import 'package:nomad/Pages/Proposals_page.dart';
-import 'package:nomad/Pages/Reports_page.dart';
-import 'package:nomad/Pages/Sginup%20page.dart';
-import 'package:nomad/Pages/profile_page.dart';
+import 'package:nomad/Pages/Location.dart';
+import 'package:nomad/Pages/User_Pages/Login%20page.dart';
+import 'package:nomad/Pages/Admin_Pages/Proposals_page.dart';
+import 'package:nomad/Pages/Admin_Pages/Reports_page.dart';
+import 'package:nomad/Pages/User_Pages/Sginup%20page.dart';
+import 'package:nomad/Pages/User_Pages/auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:nomad/Pages/User_Pages/UserProfile.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'services/firebase_options.dart';
+import 'package:nomad/Global_Var.dart' as globals;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  LocationPermission _UserLocation = new LocationPermission();
+  await _UserLocation.getLocation();
+  await FetchTopThree();
   runApp(const MyApp());
 }
 
@@ -18,26 +32,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-<<<<<<< HEAD
-      title: 'Flutter Demoo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-=======
       debugShowCheckedModeBanner: false,
       title: 'Nomad',
       home: const HomePage(),
->>>>>>> f510333c75ae3c00dd8e5ebd8f1ff33fba191ae4
+      routes: {
+        'signupscreen': (context) => const Mysginuppage(),
+        'loginscreen': (context) => const Myloginpage(),
+      },
     );
   }
 }
@@ -50,9 +51,9 @@ class HomePage extends StatefulWidget {
 
   // Current bug: BottomNavBar icon highlight isnt updated with this route update.
   updateBottomNavBar(bool value, context) {
-    LoggedIn = value;
+    globals.global_LoggedIn = value;
     createState();
-    Navigator.push(
+    Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => const MyHomePage()));
   }
 
@@ -60,52 +61,17 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-bool LoggedIn = false;
-bool isAdmin = false;
-
-<<<<<<< HEAD
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter = _counter + 2;
-    });
-  }
-=======
-var LoggedIn_Pages = [
-  GuidePage(),
-  MyHomePage(),
-  ProfilePage(),
-];
-
-var GuestUser_Pages = [
-  GuidePage(),
-  MyHomePage(),
-  Mysginuppage(),
-];
-
-var adminUser_Pages = [
-  GuidePage(),
-  MyHomePage(),
-  Mysginuppage(),
-  ReportsPage(),
-  ProposalPage()
-];
-
 class _HomePageState extends State<HomePage> {
-  int selectedPage = 1;
->>>>>>> f510333c75ae3c00dd8e5ebd8f1ff33fba191ae4
+  int selectedPage = 0;
 
   @override
   Widget build(BuildContext context) {
-    if (LoggedIn == false) {
+    if (globals.global_LoggedIn == false) {
       return Scaffold(
+        resizeToAvoidBottomInset: true,
         body: IndexedStack(
           index: selectedPage,
-          children: GuestUser_Pages,
+          children: globals.global_GuestUser_Pages,
         ),
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: selectedPage,
@@ -116,18 +82,18 @@ class _HomePageState extends State<HomePage> {
             },
             type: BottomNavigationBarType.fixed,
             items: [
-              BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
               BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person), label: "Profile")
             ]),
       );
     } else {
-      if (isAdmin == false) {
+      if (globals.global_isAdmin == false) {
         return Scaffold(
+          resizeToAvoidBottomInset: true,
           body: IndexedStack(
             index: selectedPage,
-            children: LoggedIn_Pages,
+            children: globals.global_LoggedIn_Pages,
           ),
           bottomNavigationBar: BottomNavigationBar(
               currentIndex: selectedPage,
@@ -138,7 +104,6 @@ class _HomePageState extends State<HomePage> {
               },
               type: BottomNavigationBarType.fixed,
               items: [
-                BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person), label: "Profile")
@@ -148,9 +113,10 @@ class _HomePageState extends State<HomePage> {
       // Logged in User is an admin
       else {
         return Scaffold(
+          resizeToAvoidBottomInset: true,
           body: IndexedStack(
             index: selectedPage,
-            children: adminUser_Pages,
+            children: globals.global_adminUser_Pages,
           ),
           bottomNavigationBar: BottomNavigationBar(
               currentIndex: selectedPage,
@@ -161,17 +127,49 @@ class _HomePageState extends State<HomePage> {
               },
               type: BottomNavigationBarType.fixed,
               items: [
-                BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person), label: "Profile"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.report), label: "Reports"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.report_off_rounded), label: "Proposals")
+                    icon: Icon(Icons.admin_panel_settings), label: "Admin")
               ]),
         );
       }
     }
   }
+}
+
+Future<void> FetchTopThree([var context]) async {
+  var results = [];
+  var database = FirebaseFirestore.instance;
+  await database.collection('spots').get().then(
+    (querySnapshot) {
+      for (var docSnapshot in querySnapshot.docs) {
+        results.add(docSnapshot);
+      }
+    },
+    onError: (e) => print("Error completing: $e"),
+  ).then((value) => print("Completed Fetching"));
+
+  List<dynamic> topEvents = [];
+  List<dynamic> topRestaurants = [];
+  List<dynamic> topCafes = [];
+
+  for (int i = 0; i < results.length; i++) {
+    if (results[i]['topSpot'] == "True") {
+      String value = results[i]["category"];
+      if (value == "Event")
+        topEvents.add(results[i]);
+      else if (value == "Restaurant")
+        topRestaurants.add(results[i]);
+      else if (value == "Cafe") topCafes.add(results[i]);
+    }
+  }
+  globals.HomePageChildren = [];
+  sublistItem e_item = sublistItem("Events", topEvents);
+  globals.HomePageChildren.add(e_item);
+  sublistItem r_item = sublistItem("Restaurants", topRestaurants);
+  globals.HomePageChildren.add(r_item);
+  sublistItem c_item = sublistItem("Cafes", topCafes);
+  globals.HomePageChildren.add(c_item);
 }
