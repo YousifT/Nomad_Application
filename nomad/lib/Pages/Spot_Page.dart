@@ -56,6 +56,18 @@ class SpotPage extends StatefulWidget {
 }
 
 class _SpotPageState extends State<SpotPage> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<void> _addReport() async {
+    // Fetch the user's email
+    String userEmail = await getUserEmail(globals.global_UserID);
+
+    await _firestore.collection('reports').add({
+      'email': userEmail,
+      'comment': reviewFormController.text,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (globals.global_LoggedIn == false || globals.global_isBanned == true) {
@@ -348,8 +360,7 @@ class _SpotPageState extends State<SpotPage> {
                                               TextButton(
                                                 child: Text('Report'),
                                                 onPressed: () {
-                                                  // Handle the report button action for the review
-                                                  // You can add your implementation here
+                                                  _addReport();
                                                   Navigator.of(context).pop();
                                                 },
                                               ),
@@ -529,4 +540,10 @@ class _SpotPageState extends State<SpotPage> {
       loadReviews();
     });
   }
+}
+
+Future<String> getUserEmail(String uid) async {
+  final userDoc =
+      await FirebaseFirestore.instance.collection('users').doc(uid).get();
+  return userDoc.data()?['email'] ?? '';
 }
