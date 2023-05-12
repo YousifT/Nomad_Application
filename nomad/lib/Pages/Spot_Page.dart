@@ -17,16 +17,6 @@ import 'package:flutter/src/rendering/box.dart';
 
 import 'User_Pages/app_colors.dart';
 
-void _launchMapURL(double lat, double long) async {
-  final url = 'https://www.google.com/maps/search/?api=1&query=${lat},${long}';
-
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
 Color myColor = Color(0xff00bfa5);
 double? _rating;
 IconData? _selectedIcon;
@@ -229,8 +219,7 @@ class _SpotPageState extends State<SpotPage> {
                                             )),
                                         onTap: () {
                                           _launchMapURL(
-                                              widget.spotObject['latitude'],
-                                              widget.spotObject['longitude']);
+                                              widget.spotObject['location']);
                                           //TODO Redirect to location
                                         },
                                       )
@@ -519,7 +508,17 @@ class _SpotPageState extends State<SpotPage> {
         });
   }
 
-  Future<void> submitReview() async {
+  void _launchMapURL(String location) async {
+    Uri url = Uri.parse(location);
+
+    try {
+      await launchUrl(url);
+    } catch (e) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future<void> submitReview() {
     CollectionReference database =
         FirebaseFirestore.instance.collection('reviews');
     var docID = database.doc();
