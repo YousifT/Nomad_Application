@@ -63,6 +63,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       global_FullName =
           "${snapshot.docs[0]['first_name']} ${snapshot.docs[0]['last_name']}";
 
+      CollectionReference banQuery =
+          FirebaseFirestore.instance.collection('banned_users');
+      QuerySnapshot banSnapshot =
+          await banQuery.where("email", isEqualTo: email).get();
+      if (banSnapshot.docs.isNotEmpty) {
+        global_isBanned = true;
+      }
+
       goToHomePage();
     } on FirebaseAuthException catch (e) {
       showSnackBar("An error occurred while Sgin in");

@@ -17,11 +17,22 @@ import 'package:flutter/src/rendering/box.dart';
 
 import 'User_Pages/app_colors.dart';
 
+void _launchMapURL(double lat, double long) async {
+  final url = 'https://www.google.com/maps/search/?api=1&query=${lat},${long}';
+
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
 Color myColor = Color(0xff00bfa5);
 double? _rating;
 IconData? _selectedIcon;
 TextEditingController reviewFormController = TextEditingController();
 String totalRatings = "0.0";
+bool showButton = true;
 
 class Review {
   final String name;
@@ -121,6 +132,11 @@ class SpotPage extends StatefulWidget {
 class _SpotPageState extends State<SpotPage> {
   @override
   Widget build(BuildContext context) {
+    if (globals.global_LoggedIn == false || globals.global_isBanned == true) {
+      showButton = false;
+    } else {
+      showButton = true;
+    }
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: FutureBuilder(
@@ -233,7 +249,52 @@ class _SpotPageState extends State<SpotPage> {
                                       ),
                                     ],
                                   ),
-                                  Row(children: [GoogleMapsIcon(spotId: 'ID')])
+                                  Row(
+                                    children: [
+                                      // google map icon
+                                      InkWell(
+                                        child: Container(
+                                            padding: const EdgeInsets.all(3),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                shape: BoxShape.rectangle,
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: Colors.black45,
+                                                      blurRadius: 6)
+                                                ]),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    child: Image.asset(
+                                                      "assets/images/Google_Maps_icon.png",
+                                                      width: 40,
+                                                      height: 40,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "Location",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: AppColors
+                                                          .darkTextColor),
+                                                )
+                                              ],
+                                            )),
+                                        onTap: () {
+                                          //TODO Redirect to location
+                                        },
+                                      )
+                                    ],
+                                  )
                                 ],
                               ),
                             )
@@ -391,7 +452,7 @@ class _SpotPageState extends State<SpotPage> {
               }
             }),
         floatingActionButton: Visibility(
-          visible: true,
+          visible: showButton,
           child: FloatingActionButton.extended(
             onPressed: () {
               openAlertBox();
