@@ -508,36 +508,40 @@ class _SpotPageState extends State<SpotPage> {
         });
   }
 
-  void _launchMapURL(String location) async {
-    Uri url = Uri.parse(location);
-
+  Future<void> submitReview() async {
     try {
-      await launchUrl(url);
+      CollectionReference database =
+          FirebaseFirestore.instance.collection('reviews');
+      var docID = database.doc();
+      await database.doc(docID.id).set({
+        'Parent_Spot': widget.spotObject['ID'],
+        'Review': reviewFormController.text,
+        'Stars': _rating,
+        'user': globals.global_FullName,
+        'uid': globals.global_UserID,
+        'Review_ID': docID.id,
+      });
+
+      reviewFormController.clear();
+      Navigator.pop(context);
+
+      setState(() {
+        loadReviews();
+      });
     } catch (e) {
-      throw 'Could not launch $url';
+      print('Error submitting review: $e');
+      // Handle the error accordingly
     }
   }
+}
 
-  Future<void> submitReview() {
-    CollectionReference database =
-        FirebaseFirestore.instance.collection('reviews');
-    var docID = database.doc();
-    await database.doc(docID.id).set({
-      'Parent_Spot': widget.spotObject['ID'],
-      'Review': reviewFormController.text,
-      'Stars': _rating,
-      'user': globals.global_FullName,
-      'uid': globals.global_UserID,
-      'Review_ID': docID.id,
-    });
+void _launchMapURL(String location) async {
+  Uri url = Uri.parse(location);
 
-    reviewFormController.clear(); // Clear the review text field
-    Navigator.pop(context); // Close the alert box
-
-    // Refresh the reviews list
-    setState(() {
-      loadReviews();
-    });
+  try {
+    await launchUrl(url);
+  } catch (e) {
+    throw 'Could not launch $url';
   }
 }
 
