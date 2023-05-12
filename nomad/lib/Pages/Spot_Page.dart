@@ -411,7 +411,7 @@ class _SpotPageState extends State<SpotPage> {
       totalRatings = "0.0";
     } else {
       double res = sumOfStars / snapshot.docs.length;
-      totalRatings = res.toString();
+      totalRatings = res.toStringAsFixed(2);
     }
 
     return snapshot.docs;
