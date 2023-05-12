@@ -496,7 +496,6 @@ class _SpotPageState extends State<SpotPage> {
       'user': globals.global_FullName,
       'Review_ID': docID.id,
     }).then((value) {
-      Navigator.pop(context);
       setState(
           () {}); // Add this line to update the state after submitting the review
     });
