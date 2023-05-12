@@ -373,7 +373,7 @@ class _SpotPageState extends State<SpotPage> {
         .where("Parent_Spot", isEqualTo: widget.spotObject['ID'])
         .get();
 
-    num sumOfStars = 0;
+    double sumOfStars = 0;
     for (var item in snapshot.docs) {
       sumOfStars = sumOfStars + item['Stars'];
     }
@@ -381,7 +381,8 @@ class _SpotPageState extends State<SpotPage> {
       totalRatings = "0.0";
     } else {
       double res = sumOfStars / snapshot.docs.length;
-      totalRatings = res.toString();
+      totalRatings = res.toStringAsFixed(2);
+      ;
     }
 
     return snapshot.docs;
