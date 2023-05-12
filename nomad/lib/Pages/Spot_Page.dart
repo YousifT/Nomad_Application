@@ -47,80 +47,6 @@ final List<Review> reviews = [
   Review('Bob Johnson', 'Excellent customer service.', 3.5),
 ];
 
-void _launchMapURL(String location) async {
-  final url = 'https://www.google.com/maps/search/?api=1&query=$location';
-
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
-class GoogleMapsIcon extends StatelessWidget {
-  final String spotId;
-
-  GoogleMapsIcon({required this.spotId});
-
-  Future<String?> _getLocationFromFirestore() async {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    DocumentReference spotRef = firestore.collection('spots').doc(spotId);
-
-    DocumentSnapshot spotSnapshot = await spotRef.get();
-    if (spotSnapshot.exists) {
-      return spotSnapshot.get('location');
-    } else {
-      return null; // Return null if the spot document is not found
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        String? location = await _getLocationFromFirestore();
-        if (location != null) {
-          _launchMapURL(location);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Location not found')),
-          );
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.all(3),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          shape: BoxShape.rectangle,
-          color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.black45, blurRadius: 6)],
-        ),
-        child: Row(
-          children: [
-            Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  "assets/images/Google_Maps_icon.png",
-                  width: 40,
-                  height: 40,
-                ),
-              ),
-            ),
-            Text(
-              "Location",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: AppColors.darkTextColor,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class SpotPage extends StatefulWidget {
   final spotObject;
   SpotPage({super.key, required this.spotObject});
@@ -290,6 +216,9 @@ class _SpotPageState extends State<SpotPage> {
                                               ],
                                             )),
                                         onTap: () {
+                                          _launchMapURL(
+                                              widget.spotObject['latitude'],
+                                              widget.spotObject['longitude']);
                                           //TODO Redirect to location
                                         },
                                       )
@@ -351,11 +280,12 @@ class _SpotPageState extends State<SpotPage> {
                         height: 16,
                       ),
                       //reviews holder
+
                       Expanded(
                         child: ListView.builder(
-                          itemCount: reviews.length,
+                          itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
-                            final review = reviews[index];
+                            final review = snapshot.data[index];
                             return Card(
                               color: Color.fromARGB(255, 231, 227, 227),
                               margin: EdgeInsets.symmetric(
@@ -365,9 +295,10 @@ class _SpotPageState extends State<SpotPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(review.name),
+                                    Text(snapshot.data[index]['user']),
                                     RatingBar.builder(
-                                      initialRating: review.rating,
+                                      initialRating: snapshot.data[index]
+                                          ['Stars'],
                                       minRating: 1,
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
@@ -389,45 +320,8 @@ class _SpotPageState extends State<SpotPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(height: 12),
-                                    Text(review.comment),
+                                    Text(snapshot.data[index]['Review']),
                                   ],
-                                ),
-                                trailing: Container(
-                                  padding: EdgeInsets.only(right: 8),
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.report,
-                                      color: AppColors.lightGreenColor,
-                                    ),
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Confirm Report'),
-                                            content: Text(
-                                                'Are you sure you want to report this review?'),
-                                            actions: [
-                                              TextButton(
-                                                child: Text('Cancel'),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                              TextButton(
-                                                child: Text('Report'),
-                                                onPressed: () {
-                                                  // Handle the report button action for the review
-                                                  // You can add your implementation here
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
                                 ),
                               ),
                             );
@@ -472,7 +366,7 @@ class _SpotPageState extends State<SpotPage> {
         .where("Parent_Spot", isEqualTo: widget.spotObject['ID'])
         .get();
 
-    double sumOfStars = 0;
+    num sumOfStars = 0;
     for (var item in snapshot.docs) {
       sumOfStars = sumOfStars + item['Stars'];
     }
@@ -480,8 +374,7 @@ class _SpotPageState extends State<SpotPage> {
       totalRatings = "0.0";
     } else {
       double res = sumOfStars / snapshot.docs.length;
-      totalRatings = res.toStringAsFixed(2);
-      ;
+      totalRatings = res.toString();
     }
 
     return snapshot.docs;
@@ -568,10 +461,7 @@ class _SpotPageState extends State<SpotPage> {
                       ),
                     ),
                     onTap: () {
-                      submitReview().then((_) {
-                        Navigator.of(context)
-                            .pop(); // Close the AlertDialog after submitting the review
-                      });
+                      submitReview();
                     },
                   ),
                 ],
@@ -581,19 +471,16 @@ class _SpotPageState extends State<SpotPage> {
         });
   }
 
-  Future<void> submitReview() async {
+  Future<void> submitReview() {
     CollectionReference database =
         FirebaseFirestore.instance.collection('reviews');
     var docID = database.doc();
-    await database.doc(docID.id).set({
+    return database.doc(docID.id).set({
       'Parent_Spot': widget.spotObject['ID'],
       'Review': reviewFormController.text,
       'Stars': _rating,
       'user': globals.global_FullName,
       'Review_ID': docID.id,
-    }).then((value) {
-      setState(
-          () {}); // Add this line to update the state after submitting the review
-    });
+    }).then((value) => Navigator.pop(context));
   }
 }
