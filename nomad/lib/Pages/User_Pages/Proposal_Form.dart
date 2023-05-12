@@ -5,7 +5,9 @@ String? type_Value = "Event";
 var type_choices = ["Event", "Restaurant", "Cafe"];
 
 class ProposalForm extends StatefulWidget {
-  const ProposalForm({super.key});
+  final Function() onSubmitted;
+
+  const ProposalForm({Key? key, required this.onSubmitted}) : super(key: key);
 
   @override
   State<ProposalForm> createState() => _ProposalFormState();
@@ -27,11 +29,14 @@ class _ProposalFormState extends State<ProposalForm> {
         'category': type_Value,
         'description': descriptionController.text,
         'location': locationController.text,
-        // REPLACE THIS WITH Global_var.Username
         'user': "Username",
         'ID': docID.id,
         'topSpot': "False",
-      }).then((value) => Navigator.pop(context));
+      }).then((value) {
+        Navigator.pop(context);
+        widget
+            .onSubmitted(); // Add this line to call the callback function after submitting the proposal
+      });
     }
 
     return Scaffold(

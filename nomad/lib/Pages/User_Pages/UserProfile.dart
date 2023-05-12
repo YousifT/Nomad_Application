@@ -45,7 +45,6 @@ class _UserProfileState extends State<UserProfile> {
           fnameController.text = documentSnapshot.get('first_name');
           lnameController.text = documentSnapshot.get('last_name');
           emailController.text = documentSnapshot.get('email');
-          passwordController.text = documentSnapshot.get('password');
         });
       }
     });
@@ -53,22 +52,43 @@ class _UserProfileState extends State<UserProfile> {
 
   void _saveChanges() {
     if (_formKey.currentState!.validate()) {
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update({
-        'first_name': fnameController.text,
-        'last_name': lnameController.text,
-        'email': emailController.text,
-        'password': passwordController.text,
-      }).then((_) {
-        setState(() {
-          // Refresh the widget after the changes are saved
+      final currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        // Update user data in Firestore
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUser.uid)
+            .update({
+          'first_name': fnameController.text,
+          'last_name': lnameController.text,
+          'email': emailController.text,
+        }).then((_) async {
+          // Update user email and password in FirebaseAuth
+          if (currentUser.email != emailController.text) {
+            await currentUser.updateEmail(emailController.text);
+          }
+
+          if (passwordController.text.isNotEmpty &&
+              passwordController.text == confirmPasswordController.text) {
+            await currentUser.updatePassword(passwordController.text);
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(currentUser.uid)
+                .update({
+              'password': passwordController.text,
+            });
+          }
+
+          setState(() {
+            // Refresh the widget after the changes are saved
+          });
+
+          showSnackBar('Changes saved successfully');
+        }).catchError((error) {
+          showSnackBar('Error occurred while saving changes');
         });
-        showSnackBar('Changes saved successfully');
-      }).catchError((error) {
-        showSnackBar('Error occurred while saving changes');
-      });
+      }
     }
   }
 
@@ -84,7 +104,7 @@ class _UserProfileState extends State<UserProfile> {
 
   String? _validatePassword(String? value) {
     if (passwordController.text != confirmPasswordController.text) {
-      return 'Not a valid Password';
+      return 'Passwords do not match';
     }
     return null;
   }
