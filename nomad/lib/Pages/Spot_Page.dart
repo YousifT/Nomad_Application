@@ -323,6 +323,43 @@ class _SpotPageState extends State<SpotPage> {
                                     Text(snapshot.data[index]['Review']),
                                   ],
                                 ),
+                                trailing: Container(
+                                  padding: EdgeInsets.only(right: 8),
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.report,
+                                      color: AppColors.lightGreenColor,
+                                    ),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Confirm Report'),
+                                            content: Text(
+                                                'Are you sure you want to report this review?'),
+                                            actions: [
+                                              TextButton(
+                                                child: Text('Cancel'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: Text('Report'),
+                                                onPressed: () {
+                                                  // Handle the report button action for the review
+                                                  // You can add your implementation here
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
                               ),
                             );
                           },
@@ -471,16 +508,25 @@ class _SpotPageState extends State<SpotPage> {
         });
   }
 
-  Future<void> submitReview() {
+  Future<void> submitReview() async {
     CollectionReference database =
         FirebaseFirestore.instance.collection('reviews');
     var docID = database.doc();
-    return database.doc(docID.id).set({
+    await database.doc(docID.id).set({
       'Parent_Spot': widget.spotObject['ID'],
       'Review': reviewFormController.text,
       'Stars': _rating,
       'user': globals.global_FullName,
+      'uid': globals.global_UserID,
       'Review_ID': docID.id,
-    }).then((value) => Navigator.pop(context));
+    });
+
+    reviewFormController.clear(); // Clear the review text field
+    Navigator.pop(context); // Close the alert box
+
+    // Refresh the reviews list
+    setState(() {
+      loadReviews();
+    });
   }
 }
