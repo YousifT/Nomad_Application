@@ -75,8 +75,6 @@ class _ReportsPageState extends State<ReportsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // ... (The rest of your code remains the same)
-
             StreamBuilder<QuerySnapshot>(
               stream: _firestore.collection('reports').snapshots(),
               builder: (context, snapshot) {
