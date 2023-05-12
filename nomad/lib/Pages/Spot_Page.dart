@@ -122,250 +122,264 @@ class _SpotPageState extends State<SpotPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: FutureBuilder(
-            future: loadReviews(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Container(
-                  color: Colors.white30,
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        color: Colors.white30,
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //image container
+            Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.3,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/img1.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                )),
+            //location card
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(60),
+                    bottomRight: Radius.circular(60),
+                  ),
+                  color: Colors.white,
+                  boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 8)]),
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      //image container
-                      Container(
-                          width: double.infinity,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                  "assets/images/${widget.spotObject['ID'].toString()}/${widget.spotObject['image']}"),
-                              fit: BoxFit.fill,
-                            ),
-                          )),
-                      //location card
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(60),
-                              bottomRight: Radius.circular(60),
-                            ),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(color: Colors.black38, blurRadius: 8)
-                            ]),
-                        width: double.infinity,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.black,
-                                    size: 35,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                SizedBox(
-                                  width: 40,
-                                ),
-                                Text(
-                                  "${widget.spotObject['title']}",
-                                  style: GoogleFonts.poppins(
-                                      color: AppColors.darkTextColor,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w800),
-                                ),
-                              ],
-                            ),
-
-                            ///Container for data
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  right: 40, left: 15, bottom: 5),
-                              padding: EdgeInsets.only(left: 40),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color: AppColors.lightGreenColor,
-                                        size: 22,
-                                      ),
-                                      SizedBox(
-                                        width: 4,
-                                      ),
-                                      Text(
-                                        totalRatings,
-                                        style: GoogleFonts.poppins(
-                                          color: AppColors.darkTextColor,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.location_on,
-                                        color: AppColors.lightTextColor,
-                                        size: 22,
-                                      ),
-                                      SizedBox(
-                                        width: 4,
-                                      ),
-                                      Text(
-                                        "${calcDistance(widget.spotObject).toString()} KM",
-                                        style: GoogleFonts.poppins(
-                                          color: AppColors.veryLightTextColor,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(children: [GoogleMapsIcon(spotId: 'ID')])
-                                ],
-                              ),
-                            )
-                          ],
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: Colors.black,
+                          size: 35,
                         ),
-                      ),
-
-                      ///Spacing
-                      SizedBox(
-                        height: 24,
-                      ),
-
-                      ///About text
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Text(
-                          "About",
-                          style: GoogleFonts.poppins(
-                              color: AppColors.lightGreenColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-
-                      SizedBox(
-                        height: 16,
-                      ),
-
-                      ///About detail text
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Text(
-                          widget.spotObject['description'],
-                          style: GoogleFonts.poppins(
-                              color: AppColors.veryLightTextColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
                       SizedBox(
-                        height: 16,
+                        width: 40,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Text(
-                          "Reviews",
-                          style: GoogleFonts.poppins(
-                              color: AppColors.lightGreenColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      //reviews holder
-
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            final review = snapshot.data[index];
-                            return Card(
-                              color: Color.fromARGB(255, 231, 227, 227),
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              child: ListTile(
-                                title: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(snapshot.data[index]['user']),
-                                    RatingBar.builder(
-                                      initialRating: snapshot.data[index]
-                                          ['Stars'],
-                                      minRating: 1,
-                                      direction: Axis.horizontal,
-                                      allowHalfRating: true,
-                                      itemCount: 5,
-                                      itemSize: 20,
-                                      itemBuilder: (context, _) => Icon(
-                                        Icons.star,
-                                        color: AppColors.lightGreenColor,
-                                      ),
-                                      onRatingUpdate: (rating) {
-                                        setState(() {
-                                          review.rating = rating;
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 12),
-                                    Text(snapshot.data[index]['Review']),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
+                      Text(
+                        "Title",
+                        style: GoogleFonts.poppins(
+                            color: AppColors.darkTextColor,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),
-                );
-              } else {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+
+                  ///Container for data
+                  Container(
+                    margin:
+                        const EdgeInsets.only(right: 40, left: 15, bottom: 5),
+                    padding: EdgeInsets.only(left: 40),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CircularProgressIndicator(),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: AppColors.lightGreenColor,
+                              size: 22,
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              "4.0",
+                              style: GoogleFonts.poppins(
+                                color: AppColors.darkTextColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: AppColors.lightTextColor,
+                              size: 22,
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              "125 Km",
+                              style: GoogleFonts.poppins(
+                                color: AppColors.veryLightTextColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            // google map icon
+                            InkWell(
+                              child: Container(
+                                  padding: const EdgeInsets.all(3),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      shape: BoxShape.rectangle,
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black45,
+                                            blurRadius: 6)
+                                      ]),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: Image.asset(
+                                            "assets/images/Google_Maps_icon.png",
+                                            width: 40,
+                                            height: 40,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        "Location",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.darkTextColor),
+                                      )
+                                    ],
+                                  )),
+                              onTap: () {
+                                //TODO Redirect to location
+                              },
+                            )
+                          ],
+                        )
                       ],
                     ),
-                  ],
-                );
-              }
-            }),
-        floatingActionButton: Visibility(
-          visible: true,
-          child: FloatingActionButton.extended(
-            onPressed: () {
-              openAlertBox();
-            },
-            backgroundColor: AppColors.lightGreenColor,
-            label: Text("Add Review"),
-            icon: Icon(Icons.add),
-          ),
-        ));
+                  )
+                ],
+              ),
+            ),
+
+            ///Spacing
+            SizedBox(
+              height: 24,
+            ),
+
+            ///About text
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Text(
+                "About",
+                style: GoogleFonts.poppins(
+                    color: AppColors.lightGreenColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+
+            SizedBox(
+              height: 16,
+            ),
+
+            ///About detail text
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Text(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
+                style: GoogleFonts.poppins(
+                    color: AppColors.veryLightTextColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+              ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Text(
+                "Reviews",
+                style: GoogleFonts.poppins(
+                    color: AppColors.lightGreenColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            //reviews holder
+
+            Expanded(
+              child: ListView.builder(
+                itemCount: reviews.length,
+                itemBuilder: (context, index) {
+                  final review = reviews[index];
+                  return Card(
+                    color: Color.fromARGB(255, 231, 227, 227),
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(review.name),
+                          RatingBar.builder(
+                            initialRating: review.rating,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemSize: 20,
+                            itemBuilder: (context, _) => Icon(
+                              Icons.star,
+                              color: AppColors.lightGreenColor,
+                            ),
+                            onRatingUpdate: (rating) {
+                              setState(() {
+                                review.rating = rating;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 12),
+                          Text(review.comment),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          openAlertBox();
+        },
+        backgroundColor: AppColors.lightGreenColor,
+        label: Text("Add Review"),
+        icon: Icon(Icons.add),
+      ),
+    );
   }
 
   Future<dynamic> loadReviews() async {
