@@ -8,7 +8,7 @@ import 'package:nomad/Pages/Guide_Pages/Guide_page.dart';
 import 'package:nomad/Pages/Spot_Page.dart';
 import 'package:nomad/Pages/User_Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/User_Pages/UserProfile.dart';
-import 'package:nomad/Pages/Category_page.dart';
+import 'package:nomad/Pages/Extra_Pages/Category_page.dart';
 import 'package:nomad/main.dart';
 import 'package:nomad/Global_Var.dart' as globals;
 
@@ -22,8 +22,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 var ImageOne = globals.HomePageChildren[0].items[0];
-var ImageTwo = globals.HomePageChildren[1].items[1];
-var ImageThree = globals.HomePageChildren[2].items[2];
+var ImageTwo = globals.HomePageChildren[1].items[0];
+var ImageThree = globals.HomePageChildren[2].items[1];
 
 List<String> imgLinks = [
   "assets/images/" + ImageOne['ID'] + "/" + ImageOne['image'],

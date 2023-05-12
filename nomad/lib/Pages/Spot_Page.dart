@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nomad/Global_Var.dart' as globals;
 import 'package:nomad/Pages/Home_page.dart';
-import 'package:nomad/Pages/Review_card.dart';
 import 'package:nomad/main.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:comment_box/comment/comment.dart';
@@ -346,28 +345,32 @@ class _SpotPageState extends State<SpotPage> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(),
+                      ],
+                    ),
                   ],
                 );
               }
             }),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            openAlertBox();
-          },
-          backgroundColor: AppColors.lightGreenColor,
-          label: Text("Add Review"),
-          icon: Icon(Icons.add),
+        floatingActionButton: Visibility(
+          visible: true,
+          child: FloatingActionButton.extended(
+            onPressed: () {
+              openAlertBox();
+            },
+            backgroundColor: AppColors.lightGreenColor,
+            label: Text("Add Review"),
+            icon: Icon(Icons.add),
+          ),
         ));
   }
 
   Future<dynamic> loadReviews() async {
     CollectionReference database =
         FirebaseFirestore.instance.collection('reviews');
-
-    var empty = [
-      Review('Empty', 'No Reviews for this spot exist', 0),
-    ];
 
     QuerySnapshot snapshot = await database
         .where("Parent_Spot", isEqualTo: widget.spotObject['ID'])
@@ -493,7 +496,7 @@ class _SpotPageState extends State<SpotPage> {
       'user': globals.global_FullName,
       'Review_ID': docID.id,
     }).then((value) {
-      print("added to DB");
+      Navigator.pop(context);
       setState(
           () {}); // Add this line to update the state after submitting the review
     });
