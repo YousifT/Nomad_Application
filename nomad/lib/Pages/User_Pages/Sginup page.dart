@@ -83,7 +83,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           MaterialPageRoute(builder: (context) => const Myloginpage()));
     } on FirebaseAuthException catch (e) {
       // Handle sign-up errors, such as email already in use, etc.
-      showSnackBar("An error occurred while signing up");
+      showSnackBar("A FirebaseAuthException occurred while signing up");
     } catch (e) {
       // Handle any other errors that might occur
       showSnackBar("An error occurred while signing up");

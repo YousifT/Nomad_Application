@@ -70,8 +70,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           await banQuery.where("email", isEqualTo: email).get();
       if (banSnapshot.docs.isNotEmpty) {
         global_isBanned = true;
+      } else {
+        global_isBanned = false;
       }
-
       goToHomePage();
     } on FirebaseAuthException catch (e) {
       showSnackBar("An error occurred while Logging in");
@@ -81,12 +82,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   void goToHomePage() {
-    Navigator.canPop(context);
-    Navigator.pop(context);
-
+    while (Navigator.canPop(context) == true) {
+      Navigator.pop(context);
+    }
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const SettingsMenu()));
-    setState(() {});
   }
 
   void opensignupscreen() {
@@ -102,8 +102,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       body: Padding(
         padding: const EdgeInsets.all(3),
         child: Container(
-          color: Color.fromARGB(
-              255, 255, 255, 255), // Desert-themed background color
+          color: Color.fromARGB(255, 255, 255, 255),
           child: ListView(
             children: <Widget>[
               Container(

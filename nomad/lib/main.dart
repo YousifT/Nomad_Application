@@ -26,6 +26,13 @@ void main() async {
   runApp(const MyApp());
 }
 
+updateHomeBar(BuildContext context) {
+  while (Navigator.canPop(context)) {
+    Navigator.pop(context);
+  }
+  HomePage().createState();
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -66,76 +73,25 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (globals.global_LoggedIn == false) {
-      return Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: IndexedStack(
-          index: selectedPage,
-          children: globals.global_GuestUser_Pages,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-            currentIndex: selectedPage,
-            onTap: (index) {
-              setState(() {
-                selectedPage = index;
-              });
-            },
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: "Profile")
-            ]),
-      );
-    } else {
-      if (globals.global_isAdmin == false) {
-        return Scaffold(
-          resizeToAvoidBottomInset: true,
-          body: IndexedStack(
-            index: selectedPage,
-            children: globals.global_LoggedIn_Pages,
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-              currentIndex: selectedPage,
-              onTap: (index) {
-                setState(() {
-                  selectedPage = index;
-                });
-              },
-              type: BottomNavigationBarType.fixed,
-              items: [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.person), label: "Profile")
-              ]),
-        );
-      }
-      // Logged in User is an admin
-      else {
-        return Scaffold(
-          resizeToAvoidBottomInset: true,
-          body: IndexedStack(
-            index: selectedPage,
-            children: globals.global_adminUser_Pages,
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-              currentIndex: selectedPage,
-              onTap: (index) {
-                setState(() {
-                  selectedPage = index;
-                });
-              },
-              type: BottomNavigationBarType.fixed,
-              items: [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.person), label: "Profile"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.admin_panel_settings), label: "Admin")
-              ]),
-        );
-      }
-    }
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: IndexedStack(
+        index: selectedPage,
+        children: globals.global_NavBarPages,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: selectedPage,
+          onTap: (index) {
+            setState(() {
+              selectedPage = index;
+            });
+          },
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
+          ]),
+    );
   }
 }
 
