@@ -15,6 +15,8 @@ Future<void> signOut(BuildContext context) async {
   Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
 }
 
+bool adminC = false;
+
 class SettingsMenu extends StatelessWidget {
   const SettingsMenu({Key? key}) : super(key: key);
 
@@ -39,32 +41,6 @@ class SettingsMenu extends StatelessWidget {
               );
             },
             child: Text("Profile"),
-          ),
-        ),
-        SizedBox(
-          height: 75,
-          width: 350,
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ReportsPage()),
-              );
-            },
-            child: Text("Proposals"),
-          ),
-        ),
-        SizedBox(
-          height: 75,
-          width: 350,
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ReportsPage()),
-              );
-            },
-            child: Text("Reports"),
           ),
         ),
         SizedBox(
@@ -100,6 +76,38 @@ class SettingsMenu extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () => signOut(context),
             child: Text("Logout"),
+          ),
+        ),
+        Visibility(
+          visible: adminC,
+          child: SizedBox(
+            height: 75,
+            width: 350,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ReportsPage()),
+                );
+              },
+              child: Text("Proposals"),
+            ),
+          ),
+        ),
+        Visibility(
+          visible: adminC,
+          child: SizedBox(
+            height: 75,
+            width: 350,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ReportsPage()),
+                );
+              },
+              child: Text("Reports"),
+            ),
           ),
         ),
       ],
