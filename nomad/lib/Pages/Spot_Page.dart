@@ -46,6 +46,18 @@ class SpotPage extends StatefulWidget {
 }
 
 class _SpotPageState extends State<SpotPage> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<void> _addReport() async {
+    // Fetch the user's email
+    String userEmail = await getUserEmail(globals.global_UserID);
+
+    await _firestore.collection('reports').add({
+      'email': userEmail,
+      'comment': reviewFormController.text,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (globals.global_LoggedIn == false || globals.global_isBanned == true) {
@@ -312,6 +324,42 @@ class _SpotPageState extends State<SpotPage> {
                                     Text(snapshot.data[index]['Review']),
                                   ],
                                 ),
+                                trailing: Container(
+                                  padding: EdgeInsets.only(right: 8),
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.report,
+                                      color: AppColors.lightGreenColor,
+                                    ),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Confirm Report'),
+                                            content: Text(
+                                                'Are you sure you want to report this review?'),
+                                            actions: [
+                                              TextButton(
+                                                child: Text('Cancel'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: Text('Report'),
+                                                onPressed: () {
+                                                  _addReport();
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
                               ),
                             );
                           },
@@ -363,7 +411,7 @@ class _SpotPageState extends State<SpotPage> {
       totalRatings = "0.0";
     } else {
       double res = sumOfStars / snapshot.docs.length;
-      totalRatings = res.toString();
+      totalRatings = res.toStringAsFixed(2);
     }
 
     return snapshot.docs;
@@ -460,26 +508,45 @@ class _SpotPageState extends State<SpotPage> {
         });
   }
 
-  void _launchMapURL(String location) async {
-    Uri url = Uri.parse(location);
-
+  Future<void> submitReview() async {
     try {
-      await launchUrl(url);
+      CollectionReference database =
+          FirebaseFirestore.instance.collection('reviews');
+      var docID = database.doc();
+      await database.doc(docID.id).set({
+        'Parent_Spot': widget.spotObject['ID'],
+        'Review': reviewFormController.text,
+        'Stars': _rating,
+        'user': globals.global_FullName,
+        'uid': globals.global_UserID,
+        'Review_ID': docID.id,
+      });
+
+      reviewFormController.clear();
+      Navigator.pop(context);
+
+      setState(() {
+        loadReviews();
+      });
     } catch (e) {
-      throw 'Could not launch $url';
+      print('Error submitting review: $e');
+      // Handle the error accordingly
     }
   }
+}
 
-  Future<void> submitReview() {
-    CollectionReference database =
-        FirebaseFirestore.instance.collection('reviews');
-    var docID = database.doc();
-    return database.doc(docID.id).set({
-      'Parent_Spot': widget.spotObject['ID'],
-      'Review': reviewFormController.text,
-      'Stars': _rating,
-      'user': globals.global_FullName,
-      'Review_ID': docID.id,
-    }).then((value) => Navigator.pop(context));
+void _launchMapURL(String location) async {
+  Uri url = Uri.parse(location);
+
+  try {
+    await launchUrl(url);
+  } catch (e) {
+    throw 'Could not launch $url';
   }
+}
+
+Future<String> getUserEmail(String uid) async {
+  final userDoc =
+      await FirebaseFirestore.instance.collection('users').doc(uid).get();
+  return userDoc.data()?['email'] ?? '';
 }

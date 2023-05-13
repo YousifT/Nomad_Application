@@ -155,36 +155,41 @@ Widget Sublist(sublistItem subListitem) {
       height: 380,
       width: double.maxFinite,
       child: Column(children: [
-        InkWell(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                subListitem.title,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-              IconButton(
-                icon: Icon(Icons.arrow_forward),
-                onPressed: () {
-                  Navigator.push(
-                    subListitem.context,
-                    MaterialPageRoute(
-                        builder: (context) => CategoryPage(
-                              categoryType: subListitem.title,
-                            )),
-                  );
-                },
-              ),
-            ],
-          ),
-          onTap: () {
-            Navigator.push(
+        Expanded(
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
                 subListitem.context,
                 MaterialPageRoute(
-                    builder: (context) => CategoryPage(
-                          categoryType: subListitem.title,
-                        )));
-          },
+                  builder: (context) => SpotPage(
+                    spotObject: subListitem.items,
+                  ),
+                ),
+              );
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  subListitem.title,
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    Navigator.push(
+                      subListitem.context,
+                      MaterialPageRoute(
+                        builder: (context) => SpotPage(
+                          spotObject: subListitem.items,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
         Divider(
           thickness: 3,
