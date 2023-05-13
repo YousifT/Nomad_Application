@@ -72,14 +72,14 @@ class _ReportsPageState extends State<ReportsPage> {
                                         'Review_ID')), // Pass the reviewId from the report document
                                     Navigator.of(context).pop(true)
                                   },
-                                  child: Text('ban'),
+                                  child: Text('Ban'),
                                 ),
                                 TextButton(
                                   onPressed: () => {
                                     _deleteReport(report.id),
                                     Navigator.of(context).pop(true)
                                   },
-                                  child: Text('Delate report'),
+                                  child: Text('Reject report'),
                                 ),
                                 TextButton(
                                   onPressed: () =>

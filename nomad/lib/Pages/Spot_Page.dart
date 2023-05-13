@@ -328,41 +328,45 @@ class _SpotPageState extends State<SpotPage> {
                                       Text(snapshot.data[index]['Review']),
                                     ],
                                   ),
-                                  trailing: Container(
-                                    padding: EdgeInsets.only(right: 8),
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.report,
-                                        color: AppColors.lightGreenColor,
+                                  trailing: Visibility(
+                                    visible: showButton,
+                                    child: Container(
+                                      padding: EdgeInsets.only(right: 8),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.report,
+                                          color: AppColors.lightGreenColor,
+                                        ),
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text('Confirm Report'),
+                                                content: Text(
+                                                    'Are you sure you want to report this review?'),
+                                                actions: [
+                                                  TextButton(
+                                                    child: Text('Cancel'),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                  TextButton(
+                                                    child: Text('Report'),
+                                                    onPressed: () {
+                                                      _addReport(review);
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
                                       ),
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text('Confirm Report'),
-                                              content: Text(
-                                                  'Are you sure you want to report this review?'),
-                                              actions: [
-                                                TextButton(
-                                                  child: Text('Cancel'),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                                TextButton(
-                                                  child: Text('Report'),
-                                                  onPressed: () {
-                                                    // Handle the report button action for the review
-                                                    // You can add your implementation here
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
                                     ),
                                   ),
                                 ),
