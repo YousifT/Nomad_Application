@@ -268,8 +268,8 @@ class _SpotPageState extends State<SpotPage> {
                       SizedBox(
                         height: 16,
                       ),
-                      //reviews holder
 
+                      //reviews holder
                       Expanded(
                         child: ListView.builder(
                           itemCount: snapshot.data.length,
@@ -312,40 +312,44 @@ class _SpotPageState extends State<SpotPage> {
                                     Text(snapshot.data[index]['Review']),
                                   ],
                                 ),
-                                trailing: Container(
-                                  padding: EdgeInsets.only(right: 8),
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.report,
-                                      color: AppColors.lightGreenColor,
+                                trailing: Visibility(
+                                  visible: showButton,
+                                  child: Container(
+                                    padding: EdgeInsets.only(right: 8),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.report,
+                                        color: AppColors.lightGreenColor,
+                                      ),
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text('Confirm Report'),
+                                              content: Text(
+                                                  'Are you sure you want to report this review?'),
+                                              actions: [
+                                                TextButton(
+                                                  child: Text('Cancel'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: Text('Report'),
+                                                  onPressed: () {
+                                                    _addReport(
+                                                        snapshot.data[index]);
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
                                     ),
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Confirm Report'),
-                                            content: Text(
-                                                'Are you sure you want to report this review?'),
-                                            actions: [
-                                              TextButton(
-                                                child: Text('Cancel'),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                              TextButton(
-                                                child: Text('Report'),
-                                                onPressed: () {
-                                                  _addReport();
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
                                   ),
                                 ),
                               ),
@@ -508,6 +512,7 @@ class _SpotPageState extends State<SpotPage> {
         'user': globals.global_FullName,
         'uid': globals.global_UserID,
         'Review_ID': docID.id,
+        'email': globals.global_UserEmail
       });
 
       reviewFormController.clear();
@@ -533,15 +538,14 @@ void _launchMapURL(String location) async {
   }
 }
 
-Future<void> _addReport() async {
+Future<void> _addReport(var ReviewSnapshot) async {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Fetch the user's email
-  String userEmail = await getUserEmail(globals.global_UserID);
-
   await _firestore.collection('reports').add({
-    'email': userEmail,
-    'comment': reviewFormController.text,
+    'Reporter': globals.global_UserEmail,
+    'Reported_user': ReviewSnapshot['email'],
+    'Review': ReviewSnapshot['Review'],
+    'Review_ID': ReviewSnapshot['Review_ID']
   });
 }
 

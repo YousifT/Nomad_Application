@@ -161,8 +161,8 @@ Widget Sublist(sublistItem subListitem) {
               Navigator.push(
                 subListitem.context,
                 MaterialPageRoute(
-                  builder: (context) => SpotPage(
-                    spotObject: subListitem.items,
+                  builder: (context) => CategoryPage(
+                    categoryType: subListitem.title,
                   ),
                 ),
               );
