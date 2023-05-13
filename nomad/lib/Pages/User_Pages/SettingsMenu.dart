@@ -16,7 +16,10 @@ import 'HelpCenterPage .dart';
 Future<void> signOut(BuildContext context) async {
   await FirebaseAuth.instance.signOut();
   globals.global_LoggedIn = false;
-  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+  globals.global_NavBarPages = [MyHomePage(), Mysginuppage()];
+  updateHomeBar(context);
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => Mysginuppage()));
 }
 
 bool adminC = false;
@@ -27,9 +30,9 @@ class SettingsMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (globals.global_isAdmin == true) {
-      adminCheck = true;
+      adminC = true;
     } else {
-      adminCheck = false;
+      adminC = false;
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -164,12 +167,6 @@ class SettingsMenu extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<void> signOut(BuildContext context) async {
-  await FirebaseAuth.instance.signOut();
-  globals.global_LoggedIn = false;
-  globals.global_isAdmin = false;
 }
 
 void navigateAfterSignout(BuildContext context) {

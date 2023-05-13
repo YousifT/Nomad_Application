@@ -11,12 +11,6 @@ class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
 }
 
-Future SignOut(var context) async {
-  await FirebaseAuth.instance.signOut();
-  globals.global_LoggedIn = false;
-  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-}
-
 class _UserProfileState extends State<UserProfile> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController fnameController = TextEditingController();
@@ -112,7 +106,7 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('User Profile'),
       ),

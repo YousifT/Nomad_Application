@@ -83,7 +83,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   void goToHomePage() {
     while (Navigator.canPop(context) == true) {
-      print('popping');
       Navigator.pop(context);
     }
     Navigator.push(

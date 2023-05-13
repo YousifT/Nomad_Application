@@ -28,6 +28,6 @@ var global_GuestUser_Pages = [
   Mysginuppage(),
 ];
 
-var global_adminUser_Pages = [MyHomePage(), SettingsMenu(), AdminPage()];
+var global_NavBarPages = [MyHomePage(), Mysginuppage()];
 
 var HomePageChildren = [];
