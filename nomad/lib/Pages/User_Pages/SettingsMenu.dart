@@ -22,6 +22,11 @@ class SettingsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (globals.global_isAdmin == true) {
+      adminC = true;
+    } else {
+      adminC = false;
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -87,7 +92,9 @@ class SettingsMenu extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ReportsPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const ProposalPage(),
+                  ),
                 );
               },
               child: Text("Proposals"),
