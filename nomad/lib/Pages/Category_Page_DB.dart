@@ -93,6 +93,7 @@ class _CategoryPageState extends State<CategoryPage> {
                               ],
                             ),
                            SizedBox(height: 5,),
+                           Divider(color: Colors.black,thickness: 1,)
                           ],
                         );
                       } else {
