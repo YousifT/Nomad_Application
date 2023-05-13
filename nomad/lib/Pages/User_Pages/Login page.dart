@@ -81,9 +81,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   void goToHomePage() {
-    while (Navigator.canPop(context)) {
-      Navigator.pop(context);
-    }
+    Navigator.canPop(context);
+    Navigator.pop(context);
+
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const SettingsMenu()));
     setState(() {});
