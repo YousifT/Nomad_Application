@@ -92,7 +92,9 @@ class SettingsMenu extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ReportsPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const ProposalPage(),
+                  ),
                 );
               },
               child: Text("Proposals"),
