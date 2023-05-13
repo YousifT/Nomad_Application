@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
       title: 'Nomad',
       home: const HomePage(),
       routes: {
-        'homepage': (context) => const MyHomePage(),
         'signupscreen': (context) => const Mysginuppage(),
         'loginscreen': (context) => const Myloginpage(),
       },
@@ -46,6 +45,17 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  // When a user logs in - Update the LoggedIn variable, and reinsitate the BottomNavigationBar with a different profile page
+  // Should work the same way with Sign out button if you pass "false" (not added yet).
+
+  // Current bug: BottomNavBar icon highlight isnt updated with this route update.
+  updateBottomNavBar(bool value, context) {
+    globals.global_LoggedIn = value;
+    createState();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const MyHomePage()));
+  }
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -78,26 +88,53 @@ class _HomePageState extends State<HomePage> {
             ]),
       );
     } else {
-      return Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: IndexedStack(
-          index: selectedPage,
-          children: globals.global_LoggedIn_Pages,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-            currentIndex: selectedPage,
-            onTap: (index) {
-              setState(() {
-                selectedPage = index;
-              });
-            },
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: "Profile")
-            ]),
-      );
+      if (globals.global_isAdmin == false) {
+        return Scaffold(
+          resizeToAvoidBottomInset: true,
+          body: IndexedStack(
+            index: selectedPage,
+            children: globals.global_LoggedIn_Pages,
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+              currentIndex: selectedPage,
+              onTap: (index) {
+                setState(() {
+                  selectedPage = index;
+                });
+              },
+              type: BottomNavigationBarType.fixed,
+              items: [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person), label: "Profile")
+              ]),
+        );
+      }
+      // Logged in User is an admin
+      else {
+        return Scaffold(
+          resizeToAvoidBottomInset: true,
+          body: IndexedStack(
+            index: selectedPage,
+            children: globals.global_adminUser_Pages,
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+              currentIndex: selectedPage,
+              onTap: (index) {
+                setState(() {
+                  selectedPage = index;
+                });
+              },
+              type: BottomNavigationBarType.fixed,
+              items: [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person), label: "Profile"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.admin_panel_settings), label: "Admin")
+              ]),
+        );
+      }
     }
   }
 }
