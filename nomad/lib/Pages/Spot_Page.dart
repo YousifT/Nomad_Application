@@ -17,16 +17,6 @@ import 'package:flutter/src/rendering/box.dart';
 
 import 'User_Pages/app_colors.dart';
 
-void _launchMapURL(double lat, double long) async {
-  final url = 'https://www.google.com/maps/search/?api=1&query=${lat},${long}';
-
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
 Color myColor = Color(0xff00bfa5);
 double? _rating;
 IconData? _selectedIcon;
@@ -217,8 +207,7 @@ class _SpotPageState extends State<SpotPage> {
                                             )),
                                         onTap: () {
                                           _launchMapURL(
-                                              widget.spotObject['latitude'],
-                                              widget.spotObject['longitude']);
+                                              widget.spotObject['location']);
                                           //TODO Redirect to location
                                         },
                                       )
@@ -279,6 +268,7 @@ class _SpotPageState extends State<SpotPage> {
                       SizedBox(
                         height: 16,
                       ),
+
                       //reviews holder
 
                      Expanded(
@@ -421,7 +411,7 @@ class _SpotPageState extends State<SpotPage> {
       totalRatings = "0.0";
     } else {
       double res = sumOfStars / snapshot.docs.length;
-      totalRatings = res.toString();
+      totalRatings = res.toStringAsFixed(2);
     }
 
     return snapshot.docs;
@@ -454,7 +444,7 @@ class _SpotPageState extends State<SpotPage> {
                       //star row
                       Row(mainAxisSize: MainAxisSize.min, children: [
                         RatingBar.builder(
-                          initialRating: _rating ?? 0.0,
+                          initialRating: _rating ?? 1,
                           minRating: 1,
                           direction: Axis.horizontal,
                           allowHalfRating: false,
@@ -518,16 +508,57 @@ class _SpotPageState extends State<SpotPage> {
         });
   }
 
-  Future<void> submitReview() {
-    CollectionReference database =
-        FirebaseFirestore.instance.collection('reviews');
-    var docID = database.doc();
-    return database.doc(docID.id).set({
-      'Parent_Spot': widget.spotObject['ID'],
-      'Review': reviewFormController.text,
-      'Stars': _rating,
-      'user': globals.global_FullName,
-      'Review_ID': docID.id,
-    }).then((value) => Navigator.pop(context));
+  Future<void> submitReview() async {
+    try {
+      CollectionReference database =
+          FirebaseFirestore.instance.collection('reviews');
+      var docID = database.doc();
+      await database.doc(docID.id).set({
+        'Parent_Spot': widget.spotObject['ID'],
+        'Review': reviewFormController.text,
+        'Stars': _rating,
+        'user': globals.global_FullName,
+        'uid': globals.global_UserID,
+        'Review_ID': docID.id,
+        'email': globals.global_UserEmail
+      });
+
+      reviewFormController.clear();
+      Navigator.pop(context);
+
+      setState(() {
+        loadReviews();
+      });
+    } catch (e) {
+      print('Error submitting review: $e');
+      // Handle the error accordingly
+    }
   }
+}
+
+void _launchMapURL(String location) async {
+  Uri url = Uri.parse(location);
+
+  try {
+    await launchUrl(url);
+  } catch (e) {
+    throw 'Could not launch $url';
+  }
+}
+
+Future<void> _addReport(var ReviewSnapshot) async {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  await _firestore.collection('reports').add({
+    'Reporter': globals.global_UserEmail,
+    'Reported_user': ReviewSnapshot['email'],
+    'Review': ReviewSnapshot['Review'],
+    'Review_ID': ReviewSnapshot['Review_ID']
+  });
+}
+
+Future<String> getUserEmail(String uid) async {
+  final userDoc =
+      await FirebaseFirestore.instance.collection('users').doc(uid).get();
+  return userDoc.data()?['email'] ?? '';
 }

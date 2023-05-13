@@ -17,6 +17,7 @@ bool global_isBanned = false;
 bool global_isAdmin = false;
 String global_UserEmail = "";
 String global_FullName = "";
+String global_UserID = "";
 
 var global_LoggedIn_Pages = [
   MyHomePage(),

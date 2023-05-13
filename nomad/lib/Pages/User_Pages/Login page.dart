@@ -23,6 +23,7 @@ class Myloginpage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: _title,
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: const MyStatefulWidget(),
       ),
     );
@@ -81,7 +82,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   void goToHomePage() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const MyHomePage()));
+        context, MaterialPageRoute(builder: (context) => const SettingsMenu()));
   }
 
   void opensignupscreen() {
@@ -92,41 +93,52 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       body: Padding(
         padding: const EdgeInsets.all(3),
         child: Container(
           color: Color.fromARGB(
-              255, 236, 213, 198), // Desert-themed background color
+              255, 255, 255, 255), // Desert-themed background color
           child: ListView(
             children: <Widget>[
               Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(10),
-                  child: const Text(
-                    'Nomad',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 207, 124, 29),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 30),
+                  child: Column(
+                    children: const [
+                      Image(
+                          image: AssetImage("assets/images/nomad.png"),
+                          height: 150,
+                          width: 150),
+                      Text(
+                        'Nomad',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 170, 127, 41),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 30),
+                      ),
+                    ],
                   )),
               Container(
                   alignment: Alignment.center,
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                   child: const Text(
                     'Sign in',
                     style: TextStyle(
-                        fontSize: 20, color: Color.fromARGB(255, 207, 124, 29)),
+                        fontSize: 20,
+                        color: Color.fromARGB(255, 47, 66, 75),
+                        fontWeight: FontWeight.w500),
                   )),
               Container(
                 padding: const EdgeInsets.all(10),
                 child: TextField(
                   controller: emailController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'User Name',
-                    labelStyle: TextStyle(color: Colors.deepOrange),
+                    labelStyle:
+                        TextStyle(color: Color.fromARGB(255, 66, 92, 105)),
                   ),
                 ),
               ),
@@ -135,10 +147,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: TextField(
                   obscureText: true,
                   controller: passwordController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Password',
-                    labelStyle: TextStyle(color: Colors.deepOrange),
+                    labelStyle:
+                        TextStyle(color: Color.fromARGB(255, 66, 92, 105)),
                   ),
                 ),
               ),
@@ -148,7 +161,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 },
                 child: const Text(
                   'Forgot Password',
-                  style: TextStyle(color: Color.fromARGB(255, 150, 87, 51)),
+                  style: TextStyle(color: Color.fromARGB(255, 114, 85, 27)),
                 ),
               ),
               GestureDetector(
@@ -162,32 +175,53 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 50,
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: ElevatedButton(
-                      child: const Text('Login'),
                       onPressed: () {
                         login(
                           emailController.text,
                           passwordController.text,
                         );
                       },
-                      style: ElevatedButton.styleFrom(primary: Colors.green),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 90, 133, 155)),
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 20),
+                      ),
                     )),
               ),
-              Row(
-                children: <Widget>[
-                  const Text('Dont have account?'),
-                  GestureDetector(
-                    onTap: opensignupscreen,
-                    child: const Text(
-                      'Sign up',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 150, 87, 51)),
-                    ),
-                    //signup button press
-                    // switches the screen to Mysignuppage()
-                  )
-                ],
-                mainAxisAlignment: MainAxisAlignment.center,
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        const Text(
+                          'Don\'t have account?',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 184, 138, 44)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: opensignupscreen,
+                            child: const Text(
+                              'Sign up',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color.fromARGB(255, 184, 138, 44)),
+                            ),
+                            //signup button press
+                            // switches the screen to Mysignuppage()
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               )
             ],
           ),

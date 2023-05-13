@@ -19,47 +19,14 @@ class _ReportsPageState extends State<ReportsPage> {
 
   bool _isBanned = false;
 
-  Future<void> _banUser() async {
+  Future<void> _banUser(String reviewId) async {
     await _firestore
         .collection('banned_users')
         .doc(globals.global_UserEmail)
         .set({'email': globals.global_UserEmail});
+    await _firestore.collection('reviews').doc(reviewId).delete();
     setState(() {
       _isBanned = true;
-    });
-  }
-
-  Future<void> _unbanUser() async {
-    await _firestore
-        .collection('banned_users')
-        .doc(emailController.text)
-        .delete();
-    setState(() {
-      _isBanned = false;
-    });
-  }
-
-  Future<void> _addReport() async {
-    await _firestore.collection('reports').add({
-      'email': emailController.text,
-      'comment': commentController.text,
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // Retrieve email and password values from Cloud Firestore
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        setState(() {
-          emailController.text = documentSnapshot.get('email');
-        });
-      }
     });
   }
 
@@ -75,8 +42,6 @@ class _ReportsPageState extends State<ReportsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // ... (The rest of your code remains the same)
-
             StreamBuilder<QuerySnapshot>(
               stream: _firestore.collection('reports').snapshots(),
               builder: (context, snapshot) {
@@ -103,14 +68,17 @@ class _ReportsPageState extends State<ReportsPage> {
                               actions: [
                                 TextButton(
                                   onPressed: () => {
-                                    _banUser(),
+                                    _banUser(report.get(
+                                        'Review_ID')), // Pass the reviewId from the report document
                                     Navigator.of(context).pop(true)
                                   },
                                   child: Text('ban'),
                                 ),
                                 TextButton(
-                                  onPressed: () =>
-                                      Navigator.of(context).pop(true),
+                                  onPressed: () => {
+                                    _deleteReport(report.id),
+                                    Navigator.of(context).pop(true)
+                                  },
                                   child: Text('Delate report'),
                                 ),
                                 TextButton(
@@ -144,15 +112,15 @@ class _ReportsPageState extends State<ReportsPage> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(bottom: 8.0),
-                              child: Text(report.get('email')),
+                              child: Text(report.get('Reported_user')),
                             ),
                             Text(
-                              'Comment',
+                              'Review',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 8.0),
-                              child: Text(report.get('comment')),
+                              child: Text(report.get('Review')),
                             ),
                           ],
                         ),

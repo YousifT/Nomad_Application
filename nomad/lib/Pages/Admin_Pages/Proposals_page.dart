@@ -6,41 +6,47 @@ import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
 
 class ProposalPage extends StatefulWidget {
-  const ProposalPage({super.key});
+  const ProposalPage({Key? key}) : super(key: key);
 
   @override
   State<ProposalPage> createState() => _ProposalPageState();
 }
 
-var list_of_Proposals = [];
+class _ProposalPageState extends State<ProposalPage> {
+  late List<Proposal> list_of_Proposals;
 
-Future<void>? getProposals(var context) async {
-  CollectionReference database =
-      FirebaseFirestore.instance.collection('proposals');
-  QuerySnapshot snapshot = await database.get();
-  List<dynamic> result = snapshot.docs.map((doc) => doc.data()).toList();
-
-  int i;
-  list_of_Proposals = [];
-
-  for (i = 0; i < result.length; i++) {
-    Proposal p = Proposal(
-        result[i]['title'],
-        result[i]['category'],
-        result[i]['description'],
-        result[i]['location'],
-        result[i]['ID'],
-        result[i]['user']);
-    list_of_Proposals.add(AdminPropsals(p, context));
+  @override
+  void initState() {
+    super.initState();
+    list_of_Proposals = [];
+    getProposals();
   }
 
-  /*if (list_of_Proposals.length > 0)
-    return 1;
-  else
-    return 0; */
-}
+  Future<void> getProposals() async {
+    CollectionReference database =
+        FirebaseFirestore.instance.collection('proposals');
+    QuerySnapshot snapshot = await database.get();
+    List<dynamic> result = snapshot.docs.map((doc) => doc.data()).toList();
 
-class _ProposalPageState extends State<ProposalPage> {
+    int i;
+    List<Proposal> tempList = [];
+
+    for (i = 0; i < result.length; i++) {
+      Proposal p = Proposal(
+          result[i]['title'],
+          result[i]['category'],
+          result[i]['description'],
+          result[i]['location'],
+          result[i]['ID'],
+          result[i]['user']);
+      tempList.add(p);
+    }
+
+    setState(() {
+      list_of_Proposals = tempList;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,26 +54,29 @@ class _ProposalPageState extends State<ProposalPage> {
           title: const Text('Review Pending Proposals'),
           centerTitle: true,
         ),
-        body: FutureBuilder<dynamic>(
-          future: getProposals(context),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            return Container(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
-                child: SingleChildScrollView(
-                  physics: const ClampingScrollPhysics(),
-                  child: Column(children: [
-                    for (var proposal in list_of_Proposals) proposal
-                  ]),
-                ),
-              ),
-            );
-          },
+        body: Container(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
+            child: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              child: Column(children: [
+                for (var proposal in list_of_Proposals)
+                  AdminPropsals(proposal, context, removeProposalFromList)
+              ]),
+            ),
+          ),
         ));
+  }
+
+  void removeProposalFromList(Proposal proposal) {
+    setState(() {
+      list_of_Proposals.remove(proposal);
+    });
   }
 }
 
-Widget AdminPropsals(Proposal proposal, [var context]) {
+Widget AdminPropsals(Proposal proposal, BuildContext context,
+    Function(Proposal) removeCallback) {
   return Container(
       padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
       child: Column(
@@ -179,66 +188,65 @@ Widget AdminPropsals(Proposal proposal, [var context]) {
                   ),
                 ),
               ])),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                  onPressed: () => ProposalApprove(proposal, context),
-                  child: Text("Approve\nProposal")),
-              InkWell(
-                onTap: () => {EditProposal(proposal, context)},
-                child: Text("Edit\nProposal"),
-              ),
-              ElevatedButton(
-                  onPressed: () => ClearProposal(proposal, context),
-                  child: Text("Reject\nProposal")),
-            ],
-          )
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            ElevatedButton(
+                onPressed: () {
+                  ProposalApprove(proposal, context);
+                  removeCallback(proposal);
+                },
+                child: Text("Approve\nProposal")),
+            InkWell(
+              onTap: () => {EditProposal(proposal, context)},
+              child: Text("Edit\nProposal"),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  ClearProposal(proposal, context);
+                  removeCallback(proposal);
+                },
+                child: Text("Reject\nProposal")),
+          ])
         ],
       ));
 }
 
-Future<void> ProposalApprove(Proposal spot, [var context]) {
+Future<void> ProposalApprove(Proposal spot, BuildContext context) async {
   CollectionReference database = FirebaseFirestore.instance.collection('spots');
   var docID = database.doc();
-  return database
-      .doc(docID.id)
-      .set({
-        'title': spot.name,
-        'category': spot.category,
-        'description': spot.description,
-        'location': spot.location,
-        'topSpot': "False",
-        // REPLACE THIS WITH Global_var.Username
-        'User': spot.user,
-        'ID': docID.id
-      })
-      .then((value) => ClearProposal(spot))
-      .then((value) => Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProposalPage(),
-          )));
+  await database.doc(docID.id).set({
+    'title': spot.name,
+    'category': spot.category,
+    'description': spot.description,
+    'location': spot.location,
+    'topSpot': "False",
+    // REPLACE THIS WITH Global_var.Username
+    'User': spot.user,
+    'ID': docID.id
+  });
+  await ClearProposal(spot, context);
 }
 
-EditProposal(Proposal spot, [var context]) {
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EditingPage(proposal: spot),
-      ));
+EditProposal(Proposal spot, BuildContext context) async {
+  await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => EditingPage(proposal: spot),
+    ),
+  );
+  (context as BuildContext)
+      .findAncestorStateOfType<_ProposalPageState>()
+      ?.getProposals();
 }
 
-ClearProposal(Proposal spot, [var context]) {
+ClearProposal(Proposal spot, BuildContext context) async {
   CollectionReference database =
       FirebaseFirestore.instance.collection('proposals');
 
-  database.doc(spot.id).delete();
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ProposalPage(),
-      ));
+  await database.doc(spot.id).delete();
+
+  if (context != null) {
+    await ClearProposal(spot, context);
+  }
 }
 
 class Proposal {

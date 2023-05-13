@@ -6,19 +6,19 @@ import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
 import 'package:nomad/Pages/User_Pages/UserProfile.dart';
 import 'package:nomad/main.dart';
-import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
+import 'package:nomad/Pages/Admin_Pages/Proposals_page.dart';
+import 'package:nomad/Pages/Admin_Pages/Reports_page.dart';
 
-Future SignOut(var context) async {
+Future<void> signOut(BuildContext context) async {
   await FirebaseAuth.instance.signOut();
   globals.global_LoggedIn = false;
   Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
 }
 
 class SettingsMenu extends StatelessWidget {
-  @override
-  SettingsMenu createState() => SettingsMenu();
   const SettingsMenu({Key? key}) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,49 +29,76 @@ class SettingsMenu extends StatelessWidget {
           padding: const EdgeInsets.all(30),
         ),
         SizedBox(
-            height: 75, //height of button
-            width: 350, //width of button
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const UserProfile()));
-              },
-              child: Text(" Profile"),
-            )),
-        SizedBox(
-            height: 75, //height of button
-            width: 350, //width of button
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Text("Notifications"),
-            )),
-        SizedBox(
-            height: 75, //height of button
-            width: 350, //width of button
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProposalForm()));
-              },
-              child: Text("Settings"),
-            )),
-        SizedBox(
-            height: 75, //height of button
-            width: 350, //width of button
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HelpCenterPage()));
-              },
-              child: Text("Help Center"),
-            )),
-        SizedBox(
-          height: 75, //height of button
-          width: 350, //width of button
+          height: 75,
+          width: 350,
           child: ElevatedButton(
-            onPressed: () => SignOut(context),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const UserProfile()),
+              );
+            },
+            child: Text("Profile"),
+          ),
+        ),
+        SizedBox(
+          height: 75,
+          width: 350,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ReportsPage()),
+              );
+            },
+            child: Text("Proposals"),
+          ),
+        ),
+        SizedBox(
+          height: 75,
+          width: 350,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ReportsPage()),
+              );
+            },
+            child: Text("Reports"),
+          ),
+        ),
+        SizedBox(
+          height: 75,
+          width: 350,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProposalForm(onSubmitted: () {})),
+              );
+            },
+            child: Text("Submit a Proposal Form"),
+          ),
+        ),
+        SizedBox(
+          height: 75,
+          width: 350,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HelpCenterPage()),
+              );
+            },
+            child: Text("Help Center"),
+          ),
+        ),
+        SizedBox(
+          height: 75,
+          width: 350,
+          child: ElevatedButton(
+            onPressed: () => signOut(context),
             child: Text("Logout"),
           ),
         ),

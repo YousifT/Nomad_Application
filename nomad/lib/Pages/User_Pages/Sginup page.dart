@@ -21,7 +21,7 @@ class Mysginuppage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         body: const MyStatefulWidget(),
       ),
     );
@@ -107,122 +107,157 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final email = TextEditingController();
     final password = TextEditingController();
     final cpassword = TextEditingController();
-    return Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: <Widget>[
-            Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                child: const Text(
-                  'Nomad',
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 30),
-                )),
-            Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                child: const Text(
-                  'Sign up',
-                  style: TextStyle(fontSize: 20),
-                )),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: Fname,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'First Name',
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: Lname,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Last Name',
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: TextField(
-                obscureText: false,
-                controller: email,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'email',
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: TextField(
-                obscureText: true,
-                controller: password,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: TextField(
-                obscureText: true,
-                controller: cpassword,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: ' rewrite Password',
-                ),
-              ),
-            ),
-            Container(
-              height: 50,
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: GestureDetector(
-                onTap: () {
-                  signUp(Fname.text, Lname.text, email.text, password.text,
-                      cpassword.text);
-                },
-                child: Container(
-                  height: 50,
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: ElevatedButton(
-                    child: const Text('Sgin Up'),
-                    onPressed: () {
-                      signUp(Fname.text, Lname.text, email.text, password.text,
-                          cpassword.text);
-                    },
+    return Container(
+      color: Color.fromARGB(255, 255, 255, 255),
+      child: ListView(
+        children: <Widget>[
+          Container(
+              alignment: Alignment.center,
+              child: Column(
+                children: const [
+                  Image(
+                      image: AssetImage("assets/images/nomad.png"),
+                      height: 125,
+                      width: 125),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(9, 0, 0, 0),
+                    child: Text(
+                      'Nomad',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 170, 127, 41),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 28),
+                    ),
                   ),
-                ),
+                ],
+              )),
+          Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.fromLTRB(18, 0, 10, 10),
+              child: const Text(
+                'Sign up',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 47, 66, 75),
+                    fontWeight: FontWeight.w500),
+              )),
+          Container(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
+            child: TextField(
+              controller: Fname,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'First Name',
+                labelStyle: TextStyle(color: Color.fromARGB(255, 66, 92, 105)),
               ),
             ),
-            Row(
-              children: <Widget>[
-                const Text('Already have an account?'),
-                TextButton(
-                  child: const Text(
-                    'Login',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  // Login button press
-                  // Switches screens to MyloginPage()
+          ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child: TextField(
+              controller: Lname,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Last Name',
+                labelStyle: TextStyle(color: Color.fromARGB(255, 66, 92, 105)),
+              ),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child: TextField(
+              obscureText: false,
+              controller: email,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Email',
+                labelStyle: TextStyle(color: Color.fromARGB(255, 66, 92, 105)),
+              ),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child: TextField(
+              obscureText: true,
+              controller: password,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Password',
+                labelStyle: TextStyle(color: Color.fromARGB(255, 66, 92, 105)),
+              ),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 15),
+            child: TextField(
+              obscureText: true,
+              controller: cpassword,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Rewrite Password',
+                labelStyle: TextStyle(color: Color.fromARGB(255, 66, 92, 105)),
+              ),
+            ),
+          ),
+          Container(
+            height: 50,
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: GestureDetector(
+              onTap: () {
+                signUp(Fname.text, Lname.text, email.text, password.text,
+                    cpassword.text);
+              },
+              child: Container(
+                height: 35,
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 90, 133, 155)),
+                  child: const Text('Sign Up',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Myloginpage()));
+                    signUp(Fname.text, Lname.text, email.text, password.text,
+                        cpassword.text);
                   },
-                )
-              ],
-              mainAxisAlignment: MainAxisAlignment.center,
+                ),
+              ),
             ),
-          ],
-        ));
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                    child: const Text(
+                      'Already have an account?',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 184, 138, 44)),
+                    ),
+                  ),
+                  TextButton(
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Color.fromARGB(255, 184, 138, 44)),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Myloginpage()));
+                    },
+                  )
+                ],
+              )
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
