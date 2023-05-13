@@ -4,18 +4,13 @@ import 'package:nomad/Global_Var.dart' as globals;
 import 'package:nomad/Pages/User_Pages/HelpCenterPage%20.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
+import 'package:nomad/Pages/User_Pages/Sginup%20page.dart';
 import 'package:nomad/Pages/User_Pages/UserProfile.dart';
 import 'package:nomad/main.dart';
 import 'package:nomad/Pages/Admin_Pages/Proposals_page.dart';
 import 'package:nomad/Pages/Admin_Pages/Reports_page.dart';
 
-Future<void> signOut(BuildContext context) async {
-  await FirebaseAuth.instance.signOut();
-  globals.global_LoggedIn = false;
-  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-}
-
-bool adminC = false;
+bool adminCheck = false;
 
 class SettingsMenu extends StatelessWidget {
   const SettingsMenu({Key? key}) : super(key: key);
@@ -23,9 +18,9 @@ class SettingsMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (globals.global_isAdmin == true) {
-      adminC = true;
+      adminCheck = true;
     } else {
-      adminC = false;
+      adminCheck = false;
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,7 +79,7 @@ class SettingsMenu extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: adminC,
+          visible: adminCheck,
           child: SizedBox(
             height: 75,
             width: 350,
@@ -102,7 +97,7 @@ class SettingsMenu extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: adminC,
+          visible: adminCheck,
           child: SizedBox(
             height: 75,
             width: 350,
@@ -120,4 +115,19 @@ class SettingsMenu extends StatelessWidget {
       ],
     );
   }
+}
+
+Future<void> signOut(BuildContext context) async {
+  await FirebaseAuth.instance.signOut();
+  globals.global_LoggedIn = false;
+  globals.global_isAdmin = false;
+}
+
+void navigateAfterSignout(BuildContext context) {
+  while (Navigator.canPop(context)) {
+    Navigator.pop(context);
+  }
+  HomePage mainPage = HomePage();
+  mainPage.createState();
+  Navigator.push(context, MaterialPageRoute(builder: (context) => mainPage));
 }
