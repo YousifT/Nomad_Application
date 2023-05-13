@@ -74,15 +74,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
       goToHomePage();
     } on FirebaseAuthException catch (e) {
-      showSnackBar("An error occurred while Sgin in");
+      showSnackBar("An error occurred while Logging in");
     } catch (e) {
-      showSnackBar("An error occurred while Sgin Up");
+      showSnackBar("An error occurred while Logging in");
     }
   }
 
   void goToHomePage() {
-    Navigator.pushReplacement(
+    while (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
+    Navigator.push(
         context, MaterialPageRoute(builder: (context) => const SettingsMenu()));
+    setState(() {});
   }
 
   void opensignupscreen() {
