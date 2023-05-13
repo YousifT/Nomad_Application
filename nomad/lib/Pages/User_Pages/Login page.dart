@@ -73,6 +73,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       } else {
         global_isBanned = false;
       }
+
+      global_NavBarPages = [MyHomePage(), SettingsMenu()];
+
       goToHomePage();
     } on FirebaseAuthException catch (e) {
       showSnackBar("An error occurred while Logging in");
