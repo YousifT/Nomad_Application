@@ -147,11 +147,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 15),
           Sublist(globals.HomePageChildren[0]),
-          SizedBox(height: 10),
+          SizedBox(height: 15),
           Sublist(globals.HomePageChildren[1]),
-          SizedBox(height: 10),
+          SizedBox(height: 15),
           Sublist(globals.HomePageChildren[2])
         ]),
       ),
@@ -174,7 +174,7 @@ Widget Sublist(sublistItem subListitem) {
   return Container(
     padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
     child: SizedBox(
-      height: 380,
+      height: 400,
       width: double.maxFinite,
       child: Column(children: [
         Expanded(
@@ -217,14 +217,15 @@ Widget Sublist(sublistItem subListitem) {
         ),
 
         Divider(
-          thickness: 3,
+          thickness: 2,
           color: Colors.black38,
         ),
-
+ SizedBox(height: 3),
         // Per Elements part start
 
         Column(
           children: [
+            
             Container(
               decoration: BoxDecoration(
                 color: Colors.white, // Change the color to a desired grey shade
@@ -260,15 +261,19 @@ Widget Sublist(sublistItem subListitem) {
                   children: [
                     Row(
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(13),
-                          child: Image(
-                            image: AssetImage(
-                              "assets/images/${subListitem.items[0]['ID']}/${subListitem.items[0]['image']}",
+                        Container(
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black26,width: 1.5),borderRadius: BorderRadius.circular(13)),
+                          child: ClipRRect(
+                            
+                            borderRadius: BorderRadius.circular(13),
+                            child: Image(
+                              image: AssetImage(
+                                "assets/images/${subListitem.items[0]['ID']}/${subListitem.items[0]['image']}",
+                              ),
+                              width: 200,
+                              height: 100,
+                              fit: BoxFit.fill,
                             ),
-                            width: 200,
-                            height: 100,
-                            fit: BoxFit.fill,
                           ),
                         ),
                         Expanded(
@@ -325,7 +330,9 @@ Widget Sublist(sublistItem subListitem) {
 
             // item 2
             Container(
+              
               decoration: BoxDecoration(
+                
                 color: Colors.white, // Change the color to a desired grey shade
                 borderRadius: const BorderRadius.only(
                   bottomRight: Radius.circular(20.5),
@@ -359,15 +366,18 @@ Widget Sublist(sublistItem subListitem) {
                   children: [
                     Row(
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(13),
-                          child: Image(
-                            image: AssetImage(
-                              "assets/images/${subListitem.items[1]['ID']}/${subListitem.items[1]['image']}",
+                        Container(
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black26,width: 1.5),borderRadius: BorderRadius.circular(13)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(13),
+                            child: Image(
+                              image: AssetImage(
+                                "assets/images/${subListitem.items[1]['ID']}/${subListitem.items[1]['image']}",
+                              ),
+                              width: 200,
+                              height: 100,
+                              fit: BoxFit.fill,
                             ),
-                            width: 200,
-                            height: 100,
-                            fit: BoxFit.fill,
                           ),
                         ),
                         Expanded(
@@ -458,15 +468,18 @@ Widget Sublist(sublistItem subListitem) {
                   children: [
                     Row(
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(13),
-                          child: Image(
-                            image: AssetImage(
-                              "assets/images/${subListitem.items[2]['ID']}/${subListitem.items[2]['image']}",
+                        Container(
+                          decoration: BoxDecoration(border: Border.all(color: Colors.black26,width: 1.5),borderRadius: BorderRadius.circular(13)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(13),
+                            child: Image(
+                              image: AssetImage(
+                                "assets/images/${subListitem.items[2]['ID']}/${subListitem.items[2]['image']}",
+                              ),
+                              width: 200,
+                              height: 100,
+                              fit: BoxFit.fill,
                             ),
-                            width: 200,
-                            height: 100,
-                            fit: BoxFit.fill,
                           ),
                         ),
                         Expanded(
