@@ -22,7 +22,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 var ImageOne = globals.HomePageChildren[0].items[0];
-var ImageTwo = globals.HomePageChildren[1].items[0];
+var ImageTwo = globals.HomePageChildren[1].items[2];
 var ImageThree = globals.HomePageChildren[2].items[1];
 
 List<String> imgLinks = [
@@ -272,7 +272,7 @@ Widget Sublist(sublistItem subListitem) {
                               "assets/images/${subListitem.items[1]['ID']}/${subListitem.items[1]['image']}"),
                           width: 130,
                           height: 80,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.contain,
                         ),
                       ),
                       const SizedBox(width: 50),

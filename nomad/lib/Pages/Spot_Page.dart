@@ -271,100 +271,106 @@ class _SpotPageState extends State<SpotPage> {
 
                       //reviews holder
 
-                     Expanded(
-  child: Container(
-    margin: EdgeInsets.symmetric(horizontal: 16),
-    decoration: BoxDecoration(
-      color: Color.fromARGB(255, 241, 239, 239),
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: ListView.builder(
-      itemCount: snapshot.data.length,
-      itemBuilder: (context, index) {
-        final review = snapshot.data[index];
-        final containerColor = Color.fromARGB(255, 241, 239, 239);
-        final reviewColor = Color.lerp(
-          containerColor,
-          Colors.white,
-          0.8,
-        );
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 241, 239, 239),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              final review = snapshot.data[index];
+                              final containerColor =
+                                  Color.fromARGB(255, 241, 239, 239);
+                              final reviewColor = Color.lerp(
+                                containerColor,
+                                Colors.white,
+                                0.8,
+                              );
 
-        return Card(
-          color: reviewColor,
-          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: ListTile(
-                                title: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(snapshot.data[index]['user']),
-                                    RatingBar.builder(
-                                      initialRating: snapshot.data[index]
-                                          ['Stars'],
-                                      minRating: 1,
-                                      direction: Axis.horizontal,
-                                      allowHalfRating: true,
-                                      itemCount: 5,
-                                      itemSize: 20,
-                                      itemBuilder: (context, _) => Icon(
-                                        Icons.star,
+                              return Card(
+                                color: reviewColor,
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                child: ListTile(
+                                  title: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(snapshot.data[index]['user']),
+                                      RatingBar.builder(
+                                        initialRating: snapshot.data[index]
+                                            ['Stars'],
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        itemSize: 20,
+                                        itemBuilder: (context, _) => Icon(
+                                          Icons.star,
+                                          color: AppColors.lightGreenColor,
+                                        ),
+                                        onRatingUpdate: (rating) {
+                                          setState(() {
+                                            review.rating = rating;
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 12),
+                                      Text(snapshot.data[index]['Review']),
+                                    ],
+                                  ),
+                                  trailing: Container(
+                                    padding: EdgeInsets.only(right: 8),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.report,
                                         color: AppColors.lightGreenColor,
                                       ),
-                                      onRatingUpdate: (rating) {
-                                        setState(() {
-                                          review.rating = rating;
-                                        });
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text('Confirm Report'),
+                                              content: Text(
+                                                  'Are you sure you want to report this review?'),
+                                              actions: [
+                                                TextButton(
+                                                  child: Text('Cancel'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: Text('Report'),
+                                                  onPressed: () {
+                                                    // Handle the report button action for the review
+                                                    // You can add your implementation here
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
                                       },
                                     ),
-                                  ],
+                                  ),
                                 ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 12),
-                                    Text(snapshot.data[index]['Review']),
-                                  ],
-                                ),trailing: Container(
-            padding: EdgeInsets.only(right: 8),
-            child: IconButton(
-              icon: Icon(
-                Icons.report,
-                color: AppColors.lightGreenColor,
-              ),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Confirm Report'),
-                      content: Text('Are you sure you want to report this review?'),
-                      actions: [
-                        TextButton(
-                          child: Text('Cancel'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
+                              );
+                            },
+                          ),
                         ),
-                        TextButton(
-                          child: Text('Report'),
-                          onPressed: () {
-                            // Handle the report button action for the review
-                            // You can add your implementation here
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),)
+                      )
                     ],
                   ),
                 );
@@ -518,7 +524,6 @@ class _SpotPageState extends State<SpotPage> {
         'Review': reviewFormController.text,
         'Stars': _rating,
         'user': globals.global_FullName,
-        'uid': globals.global_UserID,
         'Review_ID': docID.id,
         'email': globals.global_UserEmail
       });
