@@ -23,7 +23,7 @@ class Myloginpage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: _title,
       home: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         body: const MyStatefulWidget(),
       ),
     );
@@ -93,7 +93,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       body: Padding(
         padding: const EdgeInsets.all(3),
@@ -134,7 +134,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 padding: const EdgeInsets.all(10),
                 child: TextField(
                   controller: emailController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'User Name',
                     labelStyle:
@@ -147,7 +147,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: TextField(
                   obscureText: true,
                   controller: passwordController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Password',
                     labelStyle:
@@ -175,7 +175,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 50,
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: ElevatedButton(
-                      child: const Text('Login'),
                       onPressed: () {
                         login(
                           emailController.text,
@@ -183,7 +182,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 107, 158, 184)),
+                          backgroundColor: Color.fromARGB(255, 90, 133, 155)),
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 20),
+                      ),
                     )),
               ),
               Padding(
