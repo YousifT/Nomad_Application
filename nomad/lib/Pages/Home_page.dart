@@ -229,14 +229,14 @@ Widget Sublist(sublistItem subListitem) {
           children: [
             Container(
   decoration: BoxDecoration(
-    color: Color.fromARGB(255, 209, 186, 160), // Change the color to a desired grey shade
+    color: Colors.white, // Change the color to a desired grey shade
     borderRadius: BorderRadius.only(
       bottomRight: Radius.circular(20.5),
       topLeft: Radius.circular(13),
       topRight: Radius.circular(13),
       bottomLeft: Radius.circular(13),
     ), 
-    border: Border.all(color: Colors.black54),// Add rounded corners
+    border: Border.all(color: Colors.black26),// Add rounded corners
     boxShadow: [
       BoxShadow(
         color: Color.fromARGB(255, 167, 167, 167).withOpacity(0.5),
@@ -291,7 +291,7 @@ Widget Sublist(sublistItem subListitem) {
             width: 65,
             height: 30,
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 159, 188, 202),
+              color: Color.fromARGB(255, 183, 214, 230),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
