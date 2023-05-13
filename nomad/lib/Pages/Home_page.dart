@@ -13,6 +13,7 @@ import 'package:nomad/main.dart';
 import 'package:nomad/Global_Var.dart' as globals;
 
 import 'Category_Page_DB.dart';
+import 'User_Pages/app_colors.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -178,42 +179,47 @@ Widget Sublist(sublistItem subListitem) {
       height: 380,
       width: double.maxFinite,
       child: Column(children: [
-        Expanded(
-          child: InkWell(
-            onTap: () {
+       Expanded(
+  child: Container(
+   
+    child: InkWell(
+      onTap: () {
+        Navigator.push(
+          subListitem.context,
+          MaterialPageRoute(
+            builder: (context) => CategoryPage(
+              categoryType: subListitem.title,
+            ),
+          ),
+        );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            subListitem.title,
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          ),
+          IconButton(
+            icon: Icon(Icons.arrow_forward),
+            onPressed: () {
               Navigator.push(
                 subListitem.context,
                 MaterialPageRoute(
-                  builder: (context) => CategoryPage(
-                    categoryType: subListitem.title,
+                  builder: (context) => SpotPage(
+                    spotObject: subListitem.items,
                   ),
                 ),
               );
             },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  subListitem.title,
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    Navigator.push(
-                      subListitem.context,
-                      MaterialPageRoute(
-                        builder: (context) => SpotPage(
-                          spotObject: subListitem.items,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
           ),
-        ),
+        ],
+      ),
+    ),
+  ),
+),
+
+
         Divider(
           thickness: 3,
           color: Colors.black38,
@@ -224,43 +230,102 @@ Widget Sublist(sublistItem subListitem) {
         Column(
           children: [
             Container(
-                padding: EdgeInsets.only(top: 8),
-                color: Colors.white30,
-                child: InkWell(
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(13),
-                          child: Image(
-                            image: AssetImage(
-                                "assets/images/${subListitem.items[0]['ID']}/${subListitem.items[0]['image']}"),
-                            width: 130,
-                            height: 80,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        const SizedBox(width: 50),
-                        Text(
-                          subListitem.items[0]['title'],
-                          style: TextStyle(fontSize: 18, color: Colors.black),
-                        ),
-                        Spacer(),
-                        Text(
-                          "${calcDistance(subListitem.items[0])}KM",
-                          style: TextStyle(fontSize: 14, color: Colors.black),
-                        )
-                      ],
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        subListitem.context,
-                        MaterialPageRoute(
-                            builder: (context) => SpotPage(
-                                  spotObject: subListitem.items[0],
-                                )),
-                      );
-                    })),
-            Divider(thickness: 2),
+  decoration: BoxDecoration(
+    color: Color.fromARGB(255, 209, 186, 160), // Change the color to a desired grey shade
+    borderRadius: BorderRadius.only(
+      bottomRight: Radius.circular(20.5),
+      topLeft: Radius.circular(13),
+      topRight: Radius.circular(13),
+      bottomLeft: Radius.circular(13),
+    ), 
+    border: Border.all(color: Colors.black54),// Add rounded corners
+    boxShadow: [
+      BoxShadow(
+        color: Color.fromARGB(255, 167, 167, 167).withOpacity(0.5),
+        spreadRadius: 1,
+        blurRadius: 1,
+        offset: Offset(0, 2),
+      ),
+    ], // Add slight shadow
+  ),
+  child: InkWell(
+    onTap: () {
+      Navigator.push(
+        subListitem.context,
+        MaterialPageRoute(
+          builder: (context) => SpotPage(
+            spotObject: subListitem.items[0],
+          ),
+        ),
+      );
+    },
+    child: Stack(
+      children: [
+        Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(13),
+              child: Image(
+                image: AssetImage(
+                  "assets/images/${subListitem.items[0]['ID']}/${subListitem.items[0]['image']}",
+                ),
+                width: 200,
+                height: 100,
+                fit: BoxFit.fill,
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(
+                    subListitem.items[0]['title'],
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Container(
+            width: 65,
+            height: 30,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 159, 188, 202),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  "${calcDistance(subListitem.items[1])} KM",
+                  style: TextStyle(fontSize: 14, color: Colors.black),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
+
+
+
+          
             Container(
                 padding: EdgeInsets.only(top: 8),
                 color: Colors.white30,
