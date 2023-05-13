@@ -436,7 +436,7 @@ class _SpotPageState extends State<SpotPage> {
                       //star row
                       Row(mainAxisSize: MainAxisSize.min, children: [
                         RatingBar.builder(
-                          initialRating: _rating ?? 0.0,
+                          initialRating: _rating ?? 1,
                           minRating: 1,
                           direction: Axis.horizontal,
                           allowHalfRating: false,
