@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:nomad/Pages/MyPlans_page.dart';
-import 'package:nomad/Pages/PackagePlans_Page.dart';
-import 'package:nomad/Pages/Recommender_page.dart';
+import 'package:nomad/Pages/Guide_Pages/MyPlans_page.dart';
+import 'package:nomad/Pages/Guide_Pages/PackagePlans_Page.dart';
+import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
+import 'package:nomad/Pages/Guide_Pages/Recommender_page.dart';
 
 class GuidePage extends StatelessWidget {
   const GuidePage({super.key});
@@ -44,8 +45,7 @@ class GuidePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const PackagePlans(),
-                  ),
+                      builder: (context) => ProposalForm(onSubmitted: () {})),
                 );
               },
               style: ElevatedButton.styleFrom(

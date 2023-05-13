@@ -1,17 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:nomad/Pages/Explore_page.dart';
-import 'package:nomad/Pages/Guide_page.dart';
+import 'package:nomad/Pages/Extra_Pages/Explore_page.dart';
+import 'package:nomad/Pages/Guide_Pages/Guide_page.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Location.dart';
-import 'package:nomad/Pages/Login%20page.dart';
+import 'package:nomad/Pages/User_Pages/Login%20page.dart';
 import 'package:nomad/Pages/Admin_Pages/Proposals_page.dart';
 import 'package:nomad/Pages/Admin_Pages/Reports_page.dart';
-import 'package:nomad/Pages/Sginup%20page.dart';
-import 'package:nomad/Pages/auth.dart';
+import 'package:nomad/Pages/User_Pages/Sginup%20page.dart';
+import 'package:nomad/Pages/User_Pages/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:nomad/Pages/UserProfile.dart';
+import 'package:nomad/Pages/User_Pages/UserProfile.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'services/firebase_options.dart';
 import 'package:nomad/Global_Var.dart' as globals;
 
 void main() async {
@@ -21,6 +22,7 @@ void main() async {
   );
   LocationPermission _UserLocation = new LocationPermission();
   await _UserLocation.getLocation();
+  await FetchTopThree();
   runApp(const MyApp());
 }
 
@@ -60,12 +62,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedPage = 1;
+  int selectedPage = 0;
 
   @override
   Widget build(BuildContext context) {
     if (globals.global_LoggedIn == false) {
       return Scaffold(
+        resizeToAvoidBottomInset: true,
         body: IndexedStack(
           index: selectedPage,
           children: globals.global_GuestUser_Pages,
@@ -79,7 +82,6 @@ class _HomePageState extends State<HomePage> {
             },
             type: BottomNavigationBarType.fixed,
             items: [
-              BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
               BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person), label: "Profile")
@@ -88,6 +90,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       if (globals.global_isAdmin == false) {
         return Scaffold(
+          resizeToAvoidBottomInset: true,
           body: IndexedStack(
             index: selectedPage,
             children: globals.global_LoggedIn_Pages,
@@ -101,7 +104,6 @@ class _HomePageState extends State<HomePage> {
               },
               type: BottomNavigationBarType.fixed,
               items: [
-                BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person), label: "Profile")
@@ -111,6 +113,7 @@ class _HomePageState extends State<HomePage> {
       // Logged in User is an admin
       else {
         return Scaffold(
+          resizeToAvoidBottomInset: true,
           body: IndexedStack(
             index: selectedPage,
             children: globals.global_adminUser_Pages,
@@ -124,7 +127,6 @@ class _HomePageState extends State<HomePage> {
               },
               type: BottomNavigationBarType.fixed,
               items: [
-                BottomNavigationBarItem(icon: Icon(Icons.map), label: "Guide"),
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person), label: "Profile"),
@@ -135,4 +137,39 @@ class _HomePageState extends State<HomePage> {
       }
     }
   }
+}
+
+Future<void> FetchTopThree([var context]) async {
+  var results = [];
+  var database = FirebaseFirestore.instance;
+  await database.collection('spots').get().then(
+    (querySnapshot) {
+      for (var docSnapshot in querySnapshot.docs) {
+        results.add(docSnapshot);
+      }
+    },
+    onError: (e) => print("Error completing: $e"),
+  ).then((value) => print("Completed Fetching"));
+
+  List<dynamic> topEvents = [];
+  List<dynamic> topRestaurants = [];
+  List<dynamic> topCafes = [];
+
+  for (int i = 0; i < results.length; i++) {
+    if (results[i]['topSpot'] == "True") {
+      String value = results[i]["category"];
+      if (value == "Event")
+        topEvents.add(results[i]);
+      else if (value == "Restaurant")
+        topRestaurants.add(results[i]);
+      else if (value == "Cafe") topCafes.add(results[i]);
+    }
+  }
+  globals.HomePageChildren = [];
+  sublistItem e_item = sublistItem("Events", topEvents);
+  globals.HomePageChildren.add(e_item);
+  sublistItem r_item = sublistItem("Restaurants", topRestaurants);
+  globals.HomePageChildren.add(r_item);
+  sublistItem c_item = sublistItem("Cafes", topCafes);
+  globals.HomePageChildren.add(c_item);
 }

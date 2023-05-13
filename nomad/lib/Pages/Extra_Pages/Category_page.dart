@@ -26,8 +26,8 @@ List<Map<String, dynamic>> dummInfo = [
   }
 ];
 
-class CategoryPage extends StatelessWidget {
-  const CategoryPage({super.key, this.Category});
+class CategoryPageA extends StatelessWidget {
+  const CategoryPageA({super.key, this.Category});
   final String? Category;
 
   @override
@@ -36,7 +36,7 @@ class CategoryPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(Category.toString(),
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 25,
             )),
         centerTitle: true,
