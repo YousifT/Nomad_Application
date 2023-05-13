@@ -182,19 +182,34 @@ class _UserProfileState extends State<UserProfile> {
                   validator: _validatePassword,
                 ),
                 SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ElevatedButton(
-                      onPressed: _saveChanges,
-                      child: Text('Save'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Cancel'),
-                    ),
-                  ],
-                ),
+               Row(
+  mainAxisAlignment: MainAxisAlignment.spaceAround,
+  children: [
+    ElevatedButton.icon(
+      onPressed: _saveChanges,
+      icon: Icon(Icons.save),
+      label: Text('Save'),
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),backgroundColor: Color.fromARGB(255, 66, 92, 105)
+      ),
+    ),
+    ElevatedButton.icon(
+      onPressed: () {Navigator.pop(context);},
+      icon: Icon(Icons.cancel),
+      label: Text('Cancel'),
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),backgroundColor: Color.fromARGB(255, 66, 92, 105)
+      ),
+    ),
+  ],
+),
+
               ],
             ),
           ),
