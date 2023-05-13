@@ -45,6 +45,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  bool _firstLogin = true;
+
   Future<void> login(String email, String password) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -81,7 +83,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   void goToHomePage() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const SettingsMenu()));
+        context, MaterialPageRoute(builder: (context) => const HomePage()));
   }
 
   void opensignupscreen() {
@@ -94,71 +96,77 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       key: _scaffoldKey,
-      body: Padding(
-        padding: const EdgeInsets.all(3),
-        child: Container(
-          color: Color.fromARGB(
-              255, 236, 213, 198), // Desert-themed background color
-          child: ListView(
-            children: <Widget>[
-              Container(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(3),
+          child: Container(
+            color: Color.fromARGB(
+                255, 236, 213, 198), // Desert-themed background color
+            child: ListView(
+              children: <Widget>[
+                Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(10),
                   child: const Text(
                     'Nomad',
                     style: TextStyle(
-                        color: Color.fromARGB(255, 207, 124, 29),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 30),
-                  )),
-              Container(
+                      color: Color.fromARGB(255, 207, 124, 29),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 30,
+                    ),
+                  ),
+                ),
+                Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(10),
                   child: const Text(
                     'Sign in',
                     style: TextStyle(
-                        fontSize: 20, color: Color.fromARGB(255, 207, 124, 29)),
-                  )),
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'User Name',
-                    labelStyle: TextStyle(color: Colors.deepOrange),
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 207, 124, 29),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: TextField(
-                  obscureText: true,
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    labelStyle: TextStyle(color: Colors.deepOrange),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: TextField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'User Name',
+                      labelStyle: TextStyle(color: Colors.deepOrange),
+                    ),
                   ),
                 ),
-              ),
-              TextButton(
-                onPressed: () {
-                  //forgot password screen
-                },
-                child: const Text(
-                  'Forgot Password',
-                  style: TextStyle(color: Color.fromARGB(255, 150, 87, 51)),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: TextField(
+                    obscureText: true,
+                    controller: passwordController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
+                      labelStyle: TextStyle(color: Colors.deepOrange),
+                    ),
+                  ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  login(
-                    emailController.text,
-                    passwordController.text,
-                  );
-                },
-                child: Container(
+                TextButton(
+                  onPressed: () {
+                    // Forgot password screen
+                  },
+                  child: const Text(
+                    'Forgot Password',
+                    style: TextStyle(color: Color.fromARGB(255, 150, 87, 51)),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    login(
+                      emailController.text,
+                      passwordController.text,
+                    );
+                  },
+                  child: Container(
                     height: 50,
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: ElevatedButton(
@@ -170,26 +178,27 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         );
                       },
                       style: ElevatedButton.styleFrom(primary: Colors.green),
-                    )),
-              ),
-              Row(
-                children: <Widget>[
-                  const Text('Dont have account?'),
-                  GestureDetector(
-                    onTap: opensignupscreen,
-                    child: const Text(
-                      'Sign up',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 150, 87, 51)),
                     ),
-                    //signup button press
-                    // switches the screen to Mysignuppage()
-                  )
-                ],
-                mainAxisAlignment: MainAxisAlignment.center,
-              )
-            ],
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    const Text('Don\'t have an account?'),
+                    GestureDetector(
+                      onTap: opensignupscreen,
+                      child: const Text(
+                        'Sign up',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Color.fromARGB(255, 150, 87, 51),
+                        ),
+                      ),
+                    ),
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                ),
+              ],
+            ),
           ),
         ),
       ),

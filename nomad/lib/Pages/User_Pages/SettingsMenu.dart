@@ -6,6 +6,8 @@ import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/User_Pages/Proposal_Form.dart';
 import 'package:nomad/Pages/User_Pages/UserProfile.dart';
 import 'package:nomad/main.dart';
+import 'package:nomad/Pages/Admin_Pages/Proposals_page.dart';
+import 'package:nomad/Pages/Admin_Pages/Reports_page.dart';
 
 Future<void> signOut(BuildContext context) async {
   await FirebaseAuth.instance.signOut();
@@ -37,6 +39,34 @@ class SettingsMenu extends StatelessWidget {
               );
             },
             child: Text("Profile"),
+          ),
+        ),
+        SizedBox(
+          height: 75,
+          width: 350,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProposalPage(),
+                ),
+              );
+            },
+            child: Text("Proposals"),
+          ),
+        ),
+        SizedBox(
+          height: 75,
+          width: 350,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ReportsPage()),
+              );
+            },
+            child: Text("Reports"),
           ),
         ),
         SizedBox(
