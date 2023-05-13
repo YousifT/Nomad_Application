@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:nomad/Pages/Home_page.dart';
 import 'package:nomad/Pages/Spot_Page.dart';
+import 'package:nomad/Pages/User_Pages/app_colors.dart';
 
 var counter = [];
 
@@ -14,124 +15,136 @@ class CategoryPage extends StatefulWidget {
   @override
   State<CategoryPage> createState() => _CategoryPageState();
 }
-
 class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.categoryType,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 25,
-              )),
-          centerTitle: true,
-        ),
-        body: FutureBuilder(
-          future: Fetchinfo(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    centerTitle: true,
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    title: Column(
-                      children: [
-                        //Text(
-                        //Category.toString(),
-                        //style: TextStyle(
-                        //color: Colors.black,
-                        //fontSize: 25,
-                        //),
-                        //)
-                      ],
-                    ),
-                  ),
-                  SliverPadding(
-                      padding: EdgeInsets.symmetric(horizontal: 17),
-                      sliver: SliverToBoxAdapter(
-                        child: Column(
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      body: FutureBuilder(
+        future: Fetchinfo(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return CustomScrollView(
+              
+              slivers: [
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      if (index == 0) {
+                        return Column(
                           children: [
-                            Text(
-                                "Check out the top ${widget.categoryType.toString()}!\n",
-                                style: Theme.of(context).textTheme.titleLarge),
                             AspectRatio(
-                              aspectRatio: 1.81,
-                              child: PageView.builder(
-                                itemCount:
-                                    snapshot.data[0].length, // Bannerpaths item
-                                itemBuilder: (context, itemCount) => ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12)),
-                                  child: Material(
-                                    color: Colors.yellow,
-                                    child: InkWell(
-                                        //toDo "change url based on the clicked image"
+                              aspectRatio: 1.6,
+                              child: Container(
+                                
+                                child: PageView.builder(
+                                  itemCount: snapshot.data[0].length,
+                                  itemBuilder: (context, itemCount) => ClipRRect(
+                                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                                    child: Material(
+                                      color: Colors.yellow,
+                                      child: InkWell(
                                         onTap: () {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => SpotPage(
-                                                    spotObject: snapshot.data[1]
-                                                        [
-                                                        itemCount])), // snapshot.data[1][0] first item in the second list of snapshot, i.e: mappedItems
-                                            // maybe it should be snapshot.data[0][itemCount]
+                                              builder: (context) => SpotPage(
+                                                spotObject: snapshot.data[1][itemCount],
+                                              ),
+                                            ),
                                           );
                                         },
                                         child: Image.asset(
-                                          "assets/images/" +
-                                              snapshot.data[0][itemCount],
+                                          "assets/images/" + snapshot.data[0][itemCount],
                                           fit: BoxFit.fill,
-                                        )),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ],
-                        ),
-                      )),
-                  SliverToBoxAdapter(
-                    child: Row(children: [
-                      Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Text("All ${widget.categoryType.toString()}",
-                            style: Theme.of(context).textTheme.titleLarge),
-                      ),
-                    ]),
+                        );
+                      } else if (index == 1) {
+                        return Column(
+                          
+                          children: [
+                             SizedBox(height: 45,),
+                            
+                            Row(
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_back,
+                                    color: Colors.black,
+                                    size: 35,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                SizedBox(width: 20,),
+                                 Text(
+                              "${widget.categoryType.toString()} ",
+                               style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold, color: AppColors.darkTextColor),
+                            ),
+                                
+                              ],
+                            ),
+                           SizedBox(height: 5,),
+                          ],
+                        );
+                      } else {
+                        final cardIndex = index - 2;
+                        if (cardIndex < snapshot.data[2].length) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 2.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 0),
+                                    child: snapshot.data[2][cardIndex * 2],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 4.0),
+                                    child: cardIndex * 2 + 1 < snapshot.data[2].length
+                                        ? snapshot.data[2][cardIndex * 2 + 1]
+                                        : Placeholder(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return SizedBox.shrink();
+                        }
+                      }
+                    },
+                    childCount: snapshot.data[2].length ~/ 2 + 2,
                   ),
-                  SliverToBoxAdapter(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(
-                          snapshot.data[2].length,
-                          (index) => Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 8.0, left: 4),
-                              child: Row(children: [
-                                snapshot.data[2][index],
-                              ])),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            } else {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [CircularProgressIndicator()],
-                  ),
-                ],
-              );
-            }
-          },
-        ));
+                ),
+              ],
+                     
+            
+            );
+          } else {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [CircularProgressIndicator()],
+                ),
+              ],
+            );
+          }
+        },
+      ),
+    );
   }
 
   Future<dynamic> Fetchinfo() async {
@@ -172,41 +185,77 @@ class _CategoryPageState extends State<CategoryPage> {
 
 class MediumCards extends StatelessWidget {
   const MediumCards({
-    super.key,
+    Key? key,
     required this.name,
     required this.location,
     required this.image,
     required this.item,
-  });
-  final String name, location, image;
+  }) : super(key: key);
+
+  final String name;
+  final String location;
+  final String image;
   final item;
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.all(Radius.circular(12)),
-      onTap: () => Navigator.push(context,
-          MaterialPageRoute(builder: (context) => SpotPage(spotObject: item))),
-      child: SizedBox(
-        width: 180,
-        child: Column(
-          children: [
-            AspectRatio(
-              aspectRatio: 1.25,
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(6)),
-                child: Image.asset(
-                  image,
-                  fit: BoxFit.fill,
+    return Padding(
+      padding: EdgeInsets.all(0.0), // Set the desired padding for the cards
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          side: BorderSide(
+            color: Colors.grey, // Set the desired border color for the cards
+            width: 1.0, // Set the desired border width for the cards
+          ),
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8.0),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SpotPage(spotObject: item)),
+          ),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey, // Set the desired border color for the image
+                      width: 1.0, // Set the desired border width for the image
+                    ),
+                  ),
+                ),
+                child: AspectRatio(
+                  aspectRatio: 16 / 9, // Adjust this ratio based on your image aspect ratio
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
+                    child: Image.asset(
+                      image,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
-            ),
-            Text(
-              name,
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            Text(location,
-                style: TextStyle(color: Color.fromARGB(255, 185, 141, 125))),
-          ],
+              Padding(
+                padding: EdgeInsets.all(8.0), // Set the desired spacing for the card content
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    SizedBox(height: 4.0), // Set the desired spacing between the card title and location
+                    Text(
+                      location,
+                      style: TextStyle(color: Colors.black45),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

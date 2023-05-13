@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // maxFinite Height and Width to cover the whole screen
       height: double.maxFinite,
       width: double.maxFinite,
+      
       // Scrollable widget wrapping to hold the Column so it becomes scrollable
       child: SingleChildScrollView(
         child: Column(children: [
@@ -51,76 +52,98 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                   child: CarouselSlider(
-                    items: [
-                      // Image 1
-                      InkWell(
-                        child: Container(
-                          margin: EdgeInsets.all(6.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              image: DecorationImage(
-                                image: AssetImage(imgLinks[0]),
-                                fit: BoxFit.fill,
-                              )),
-                        ),
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    SpotPage(spotObject: ImageOne))),
-                      ),
+  items: [
+    // Image 1
+    InkWell(
+      child: Container(
+        margin: EdgeInsets.all(6.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: Color.fromARGB(255, 149, 152, 155),
+            width: 2.0, 
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.asset(
+            imgLinks[0],
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  SpotPage(spotObject: ImageOne))),
+    ),
 
-                      // Image 2
-                      InkWell(
-                        child: Container(
-                          margin: EdgeInsets.all(6.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            image: DecorationImage(
-                              image: AssetImage(imgLinks[1]),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    SpotPage(spotObject: ImageTwo))),
-                      ),
+    // Image 2
+    InkWell(
+      child: Container(
+        margin: EdgeInsets.all(6.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color:Color.fromARGB(255, 149, 152, 155), 
+            width: 2.0, 
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.asset(
+            imgLinks[1],
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  SpotPage(spotObject: ImageTwo))),
+    ),
 
-                      // Image 3
-                      InkWell(
-                        child: Container(
-                          margin: EdgeInsets.all(6.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            image: DecorationImage(
-                              image: AssetImage(imgLinks[2]),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    SpotPage(spotObject: ImageThree))),
-                      ),
-                    ],
+    // Image 3
+    InkWell(
+      child: Container(
+        margin: EdgeInsets.all(6.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(
+            color: Color.fromARGB(255, 149, 152, 155), 
+            width: 2.0, 
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.asset(
+            imgLinks[2],
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  SpotPage(spotObject: ImageThree))),
+    ),
+  ],
 
-                    // Slider Container properties
-                    options: CarouselOptions(
-                      height: 180.0,
-                      enlargeCenterPage: true,
-                      autoPlay: true,
-                      aspectRatio: 16 / 9,
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      enableInfiniteScroll: true,
-                      autoPlayAnimationDuration: Duration(milliseconds: 800),
-                      viewportFraction: 0.8,
-                    ),
-                  ),
+  options: CarouselOptions(
+    height: 190.0,
+    enlargeCenterPage: true,
+    autoPlay: true,
+    aspectRatio: 16 / 9,
+    autoPlayCurve: Curves.fastOutSlowIn,
+    enableInfiniteScroll: true,
+    autoPlayAnimationDuration: Duration(milliseconds: 800),
+    viewportFraction: 1, // Set viewportFraction to 1.0
+  ),
+),
+
                 ),
               ),
             ],
