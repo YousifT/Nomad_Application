@@ -60,7 +60,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           await database.where("email", isEqualTo: email).get();
       if (snapshot.docs[0]['Admin'] == "True") {
         global_isAdmin = true;
-        adminC = true;
       }
       global_FullName =
           "${snapshot.docs[0]['first_name']} ${snapshot.docs[0]['last_name']}";
