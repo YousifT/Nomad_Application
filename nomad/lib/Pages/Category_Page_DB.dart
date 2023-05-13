@@ -15,6 +15,7 @@ class CategoryPage extends StatefulWidget {
   @override
   State<CategoryPage> createState() => _CategoryPageState();
 }
+
 class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,6 @@ class _CategoryPageState extends State<CategoryPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return CustomScrollView(
-              
               slivers: [
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
@@ -36,11 +36,12 @@ class _CategoryPageState extends State<CategoryPage> {
                             AspectRatio(
                               aspectRatio: 1.6,
                               child: Container(
-                                
                                 child: PageView.builder(
                                   itemCount: snapshot.data[0].length,
-                                  itemBuilder: (context, itemCount) => ClipRRect(
-                                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                                  itemBuilder: (context, itemCount) =>
+                                      ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
                                     child: Material(
                                       color: Colors.yellow,
                                       child: InkWell(
@@ -49,13 +50,15 @@ class _CategoryPageState extends State<CategoryPage> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) => SpotPage(
-                                                spotObject: snapshot.data[1][itemCount],
+                                                spotObject: snapshot.data[1]
+                                                    [itemCount],
                                               ),
                                             ),
                                           );
                                         },
                                         child: Image.asset(
-                                          "assets/images/" + snapshot.data[0][itemCount],
+                                          "assets/images/" +
+                                              snapshot.data[0][itemCount],
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -68,10 +71,10 @@ class _CategoryPageState extends State<CategoryPage> {
                         );
                       } else if (index == 1) {
                         return Column(
-                          
                           children: [
-                             SizedBox(height: 45,),
-                            
+                            SizedBox(
+                              height: 45,
+                            ),
                             Row(
                               children: [
                                 IconButton(
@@ -84,16 +87,25 @@ class _CategoryPageState extends State<CategoryPage> {
                                     Navigator.pop(context);
                                   },
                                 ),
-                                SizedBox(width: 20,),
-                                 Text(
-                              "${widget.categoryType.toString()} ",
-                               style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold, color: AppColors.darkTextColor),
-                            ),
-                                
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Text(
+                                  "${widget.categoryType.toString()} ",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.darkTextColor),
+                                ),
                               ],
                             ),
-                           SizedBox(height: 5,),
-                           Divider(color: Colors.black,thickness: 1,)
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Divider(
+                              color: Colors.black,
+                              thickness: 1,
+                            )
                           ],
                         );
                       } else {
@@ -112,7 +124,8 @@ class _CategoryPageState extends State<CategoryPage> {
                                 Expanded(
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 4.0),
-                                    child: cardIndex * 2 + 1 < snapshot.data[2].length
+                                    child: cardIndex * 2 + 1 <
+                                            snapshot.data[2].length
                                         ? snapshot.data[2][cardIndex * 2 + 1]
                                         : Placeholder(),
                                   ),
@@ -129,8 +142,6 @@ class _CategoryPageState extends State<CategoryPage> {
                   ),
                 ),
               ],
-                     
-            
             );
           } else {
             return Column(
@@ -222,15 +233,18 @@ class MediumCards extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: Colors.grey, // Set the desired border color for the image
+                      color: Colors
+                          .grey, // Set the desired border color for the image
                       width: 1.0, // Set the desired border width for the image
                     ),
                   ),
                 ),
                 child: AspectRatio(
-                  aspectRatio: 16 / 9, // Adjust this ratio based on your image aspect ratio
+                  aspectRatio: 16 /
+                      9, // Adjust this ratio based on your image aspect ratio
                   child: ClipRRect(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(8.0)),
                     child: Image.asset(
                       image,
                       fit: BoxFit.cover,
@@ -239,7 +253,8 @@ class MediumCards extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(8.0), // Set the desired spacing for the card content
+                padding: EdgeInsets.all(
+                    8.0), // Set the desired spacing for the card content
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -247,7 +262,9 @@ class MediumCards extends StatelessWidget {
                       name,
                       style: Theme.of(context).textTheme.headline6,
                     ),
-                    SizedBox(height: 4.0), // Set the desired spacing between the card title and location
+                    SizedBox(
+                        height:
+                            4.0), // Set the desired spacing between the card title and location
                     Text(
                       location,
                       style: TextStyle(color: Colors.black45),

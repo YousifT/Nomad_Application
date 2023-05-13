@@ -23,7 +23,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 var ImageOne = globals.HomePageChildren[0].items[0];
-var ImageTwo = globals.HomePageChildren[1].items[0];
+var ImageTwo = globals.HomePageChildren[1].items[2];
 var ImageThree = globals.HomePageChildren[2].items[1];
 
 List<String> imgLinks = [
@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // maxFinite Height and Width to cover the whole screen
       height: double.maxFinite,
       width: double.maxFinite,
-      
+
       // Scrollable widget wrapping to hold the Column so it becomes scrollable
       child: SingleChildScrollView(
         child: Column(children: [
@@ -53,98 +53,96 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                   child: CarouselSlider(
-  items: [
-    // Image 1
-    InkWell(
-      child: Container(
-        margin: EdgeInsets.all(6.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(
-            color: Color.fromARGB(255, 149, 152, 155),
-            width: 2.0, 
-          ),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Image.asset(
-            imgLinks[0],
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-      onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  SpotPage(spotObject: ImageOne))),
-    ),
+                    items: [
+                      // Image 1
+                      InkWell(
+                        child: Container(
+                          margin: EdgeInsets.all(6.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            border: Border.all(
+                              color: Color.fromARGB(255, 149, 152, 155),
+                              width: 2.0,
+                            ),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.asset(
+                              imgLinks[0],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpotPage(spotObject: ImageOne))),
+                      ),
 
-    // Image 2
-    InkWell(
-      child: Container(
-        margin: EdgeInsets.all(6.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(
-            color:Color.fromARGB(255, 149, 152, 155), 
-            width: 2.0, 
-          ),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Image.asset(
-            imgLinks[1],
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-      onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  SpotPage(spotObject: ImageTwo))),
-    ),
+                      // Image 2
+                      InkWell(
+                        child: Container(
+                          margin: EdgeInsets.all(6.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            border: Border.all(
+                              color: Color.fromARGB(255, 149, 152, 155),
+                              width: 2.0,
+                            ),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.asset(
+                              imgLinks[1],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpotPage(spotObject: ImageTwo))),
+                      ),
 
-    // Image 3
-    InkWell(
-      child: Container(
-        margin: EdgeInsets.all(6.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(
-            color: Color.fromARGB(255, 149, 152, 155), 
-            width: 2.0, 
-          ),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Image.asset(
-            imgLinks[2],
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-      onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  SpotPage(spotObject: ImageThree))),
-    ),
-  ],
-
-  options: CarouselOptions(
-    height: 190.0,
-    enlargeCenterPage: true,
-    autoPlay: true,
-    aspectRatio: 16 / 9,
-    autoPlayCurve: Curves.fastOutSlowIn,
-    enableInfiniteScroll: true,
-    autoPlayAnimationDuration: Duration(milliseconds: 800),
-    viewportFraction: 1, // Set viewportFraction to 1.0
-  ),
-),
-
+                      // Image 3
+                      InkWell(
+                        child: Container(
+                          margin: EdgeInsets.all(6.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            border: Border.all(
+                              color: Color.fromARGB(255, 149, 152, 155),
+                              width: 2.0,
+                            ),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.asset(
+                              imgLinks[2],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SpotPage(spotObject: ImageThree))),
+                      ),
+                    ],
+                    options: CarouselOptions(
+                      height: 190.0,
+                      enlargeCenterPage: true,
+                      autoPlay: true,
+                      aspectRatio: 16 / 9,
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enableInfiniteScroll: true,
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      viewportFraction: 1, // Set viewportFraction to 1.0
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -339,7 +337,7 @@ Widget Sublist(sublistItem subListitem) {
                               "assets/images/${subListitem.items[1]['ID']}/${subListitem.items[1]['image']}"),
                           width: 130,
                           height: 80,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.contain,
                         ),
                       ),
                       const SizedBox(width: 50),

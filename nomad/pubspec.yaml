@@ -92,8 +92,14 @@ flutter:
      - assets/images/XnuF9ZdHQxgwyig6vsK8/
      - assets/images/IfDyNmW9w7Ca2savgeXF/
      - assets/images/2j5IMAAc8OGa55FWjxPh/
+     - assets/images/7c7pjUz74pyxrOo71Px3/
+     - assets/images/ON6A7gJmbBvtGYOGEwjl/
+     - assets/images/qWeEDcUEKIkQgaKVDy9f/
+     - assets/images/y4YhbUmIB6XZbdpUsp2D/
+
+
      
-  #   - images/a_dot_ham.jpeg
+
 ##icon_pakge
  
   # An image asset can refer to one or more resolution-specific "variants", see

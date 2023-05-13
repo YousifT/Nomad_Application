@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:nomad/Global_Var.dart';
 
 String? type_Value = "Event";
 var type_choices = ["Event", "Restaurant", "Cafe"];
@@ -29,7 +30,7 @@ class _ProposalFormState extends State<ProposalForm> {
         'category': type_Value,
         'description': descriptionController.text,
         'location': locationController.text,
-        'user': "Username",
+        'user': global_UserEmail,
         'ID': docID.id,
         'topSpot': "False",
       }).then((value) {
@@ -40,7 +41,7 @@ class _ProposalFormState extends State<ProposalForm> {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Submit a proposal form'),
         centerTitle: true,
