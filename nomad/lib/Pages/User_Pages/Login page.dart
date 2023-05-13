@@ -140,7 +140,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   controller: emailController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'User Name',
+                    labelText: 'Email',
                     labelStyle:
                         TextStyle(color: Color.fromARGB(255, 66, 92, 105)),
                   ),

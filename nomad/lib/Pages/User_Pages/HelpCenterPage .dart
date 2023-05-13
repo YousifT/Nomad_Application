@@ -21,7 +21,7 @@ class _HelpCenterPage extends State<HelpCenterPage> {
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: const [
             Text(
               'Overview',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -29,6 +29,14 @@ class _HelpCenterPage extends State<HelpCenterPage> {
             SizedBox(height: 8),
             Text(
               'Nomad is a professional travel application showcasing unique places, allowing users to explore and engage. It offers a key feature of displaying distance to desired locations for convenient navigation. Travelers and locals can discover hidden gems and popular attractions in Khobar, benefiting from real-time feedback and recommendations. Nomad enhances travel experiences, fosters community engagement, and provides a comprehensive guide to remarkable places in Khobar.',
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 16),
+            Text("Proposal Forms",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            SizedBox(height: 16),
+            Text(
+              "Know of an amazing spot that isn't covered in our application? We'd be glad to add it!\nJust submit us a proposal, and we'll take a look at it!\nYou can submit a proposal by going through Profile page -> \"Submit a Proposal\" and filling up the form.",
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 16),
