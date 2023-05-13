@@ -5,7 +5,7 @@ import 'package:nomad/Pages/Admin_Pages/Admin_Page.dart';
 import 'package:nomad/Pages/Admin_Pages/Proposals_page.dart';
 import 'package:flutter/material.dart';
 
-var type_choices = ["Event", "Resturant", "Cafe"];
+var type_choices = ["Event", "Restaurant", "Cafe"];
 
 class EditingPage extends StatefulWidget {
   final Proposal proposal;

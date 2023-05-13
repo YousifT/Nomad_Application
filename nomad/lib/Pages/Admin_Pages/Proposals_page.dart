@@ -33,12 +33,13 @@ class _ProposalPageState extends State<ProposalPage> {
 
     for (i = 0; i < result.length; i++) {
       Proposal p = Proposal(
-          result[i]['title'],
-          result[i]['category'],
-          result[i]['description'],
-          result[i]['location'],
-          result[i]['ID'],
-          result[i]['user']);
+        result[i]['title'],
+        result[i]['category'],
+        result[i]['description'],
+        result[i]['location'],
+        result[i]['ID'],
+        result[i]['user'],
+      );
       tempList.add(p);
     }
 
@@ -50,22 +51,25 @@ class _ProposalPageState extends State<ProposalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Review Pending Proposals'),
-          centerTitle: true,
-        ),
-        body: Container(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(8, 80, 8, 0),
-            child: SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
-              child: Column(children: [
+      appBar: AppBar(
+        title: const Text('Review Pending Proposals'),
+        centerTitle: true,
+      ),
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: Column(
+              children: [
                 for (var proposal in list_of_Proposals)
-                  AdminPropsals(proposal, context, removeProposalFromList)
-              ]),
+                  AdminPropsals(proposal, context, removeProposalFromList),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   void removeProposalFromList(Proposal proposal) {
@@ -74,141 +78,162 @@ class _ProposalPageState extends State<ProposalPage> {
     });
   }
 }
-
-Widget AdminPropsals(Proposal proposal, BuildContext context,
-    Function(Proposal) removeCallback) {
+Widget AdminPropsals(Proposal proposal, BuildContext context, Function(Proposal) removeCallback) {
   return Container(
-      padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
+    decoration: BoxDecoration(border: Border.all(width:10,color: Colors.black12)),
+    child: SizedBox(
+      
+      height: 550,
+      width: double.maxFinite,
       child: Column(
         children: [
-          SizedBox(
-              height: 500,
-              width: double.maxFinite,
-              child: Column(children: [
-                Text(
-                  proposal.name,
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          Container(
+            padding: const EdgeInsets.fromLTRB(8, 10, 4, 3),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 25,
+                  width: double.maxFinite,
                 ),
-                Expanded(
-                  child: Card(
-                    //color: Colors.blue,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 25,
-                          width: double.maxFinite,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
-                          child: Row(
-                            children: [
-                              Text("Name", style: TextStyle(fontSize: 20)),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                              readOnly: true,
-                              initialValue: proposal.name,
-                              style: TextStyle(fontSize: 20)),
-                        ),
-
-                        // End of Name details
-
-                        SizedBox(
-                          height: 25,
-                          width: double.maxFinite,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
-                          child: Row(
-                            children: [
-                              Text("Category", style: TextStyle(fontSize: 20)),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                              readOnly: true,
-                              initialValue: proposal.category,
-                              style: TextStyle(fontSize: 20)),
-                        ),
-
-                        // End of Category
-
-                        SizedBox(
-                          height: 25,
-                          width: double.maxFinite,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
-                          child: Row(
-                            children: [
-                              Text("Description Details",
-                                  style: TextStyle(fontSize: 20)),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                              readOnly: true,
-                              initialValue: proposal.description,
-                              style: TextStyle(fontSize: 20)),
-                        ),
-
-                        // End of details
-
-                        SizedBox(
-                          height: 25,
-                          width: double.maxFinite,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
-                          child: Row(
-                            children: [
-                              Text("Location Details",
-                                  style: TextStyle(fontSize: 20)),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                              readOnly: true,
-                              initialValue: proposal.location,
-                              style: TextStyle(fontSize: 20)),
-                        )
-
-                        // End of location details
-                      ],
-                    ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                  child: Row(
+                    children: [
+                      Text("Name", style: TextStyle(fontSize: 20)),
+                    ],
                   ),
                 ),
-              ])),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            ElevatedButton(
-                onPressed: () {
-                  ProposalApprove(proposal, context);
-                  removeCallback(proposal);
-                },
-                child: Text("Approve\nProposal")),
-            InkWell(
-              onTap: () => {EditProposal(proposal, context)},
-              child: Text("Edit\nProposal"),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    readOnly: true,
+                    initialValue: proposal.name,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                  width: double.maxFinite,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                  child: Row(
+                    children: [
+                      Text("Category", style: TextStyle(fontSize: 20)),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    readOnly: true,
+                    initialValue: proposal.category,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                  width: double.maxFinite,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                  child: Row(
+                    children: [
+                      Text("Description Details", style: TextStyle(fontSize: 20)),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    readOnly: true,
+                    initialValue: proposal.description,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                  width: double.maxFinite,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                  child: Row(
+                    children: [
+                      Text("Location Details", style: TextStyle(fontSize: 20)),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    readOnly: true,
+                    initialValue: proposal.location,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+              ],
             ),
-            ElevatedButton(
-                onPressed: () {
-                  ClearProposal(proposal, context);
-                  removeCallback(proposal);
-                },
-                child: Text("Reject\nProposal")),
-          ])
+          ),
+          // Adjust the height as needed
+          SizedBox(
+    height: 60, // Adjust the height as needed
+    child: ButtonBar(
+      alignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        InkWell(
+          onTap: () {
+            ProposalApprove(proposal, context);
+            removeCallback(proposal);
+          },
+          borderRadius: BorderRadius.circular(4),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            padding: EdgeInsets.all(8),
+            child: Icon(Icons.check, color: Colors.white),
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            EditProposal(proposal, context);
+          },
+          borderRadius: BorderRadius.circular(4),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.yellow,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            padding: EdgeInsets.all(8),
+            child: Icon(Icons.edit, color: Colors.white),
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            ClearProposal(proposal, context);
+            removeCallback(proposal);
+          },
+          borderRadius: BorderRadius.circular(4),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            padding: EdgeInsets.all(8),
+            child: Icon(Icons.close, color: Colors.white),
+          ),
+        ),
+      ],
+    ),
+  ),
+  
         ],
-      ));
+      ),
+    ),
+  );
 }
+
 
 Future<void> ProposalApprove(Proposal spot, BuildContext context) async {
   CollectionReference database = FirebaseFirestore.instance.collection('spots');
@@ -256,8 +281,14 @@ class Proposal {
   late String location;
   late String id;
   late String user;
-  Proposal(String _name, String _category, String _description,
-      String _location, String _id, String _user) {
+  Proposal(
+    String _name,
+    String _category,
+    String _description,
+    String _location,
+    String _id,
+    String _user,
+  ) {
     name = _name;
     category = _category;
     description = _description;
@@ -266,3 +297,5 @@ class Proposal {
     user = _user;
   }
 }
+
+

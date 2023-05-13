@@ -123,8 +123,8 @@ class SettingsMenu extends StatelessWidget {
     VoidCallback onPressed,
   ) {
     return SizedBox(
-      width: 250,
-      height: 50,
+      width: 300,
+      height: 70,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
@@ -149,7 +149,7 @@ class SettingsMenu extends StatelessWidget {
             ),
             Container(
               width: 40,
-              height: 50, // Set the height to match the button
+              height: 70, // Set the height to match the button
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 51, 97, 119),
                 borderRadius: BorderRadius.only(
