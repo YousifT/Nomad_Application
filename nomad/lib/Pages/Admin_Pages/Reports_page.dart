@@ -19,11 +19,12 @@ class _ReportsPageState extends State<ReportsPage> {
 
   bool _isBanned = false;
 
-  Future<void> _banUser() async {
+  Future<void> _banUser(String reviewId) async {
     await _firestore
         .collection('banned_users')
         .doc(globals.global_UserEmail)
         .set({'email': globals.global_UserEmail});
+    await _firestore.collection('reviews').doc(reviewId).delete();
     setState(() {
       _isBanned = true;
     });
@@ -101,7 +102,7 @@ class _ReportsPageState extends State<ReportsPage> {
                               actions: [
                                 TextButton(
                                   onPressed: () => {
-                                    _banUser(),
+                                    _banUser(report.id), // Pass the reviewId
                                     Navigator.of(context).pop(true)
                                   },
                                   child: Text('ban'),
