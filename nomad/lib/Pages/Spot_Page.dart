@@ -46,18 +46,6 @@ class SpotPage extends StatefulWidget {
 }
 
 class _SpotPageState extends State<SpotPage> {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  Future<void> _addReport() async {
-    // Fetch the user's email
-    String userEmail = await getUserEmail(globals.global_UserID);
-
-    await _firestore.collection('reports').add({
-      'email': userEmail,
-      'comment': reviewFormController.text,
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     if (globals.global_LoggedIn == false || globals.global_isBanned == true) {
@@ -543,6 +531,18 @@ void _launchMapURL(String location) async {
   } catch (e) {
     throw 'Could not launch $url';
   }
+}
+
+Future<void> _addReport() async {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // Fetch the user's email
+  String userEmail = await getUserEmail(globals.global_UserID);
+
+  await _firestore.collection('reports').add({
+    'email': userEmail,
+    'comment': reviewFormController.text,
+  });
 }
 
 Future<String> getUserEmail(String uid) async {

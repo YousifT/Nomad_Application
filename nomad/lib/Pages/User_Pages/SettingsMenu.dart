@@ -43,14 +43,6 @@ class SettingsMenu extends StatelessWidget {
           height: 75,
           width: 350,
           child: ElevatedButton(
-            onPressed: () {},
-            child: Text("Notifications"),
-          ),
-        ),
-        SizedBox(
-          height: 75,
-          width: 350,
-          child: ElevatedButton(
             onPressed: () {
               Navigator.push(
                 context,
@@ -58,7 +50,7 @@ class SettingsMenu extends StatelessWidget {
                     builder: (context) => ProposalForm(onSubmitted: () {})),
               );
             },
-            child: Text("Proposal Form"),
+            child: Text("Submit a Proposal Form"),
           ),
         ),
         SizedBox(

@@ -81,7 +81,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   void goToHomePage() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const MyHomePage()));
+        context, MaterialPageRoute(builder: (context) => const SettingsMenu()));
   }
 
   void opensignupscreen() {
