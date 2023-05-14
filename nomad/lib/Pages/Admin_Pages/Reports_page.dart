@@ -38,6 +38,7 @@ class _ReportsPageState extends State<ReportsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Admin Ban Banner'),
+        backgroundColor: Color.fromARGB(255, 185, 157, 139),
       ),
       body: SingleChildScrollView(
         child: Column(

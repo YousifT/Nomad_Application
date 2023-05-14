@@ -45,6 +45,7 @@ class _ProposalFormState extends State<ProposalForm> {
       appBar: AppBar(
         title: const Text('Submit a proposal form'),
         centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 185, 157, 139),
       ),
       body: Container(
         child: SingleChildScrollView(
@@ -150,7 +151,17 @@ class _ProposalFormState extends State<ProposalForm> {
               // Upload Images *Optional
 
               // Submit Form button
-              ElevatedButton(onPressed: () => submit(), child: Text("submit"))
+              ElevatedButton.icon(
+                onPressed: submit,
+                icon: Icon(Icons.save),
+                label: Text('Submit'),
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: Color.fromARGB(255, 66, 92, 105)),
+              ),
               // Submitted By: User email info.
             ],
           ),

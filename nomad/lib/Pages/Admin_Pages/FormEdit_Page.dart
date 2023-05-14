@@ -45,6 +45,7 @@ class _EditingPageState extends State<EditingPage> {
       appBar: AppBar(
         title: const Text('Edit the proposal'),
         centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 185, 157, 139),
       ),
       body: Container(
         child: SingleChildScrollView(
