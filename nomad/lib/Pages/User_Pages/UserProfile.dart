@@ -109,6 +109,7 @@ class _UserProfileState extends State<UserProfile> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('User Profile'),
+        backgroundColor: Color.fromARGB(255, 185, 157, 139),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -182,34 +183,37 @@ class _UserProfileState extends State<UserProfile> {
                   validator: _validatePassword,
                 ),
                 SizedBox(height: 20),
-               Row(
-  mainAxisAlignment: MainAxisAlignment.spaceAround,
-  children: [
-    ElevatedButton.icon(
-      onPressed: _saveChanges,
-      icon: Icon(Icons.save),
-      label: Text('Save'),
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),backgroundColor: Color.fromARGB(255, 66, 92, 105)
-      ),
-    ),
-    ElevatedButton.icon(
-      onPressed: () {Navigator.pop(context);},
-      icon: Icon(Icons.cancel),
-      label: Text('Cancel'),
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),backgroundColor: Color.fromARGB(255, 66, 92, 105)
-      ),
-    ),
-  ],
-),
-
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: _saveChanges,
+                      icon: Icon(Icons.save),
+                      label: Text('Save'),
+                      style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 24),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          backgroundColor: Color.fromARGB(255, 66, 92, 105)),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.cancel),
+                      label: Text('Cancel'),
+                      style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 24),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          backgroundColor: Color.fromARGB(255, 66, 92, 105)),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

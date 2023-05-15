@@ -16,6 +16,7 @@ class _HelpCenterPage extends State<HelpCenterPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Help Center'),
+        backgroundColor: Color.fromARGB(255, 185, 157, 139),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),

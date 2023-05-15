@@ -54,6 +54,7 @@ class _ProposalPageState extends State<ProposalPage> {
       appBar: AppBar(
         title: const Text('Review Pending Proposals'),
         centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 185, 157, 139),
       ),
       body: Container(
         child: Padding(
@@ -78,11 +79,13 @@ class _ProposalPageState extends State<ProposalPage> {
     });
   }
 }
-Widget AdminPropsals(Proposal proposal, BuildContext context, Function(Proposal) removeCallback) {
+
+Widget AdminPropsals(Proposal proposal, BuildContext context,
+    Function(Proposal) removeCallback) {
   return Container(
-    decoration: BoxDecoration(border: Border.all(width:10,color: Colors.black12)),
+    decoration:
+        BoxDecoration(border: Border.all(width: 10, color: Colors.black12)),
     child: SizedBox(
-      
       height: 550,
       width: double.maxFinite,
       child: Column(
@@ -139,7 +142,8 @@ Widget AdminPropsals(Proposal proposal, BuildContext context, Function(Proposal)
                   padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
                   child: Row(
                     children: [
-                      Text("Description Details", style: TextStyle(fontSize: 20)),
+                      Text("Description Details",
+                          style: TextStyle(fontSize: 20)),
                     ],
                   ),
                 ),
@@ -176,64 +180,62 @@ Widget AdminPropsals(Proposal proposal, BuildContext context, Function(Proposal)
           ),
           // Adjust the height as needed
           SizedBox(
-    height: 60, // Adjust the height as needed
-    child: ButtonBar(
-      alignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        InkWell(
-          onTap: () {
-            ProposalApprove(proposal, context);
-            removeCallback(proposal);
-          },
-          borderRadius: BorderRadius.circular(4),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(4),
+            height: 60, // Adjust the height as needed
+            child: ButtonBar(
+              alignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InkWell(
+                  onTap: () {
+                    ProposalApprove(proposal, context);
+                    removeCallback(proposal);
+                  },
+                  borderRadius: BorderRadius.circular(4),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    padding: EdgeInsets.all(8),
+                    child: Icon(Icons.check, color: Colors.white),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    EditProposal(proposal, context);
+                  },
+                  borderRadius: BorderRadius.circular(4),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.yellow,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    padding: EdgeInsets.all(8),
+                    child: Icon(Icons.edit, color: Colors.white),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    ClearProposal(proposal, context);
+                    removeCallback(proposal);
+                  },
+                  borderRadius: BorderRadius.circular(4),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    padding: EdgeInsets.all(8),
+                    child: Icon(Icons.close, color: Colors.white),
+                  ),
+                ),
+              ],
             ),
-            padding: EdgeInsets.all(8),
-            child: Icon(Icons.check, color: Colors.white),
           ),
-        ),
-        InkWell(
-          onTap: () {
-            EditProposal(proposal, context);
-          },
-          borderRadius: BorderRadius.circular(4),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.yellow,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            padding: EdgeInsets.all(8),
-            child: Icon(Icons.edit, color: Colors.white),
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            ClearProposal(proposal, context);
-            removeCallback(proposal);
-          },
-          borderRadius: BorderRadius.circular(4),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            padding: EdgeInsets.all(8),
-            child: Icon(Icons.close, color: Colors.white),
-          ),
-        ),
-      ],
-    ),
-  ),
-  
         ],
       ),
     ),
   );
 }
-
 
 Future<void> ProposalApprove(Proposal spot, BuildContext context) async {
   CollectionReference database = FirebaseFirestore.instance.collection('spots');
@@ -297,5 +299,3 @@ class Proposal {
     user = _user;
   }
 }
-
-
